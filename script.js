@@ -47,6 +47,7 @@ const categoryButtons = document.querySelectorAll('.sidebar-categories button[da
 const clearButton = document.querySelector('.sidebar-clear');
 const categorizedCards = document.querySelectorAll('.card[data-category]');
 const mobileBreakpoint = window.matchMedia('(max-width: 1023px)');
+const themeToggle = document.querySelector('.theme-toggle');
 
 let activeCategory = null;
 
@@ -120,4 +121,49 @@ if (typeof mobileBreakpoint.addEventListener === 'function') {
   mobileBreakpoint.addEventListener('change', resetInteractions);
 } else if (typeof mobileBreakpoint.addListener === 'function') {
   mobileBreakpoint.addListener(resetInteractions);
+}
+
+const applyTheme = theme => {
+  const root = document.documentElement;
+  root.dataset.theme = theme;
+  const icon = theme === 'light' ? '☀️' : '🌙';
+  if (themeToggle) {
+    themeToggle.setAttribute('aria-pressed', theme === 'light');
+    const iconSpan = themeToggle.querySelector('.theme-icon');
+    if (iconSpan) iconSpan.textContent = icon;
+  }
+};
+
+const readInitialTheme = () => {
+  const stored = localStorage.getItem('preferred-theme');
+  if (stored === 'light' || stored === 'dark') {
+    return stored;
+  }
+  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+};
+
+if (themeToggle) {
+  let currentTheme = readInitialTheme();
+  applyTheme(currentTheme);
+
+  themeToggle.addEventListener('click', () => {
+    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    applyTheme(currentTheme);
+    localStorage.setItem('preferred-theme', currentTheme);
+  });
+
+  const systemPref = window.matchMedia('(prefers-color-scheme: light)');
+  const handleSystemChange = event => {
+    const stored = localStorage.getItem('preferred-theme');
+    if (!stored) {
+      currentTheme = event.matches ? 'light' : 'dark';
+      applyTheme(currentTheme);
+    }
+  };
+
+  if (typeof systemPref.addEventListener === 'function') {
+    systemPref.addEventListener('change', handleSystemChange);
+  } else if (typeof systemPref.addListener === 'function') {
+    systemPref.addListener(handleSystemChange);
+  }
 }
