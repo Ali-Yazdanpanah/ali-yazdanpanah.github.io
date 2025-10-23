@@ -121,10 +121,9 @@ header {
 .theme-toggle {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--card);
   color: var(--text);
@@ -138,6 +137,18 @@ header {
   line-height: 1;
 }
 
+.theme-toggle .theme-label {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  max-width: 0;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.24s ease, opacity 0.2s ease;
+}
+
 .theme-toggle:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
@@ -147,6 +158,28 @@ header {
   transform: translateY(-1px);
   border-color: var(--primary);
   color: var(--primary);
+}
+
+.floating-theme-toggle {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  z-index: 60;
+}
+
+.floating-theme-toggle:hover .theme-label,
+.floating-theme-toggle:focus-visible .theme-label {
+  max-width: 120px;
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (pointer: coarse) {
+  .floating-theme-toggle .theme-label {
+    max-width: 120px;
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .menu-toggle {
@@ -226,9 +259,9 @@ header {
 }
 
 .brand {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
   font-weight: 700;
 }
 
@@ -236,11 +269,12 @@ header {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 12px;
+  padding: 8px 16px;
+  border-radius: 16px;
   background: var(--ring);
   color: var(--primary);
+  font-size: 16px;
+  letter-spacing: 0.01em;
 }
 
 .nav-panel.is-open {
