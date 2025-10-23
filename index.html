@@ -76,7 +76,7 @@
           <li>High‑Performance Computing (HPC), heterogeneous scheduling & resource management</li>
           <li>GPU kernels, accelerator programming, and kernel‑level optimization</li>
           <li>Distributed & cloud/fog systems; reproducible workflows and experimentation</li>
-          <li>Scientific ML, ML‑guided scheduling, program analysis</li>
+          <li>Large Language Models (LLMs) & NLP-driven systems</li>
           <li>Hardware/RTL, reliability (DFT, TMR), embedded systems</li>
           <li>Quantum‑curious: hybrid quantum–classical workflows</li>
         </ul>
@@ -163,11 +163,10 @@
       <div class="grid cols-3">
         <div class="card" data-category="systems"><h3>Programming</h3><div class="tags"><span class="tag">C</span><span class="tag">C++</span><span class="tag">Python</span><span class="tag">CUDA</span><span class="tag">Java</span><span class="tag">Go</span><span class="tag">x86‑64 ASM</span></div></div>
         <div class="card" data-category="hpc"><h3>Parallel & HPC</h3><div class="tags"><span class="tag">CUDA</span><span class="tag">MPI</span><span class="tag">OpenMP</span><span class="tag">Nsight Systems</span><span class="tag">CUPTI</span><span class="tag">nvprof</span><span class="tag">NVML</span><span class="tag">Workload Scheduling</span></div></div>
-        <div class="card" data-category="cloud"><h3>Reproducibility & Cloud</h3><div class="tags"><span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Git/GitLab CI</span><span class="tag">Argo/Argo Workflows</span><span class="tag">GitOps</span><span class="tag">Scripted Runners</span><span class="tag">Terraform</span><span class="tag">Terragrunt</span></div></div>
+        <div class="card" data-category="cloud"><h3>Cloud & Packaging</h3><div class="tags"><span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Git/GitLab CI</span><span class="tag">Argo/Argo Workflows</span><span class="tag">GitOps</span><span class="tag">Terraform</span><span class="tag">Terragrunt</span><span class="tag">Apptainer</span><span class="tag">Singularity</span><span class="tag">CMake</span></div></div>
         <div class="card" data-category="hardware"><h3>Hardware & RTL</h3><div class="tags"><span class="tag">Verilog/FPGA</span><span class="tag">DFT/TMR</span><span class="tag">VLSI</span><span class="tag">Embedded</span></div></div>
         <div class="card" data-category="systems cloud"><h3>Networking & Systems</h3><div class="tags"><span class="tag">Linux</span><span class="tag">Nginx/HAProxy/Traefik</span><span class="tag">Kafka/RabbitMQ</span><span class="tag">Tracing & Metrics</span><span class="tag">perf/gprof</span></div></div>
         <div class="card" data-category="ai"><h3>AI / ML</h3><div class="tags"><span class="tag">PyTorch</span><span class="tag">TensorFlow</span><span class="tag">Scientific ML</span><span class="tag">Workload classification</span></div></div>
-        <div class="card" data-category="cloud hpc"><h3>Tooling & Packaging</h3><div class="tags"><span class="tag">CMake</span><span class="tag">Apptainer</span><span class="tag">Singularity</span></div></div>
       </div>
     </section>
 
@@ -195,9 +194,14 @@
               <div class="tags"><span class="tag grad">Grad</span><span class="tag">CUDA</span><span class="tag">C++</span><span class="tag">Nsight</span><span class="tag">Docker</span><span class="tag">Argo</span></div>
             </div>
             <div class="card" data-category="hpc ai">
-              <h3>CUDA Kernels & Dynamic Graph Traversal</h3>
-              <p>Optimized CNN kernels and graph traversal pipelines with memory coalescing, occupancy tuning, shared-memory tiling, and stream concurrency to maximize throughput on heterogeneous GPU systems.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">CUDA</span><span class="tag">GPU</span><span class="tag">Optimization</span><span class="tag">Graphs</span></div>
+              <h3>CUDA Kernel Optimizations</h3>
+              <p>Optimized CNN kernels through memory coalescing, occupancy tuning, and shared-memory tiling to push throughput on heterogeneous GPU systems.</p>
+              <div class="tags"><span class="tag grad">Grad</span><span class="tag">CUDA</span><span class="tag">GPU</span><span class="tag">Optimization</span></div>
+            </div>
+            <div class="card" data-category="hpc systems">
+              <h3>Dynamic Graph Traversal Pipelines</h3>
+              <p>Engineered streaming graph traversal pipelines with concurrency control and memory hierarchy tuning to accelerate real-time analytics workloads.</p>
+              <div class="tags"><span class="tag grad">Grad</span><span class="tag">Graphs</span><span class="tag">Streams</span><span class="tag">Concurrency</span></div>
             </div>
           </div>
         </div>
@@ -211,9 +215,14 @@
               <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Computer Architecture</span><span class="tag">Pipeline Design</span><span class="tag">MIPS</span></div>
             </div>
             <div class="card" data-category="systems">
-              <h3>Minimal OS & Messaging Systems</h3>
-              <p>Built instructional OS kernels in Assembly/C with scheduling and memory subsystems, plus a distributed Java messaging layer emphasizing concurrency and fault tolerance.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Assembly</span><span class="tag">C</span><span class="tag">Java</span><span class="tag">Distributed Systems</span></div>
+              <h3>Minimal OS Kernel (C)</h3>
+              <p>Developed instructional OS kernels with cooperative scheduling, memory management, and basic device abstractions to teach low-level systems design.</p>
+              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">C</span><span class="tag">Operating Systems</span></div>
+            </div>
+            <div class="card" data-category="systems">
+              <h3>Async Messaging System (Java)</h3>
+              <p>Implemented a lightweight asynchronous messaging service featuring queue-based routing, fault handling, and instrumentation for teaching distributed coordination.</p>
+              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Java</span><span class="tag">Messaging</span><span class="tag">Concurrency</span></div>
             </div>
           </div>
         </div>
@@ -258,9 +267,9 @@
         <div>
           <h3 class="section-subtitle">AI & Natural Language Processing</h3>
           <div class="grid cols-2">
-            <div class="card" data-category="ai cloud">
+            <div class="card" data-category="ai">
               <h3>Semantic Analytics Platform</h3>
-              <p>Built large-scale text analytics pipelines integrating topic modeling and statistical NLP to surface insights from domain corpora.</p>
+              <p>Built text analytics pipelines focused on topic modeling and statistical NLP to surface domain insights from curated corpora.</p>
               <div class="tags"><span class="tag">NLP</span><span class="tag">Topic Modeling</span><span class="tag">Python</span></div>
             </div>
             <div class="card" data-category="ai">
