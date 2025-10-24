@@ -75,6 +75,7 @@ a {
 }
 
 a:hover {
+  color: color-mix(in oklab, var(--primary) 75%, white 25%);
   text-decoration: underline;
 }
 
@@ -297,6 +298,10 @@ header {
   padding: 4px 0;
 }
 
+.navlinks a:hover {
+  color: color-mix(in oklab, var(--primary) 65%, white 35%);
+}
+
 .actions {
   display: flex;
   flex-direction: row;
@@ -340,7 +345,8 @@ header {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 18px;
-  margin-top: 12px;
+
+  margin-top: 100px;
   position: -webkit-sticky;
   position: sticky;
   top: calc(var(--header-height) + var(--sticky-gap));
@@ -631,7 +637,7 @@ section#contact {
     flex: none;
     width: 100%;
     display: none;
-    margin-top: 10px;
+    margin-top: 18px;
   }
 
   .sidebar.is-open {
