@@ -567,6 +567,7 @@ section#contact {
 
 .course-category-group .card h4 {
   margin: 0 0 6px;
+  padding-right: 44px;
   font-size: 19px;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -711,6 +712,49 @@ section#contact {
     filter 0.2s ease;
 }
 
+.project-has-links {
+  position: relative;
+  padding-top: 24px;
+}
+
+.project-has-links .project-links {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.project-links {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.project-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 85%, var(--bg) 15%);
+  color: var(--muted);
+  transition: border 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.project-links a:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.project-links .icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
 .card.is-highlighted {
   border-color: var(--primary);
   background: color-mix(in oklab, var(--card) 80%, var(--primary) 12%);
@@ -724,7 +768,8 @@ section#contact {
 }
 
 .card h3 {
-  margin: 0 0 6px;
+  margin: 0 0 10px;
+  padding-right: 44px;
   font-size: 18px;
 }
 

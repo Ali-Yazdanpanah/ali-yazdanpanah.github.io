@@ -193,15 +193,41 @@
               <p>Container-native scheduler that balanced heterogeneous workloads across multi-GPU clusters, achieving ~18% runtime reduction via workload classification, concurrency control, and roofline-guided tuning.</p>
               <div class="tags"><span class="tag grad">Grad</span><span class="tag">CUDA</span><span class="tag">C++</span><span class="tag">Nsight</span><span class="tag">Docker</span><span class="tag">Argo</span></div>
             </div>
-            <div class="card" data-category="hpc ai">
+            <div class="card project-has-links" data-category="hpc ai">
               <h3>CUDA Kernel Optimizations</h3>
+              <div class="project-links">
+                <a href="https://github.com/Ali-Yazdanpanah/cuda-cnn-kernels" target="_blank" rel="noreferrer" aria-label="CUDA CNN kernels GitHub">
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
+                  </svg>
+                </a>
+              </div>
               <p>Optimized CNN kernels through memory coalescing, occupancy tuning, and shared-memory tiling to push throughput on heterogeneous GPU systems.</p>
               <div class="tags"><span class="tag grad">Grad</span><span class="tag">CUDA</span><span class="tag">GPU</span><span class="tag">Optimization</span></div>
             </div>
-            <div class="card" data-category="hpc systems">
-              <h3>Dynamic Graph Traversal Pipelines</h3>
-              <p>Engineered streaming graph traversal pipelines with concurrency control and memory hierarchy tuning to accelerate real-time analytics workloads.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">Graphs</span><span class="tag">Streams</span><span class="tag">Concurrency</span></div>
+            <div class="card project-has-links" data-category="hpc systems">
+              <h3>Parallel Workset Graph Analytics</h3>
+              <div class="project-links">
+                <a href="https://github.com/farzinlize/parallel_workset_graph" target="_blank" rel="noreferrer" aria-label="Parallel workset graph GitHub">
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
+                  </svg>
+                </a>
+              </div>
+              <p>Implemented an adaptive workset-based graph analytics framework in C++/CUDA that switches kernels based on workload characteristics, following Becchi’s GPU scheduling approach to accelerate traversals.</p>
+              <div class="tags"><span class="tag grad">Grad</span><span class="tag">CUDA</span><span class="tag">Graphs</span><span class="tag">Workset</span><span class="tag">Adaptive</span></div>
+            </div>
+            <div class="card project-has-links" data-category="hpc">
+              <h3>APSP on CUDA</h3>
+              <div class="project-links">
+                <a href="https://github.com/Ali-Yazdanpanah/apsp-cuda" target="_blank" rel="noreferrer" aria-label="APSP CUDA GitHub">
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
+                  </svg>
+                </a>
+              </div>
+              <p>Accelerated all-pairs shortest paths with tiled shared-memory kernels, stream overlap, and warp-level primitives to push Floyd–Warshall throughput on modern GPUs.</p>
+              <div class="tags"><span class="tag grad">Grad</span><span class="tag">CUDA</span><span class="tag">Graphs</span><span class="tag">APSP</span></div>
             </div>
           </div>
         </div>
@@ -230,14 +256,28 @@
         <div>
           <h3 class="section-subtitle">Hardware Acceleration & Reliability</h3>
           <div class="grid cols-2">
-            <div class="card" data-category="hardware ai">
-              <h3>LIF Neurons on FPGA</h3>
-              <p>Implemented leaky integrate-and-fire neuron models in Verilog, validated timing on FPGA, and benchmarked hardware acceleration impacts for neuromorphic workloads.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Verilog</span><span class="tag">FPGA</span><span class="tag">Digital Design</span></div>
+            <div class="card project-has-links" data-category="hardware ai">
+              <h3>Leaky Integrate-and-Fire Neurons (FPGA)</h3>
+              <div class="project-links">
+                <a href="https://github.com/Ali-Yazdanpanah/Leaky-Integrate-and-Fire-Neurons" target="_blank" rel="noreferrer" aria-label="Leaky integrate-and-fire neurons GitHub">
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
+                  </svg>
+                </a>
+              </div>
+              <p>Built parameterized leaky integrate-and-fire neuron cores in Verilog with configurable leakage, thresholding, and spike outputs, validated on Cyclone FPGA hardware.</p>
+              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Verilog</span><span class="tag">FPGA</span><span class="tag">Neuromorphic</span></div>
             </div>
-            <div class="card" data-category="hardware">
-              <h3>Fault-Tolerant Memory Subsystems</h3>
-              <p>Devised TMR-based resilient memory arrays with fault injection and recovery workflows to evaluate availability and error coverage under radiation-style faults.</p>
+            <div class="card project-has-links" data-category="hardware">
+              <h3>Triple Modular Redundancy Toolkit</h3>
+              <div class="project-links">
+                <a href="https://github.com/Ali-Yazdanpanah/Triple-Modular-Redundancy" target="_blank" rel="noreferrer" aria-label="Triple Modular Redundancy GitHub">
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
+                  </svg>
+                </a>
+              </div>
+              <p>Created generative TMR wrappers for memory and logic blocks with simulation-driven fault injection, reporting voter coverage and resilience metrics for radiation-style upsets.</p>
               <div class="tags"><span class="tag grad">Grad</span><span class="tag">TMR</span><span class="tag">Fault Injection</span><span class="tag">Reliability</span></div>
             </div>
             <div class="card" data-category="hardware">
@@ -251,13 +291,27 @@
         <div>
           <h3 class="section-subtitle">Distributed & Cloud Systems</h3>
           <div class="grid cols-2">
-            <div class="card" data-category="cloud systems">
+            <div class="card project-has-links" data-category="cloud systems">
               <h3>Surnet Blockchain Network</h3>
+              <div class="project-links">
+                <a href="https://surnet.org/" target="_blank" rel="noreferrer" aria-label="Visit Surnet">
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3ZM5 5h9v2H5v12h12v-9h2v11H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h9v2H5v0Z"/>
+                  </svg>
+                </a>
+              </div>
               <p>Delivered an Ethereum-based blockchain environment with Kubernetes orchestration, GitOps automation, and Grafana-backed observability for scalable experimentation.</p>
               <div class="tags"><span class="tag">Kubernetes</span><span class="tag">Ethereum</span><span class="tag">Grafana</span><span class="tag">GitOps</span></div>
             </div>
-            <div class="card" data-category="cloud systems">
+            <div class="card project-has-links" data-category="cloud systems">
               <h3>Arsonex Online Exchange</h3>
+              <div class="project-links">
+                <a href="https://arsonex.com/" target="_blank" rel="noreferrer" aria-label="Visit Arsonex">
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3ZM5 5h9v2H5v12h12v-9h2v11H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h9v2H5v0Z"/>
+                  </svg>
+                </a>
+              </div>
               <p>Engineered CI/CD pipelines and containerized infrastructure for a high-availability cryptocurrency exchange emphasizing security, reliability, and rapid iteration.</p>
               <div class="tags"><span class="tag">Docker</span><span class="tag">GitLab CI</span><span class="tag">HA</span><span class="tag">DevOps</span></div>
             </div>
