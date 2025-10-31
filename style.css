@@ -465,6 +465,19 @@ header {
   background: transparent;
 }
 
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  justify-content: center;
+  gap: 0;
+}
+
+.icon-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
 .btn:focus {
   outline: 2px solid var(--ring);
 }
