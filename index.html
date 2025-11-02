@@ -101,13 +101,27 @@
     <section id="education" aria-labelledby="education-title">
       <div class="sec-head"><h2 id="education-title">Education</h2></div>
       <div class="grid cols-2">
-        <div class="card" data-category="hpc research systems">
+        <div class="card project-has-links" data-category="hpc research systems">
           <h3>M.Sc., Computer Systems Architecture</h3>
+          <div class="project-links">
+            <a href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download aria-label="Download MSc thesis abstract">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M5 20h14v-2H5v2Zm7-16v8.17l2.59-2.58L16 11l-4 4-4-4 1.41-1.41L11 12.17V4h1Z" />
+              </svg>
+            </a>
+          </div>
           <div class="muted">Shiraz University · 2019–2022</div>
-          <p><strong>Thesis:</strong> Profiling-guided multi-GPU scheduler with ML-based classification (~18% runtime reduction); focused on reproducibility, performance tuning, and heterogeneous resource efficiency.</p>
+          <p><strong>Thesis:</strong> PreClass: static pre-admission classification and lightweight CUDA runtime guards that steer safe multi-tenant GPU co-location via submission-time signals, LD_PRELOAD VRAM quotas, and Kubernetes-integrated admission control.</p>
         </div>
-        <div class="card" data-category="hardware systems">
+        <div class="card project-has-links" data-category="cloud hpc systems">
           <h3>B.Sc., Computer Hardware Engineering</h3>
+          <div class="project-links">
+            <a href="./reports/BSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download aria-label="Download PreClass thesis abstract">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M5 20h14v-2H5v2Zm7-16v8.17l2.59-2.58L16 11l-4 4-4-4 1.41-1.41L11 12.17V4h1Z" />
+              </svg>
+            </a>
+          </div>
           <div class="muted">Shiraz University · 2014–2019</div>
           <p><strong>Thesis:</strong> FPGA implementation of leaky integrate-and-fire neurons in Verilog; explored hardware acceleration, reliability techniques, and digital system design practices.</p>
         </div>
@@ -188,8 +202,15 @@
     <section id="publications" aria-labelledby="pub-title">
       <div class="sec-head"><h2 id="pub-title">Publications</h2></div>
       <div class="grid cols-2">
-        <div class="card" data-category="research hpc cloud">
+        <div class="card project-has-links" data-category="research hpc cloud">
           <h3>A Two‑tier Multi‑objective Service Placement in Container‑based Fog Computing Platforms</h3>
+          <div class="project-links">
+            <a href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download aria-label="Download service placement paper abstract">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M5 20h14v-2H5v2Zm7-16v8.17l2.59-2.58L16 11l-4 4-4-4 1.41-1.41L11 12.17V4h1Z" />
+              </svg>
+            </a>
+          </div>
           <p class="pub-venue muted">Cluster Computing (Springer), 27(4): 4491–4514 (2023)</p>
           <p class="muted">Javad Dogani, Ali Yazdanpanah, Amirhossein Zare, Farshad Khunjush</p>
           <p><a href="https://doi.org/10.1007/s10586-023-04183-8" target="_blank" rel="noreferrer">View DOI</a></p>
@@ -203,10 +224,29 @@
         <div>
           <h3 class="section-subtitle">Parallel & GPU Computing</h3>
           <div class="grid cols-2">
-            <div class="card" data-category="hpc cloud research">
-              <h3>Profiling-guided Multi-GPU Scheduler</h3>
-              <p>Container-native scheduler that balanced heterogeneous workloads across multi-GPU clusters, achieving ~18% runtime reduction via workload classification, concurrency control, and roofline-guided tuning.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">CUDA</span><span class="tag">C++</span><span class="tag">Nsight</span><span class="tag">Docker</span><span class="tag">Argo</span></div>
+            <div class="card project-has-links" data-category="hpc cloud research">
+              <h3>Two-tier Fog Service Placement Optimizer</h3>
+              <div class="project-links">
+                <a href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download aria-label="Download MSc thesis abstract">
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M5 20h14v-2H5v2Zm7-16v8.17l2.59-2.58L16 11l-4 4-4-4 1.41-1.41L11 12.17V4h1Z" />
+                  </svg>
+                </a>
+              </div>
+              <p>Designed a hierarchical fog–cloud orchestration layer that placed containerized services across edge nodes using NSGA-II Pareto optimization and TOPSIS ranking to balance latency, energy, and deployment cost.</p>
+              <div class="tags"><span class="tag grad">Grad</span><span class="tag">Fog Computing</span><span class="tag">Optimization</span><span class="tag">NSGA-II</span><span class="tag">Service Placement</span></div>
+            </div>
+            <div class="card project-has-links" data-category="cloud hpc systems">
+              <h3>PreClass GPU Admission Guards</h3>
+              <div class="project-links">
+                <a href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download aria-label="Download PreClass abstract">
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M5 20h14v-2H5v2Zm7-16v8.17l2.59-2.58L16 11l-4 4-4-4 1.41-1.41L11 12.17V4h1Z" />
+                  </svg>
+                </a>
+              </div>
+              <p>Static GPU job classifier with LD_PRELOAD CUDA guards that enforces VRAM quotas, issues NVML sanity checks, and boosts safe multi-tenant co-location without relying on online profiling.</p>
+              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">GPU</span><span class="tag">Scheduling</span><span class="tag">LD_PRELOAD</span></div>
             </div>
             <div class="card project-has-links" data-category="hpc ai">
               <h3>GPU Accelerated 2D Convolution</h3>
