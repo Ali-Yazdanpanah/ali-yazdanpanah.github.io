@@ -1,95 +1,174 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html class="dark" lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ali Yazdanpanah</title>
   <meta name="description" content="Personal site of Ali Yazdanpanah — HPC, GPU optimization, reproducibility, scientific ML, and quantum‑curious." />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSI+PGNpcmNsZSBjeD0iMTQiIGN5PSIxNCIgcj0iOCIgZmlsbD0iI0YwRjdGRiIgc3Ryb2tlPSIjMUUzQThBIiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNMjAuNSAyMC41TDI3IDI3IiBzdHJva2U9IiMxRTNBOEEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTExIDE3bDMtNCAyLjUgMy41IDMuNS01IiBzdHJva2U9IiMwRUE1RTkiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+" />
-  <link rel="stylesheet" href="./style.css" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#f2d00d",
+            "background-light": "#f8f8f5",
+            "background-dark": "#0a0a0a",
+            "surface-dark": "#161616",
+            "border-dark": "#2a2a2a"
+          },
+          fontFamily: { "display": ["Inter", "sans-serif"] },
+          borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+        },
+      },
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .filter-active .item-card:not(.active-category) {
+      opacity: 0.25;
+      filter: grayscale(0.8);
+      pointer-events: none;
+    }
+    .item-card.active-category {
+      border-color: #f2d00d;
+      box-shadow: 0 0 15px rgba(242, 208, 13, 0.15);
+    }
+    .filter-bar button.active-filter {
+      color: #f2d00d;
+      border-color: rgba(242, 208, 13, 0.4);
+      background: rgba(242, 208, 13, 0.1);
+    }
+    .nav-mobile-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-mobile-panel.is-open {
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .nav-mobile-panel > div {
+      transform: translateY(-16px);
+      opacity: 0;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-out;
+    }
+    .nav-mobile-panel.is-open > div {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    @media (min-width: 768px) {
+      .nav-desktop { display: flex !important; }
+      .nav-mobile-toggle { display: none !important; }
+      .nav-mobile-panel { display: none !important; }
+    }
+    @media (max-width: 767px) {
+      .nav-desktop { display: none !important; }
+    }
+  </style>
 </head>
-<body>
-  <header>
-    <div class="container nav">
-      <div class="nav-top">
-        <div class="brand"><span class="badge">Ali Yazdanpanah</span></div>
-        <div class="nav-controls">
-          <button class="sidebar-toggle" type="button" aria-expanded="false" aria-controls="sidebar-navigation" aria-label="Toggle categories panel">
-            <span>Filter by categories</span>
-          </button>
-          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="menu-icon" aria-hidden="true"></span>
-          </button>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 selection:bg-primary selection:text-black">
+  <!-- Top Navigation & Global Filter -->
+  <nav class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-border-dark w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full">
+      <div class="flex items-center justify-between gap-4 h-14 sm:h-16">
+        <div class="flex items-center shrink-0 min-w-0">
+          <span class="text-base sm:text-xl font-black tracking-tighter uppercase truncate">Ali Yazdanpanah</span>
         </div>
+
+        <!-- Desktop: filter bar + links -->
+        <div class="nav-desktop hidden flex-1 items-center justify-center min-w-0 mx-2 lg:mx-4">
+          <div class="filter-bar flex items-center gap-1 bg-surface-dark p-1 rounded-sm border border-border-dark justify-center min-w-0 max-w-4xl overflow-x-auto">
+            <button type="button" class="filter-btn active-filter px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider transition-colors rounded-sm whitespace-nowrap" data-filter="all">All</button>
+            <button type="button" class="filter-btn px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm whitespace-nowrap" data-filter="hpc">HPC</button>
+            <button type="button" class="filter-btn px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm whitespace-nowrap" data-filter="ai">AI</button>
+            <button type="button" class="filter-btn px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm whitespace-nowrap" data-filter="cloud">Cloud</button>
+            <button type="button" class="filter-btn px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm whitespace-nowrap" data-filter="hardware">Hardware</button>
+            <button type="button" class="filter-btn px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm whitespace-nowrap" data-filter="systems">Systems</button>
+            <button type="button" class="filter-btn px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm whitespace-nowrap" data-filter="research">Research</button>
+          </div>
+        </div>
+        <div class="nav-desktop hidden items-center gap-2 shrink-0">
+          <a class="flex items-center justify-center w-10 h-10 rounded-sm border-2 border-primary text-primary hover:bg-primary/10 transition-all" href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer" aria-label="Google Scholar">
+            <span class="material-symbols-outlined text-2xl">school</span>
+          </a>
+          <a class="flex items-center justify-center w-10 h-10 rounded-sm bg-primary border border-primary text-background-dark hover:brightness-110 transition-all" href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a class="flex items-center justify-center w-10 h-10 rounded-sm border-2 border-primary text-primary hover:bg-primary/10 transition-all" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer" aria-label="GitHub">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.341-3.369-1.341-.454-1.152-1.11-1.459-1.11-1.459-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.987 1.029-2.687-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.7 1.028 1.594 1.028 2.687 0 3.847-2.337 4.694-4.566 4.942.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/></svg>
+          </a>
+        </div>
+
+        <!-- Mobile: menu button -->
+        <button type="button" class="nav-mobile-toggle md:hidden flex items-center justify-center w-10 h-10 rounded-sm border border-border-dark hover:border-primary hover:bg-surface-dark transition-colors aria-expanded="false" aria-controls="nav-mobile-panel" aria-label="Open menu" id="nav-menu-btn">
+          <span class="material-symbols-outlined text-2xl" aria-hidden="true">menu</span>
+        </button>
       </div>
-      <div class="nav-panel" id="primary-navigation">
-        <nav class="navlinks" aria-label="Primary">
-          <a href="#about">About</a>
-          <a href="#research">Research</a>
-          <a href="#education">Education</a>
-          <a href="#experience">Experience</a>
-          <a href="#skills">Skills</a>
-          <a href="#publications">Publications</a>
-          <a href="#projects">Projects</a>
-          <a href="#coursework">Coursework</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <div class="actions">
-          <a class="btn secondary icon-btn" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer">
-            <span class="sr-only">GitHub</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path fill="currentColor" d="M12 .5C5.73.5.5 5.74.5 12.02c0 5.09 3.29 9.4 7.86 10.94.58.11.79-.25.79-.56v-2.02c-3.2.7-3.88-1.39-3.88-1.39-.53-1.35-1.3-1.71-1.3-1.71-1.07-.73.08-.72.08-.72 1.18.08 1.8 1.23 1.8 1.23 1.05 1.8 2.75 1.28 3.43.98.11-.78.41-1.28.74-1.57-2.56-.29-5.26-1.29-5.26-5.77 0-1.27.45-2.31 1.2-3.13-.12-.3-.52-1.52.11-3.18 0 0 .97-.31 3.18 1.2a11.03 11.03 0 0 1 5.79 0c2.2-1.51 3.18-1.2 3.18-1.2.63 1.66.23 2.88.11 3.18.75.82 1.2 1.86 1.2 3.13 0 4.49-2.71 5.47-5.28 5.76.42.36.8 1.07.8 2.17v3.22c0 .31.21.68.8.56A10.53 10.53 0 0 0 23.5 12C23.5 5.74 18.27.5 12 .5Z"/>
-            </svg>
-          </a>
-          <a class="btn secondary icon-btn" href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer">
-            <span class="sr-only">LinkedIn</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path fill="currentColor" d="M20.45 3H3.55C2.7 3 2 3.7 2 4.55v14.9C2 20.3 2.7 21 3.55 21h16.9c.85 0 1.55-.7 1.55-1.55V4.55C22 3.7 21.3 3 20.45 3Zm-11 15H5.75V10.5H9.5V18Zm-1.88-8.57a2.18 2.18 0 1 1 0-4.36 2.18 2.18 0 0 1 0 4.36ZM18.25 18h-3.75v-4.4c0-1.05-.02-2.4-1.46-2.4-1.46 0-1.69 1.14-1.69 2.32V18H7.6V10.5h3.6v1.01h.05c.5-.95 1.72-1.96 3.54-1.96 3.78 0 4.46 2.49 4.46 5.73V18Z"/>
-            </svg>
-          </a>
-          <a class="btn secondary icon-btn" href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&amp;hl=en&amp;oi=ao" target="_blank" rel="noreferrer">
-            <span class="sr-only">Google Scholar</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path fill="currentColor" d="M12 3 1 9l11 6 11-6-11-6Zm0 8.73L5.74 9 12 5.27 18.26 9 12 11.73Zm-7 7.77L12 23l7-3.5V17l-7 3.5L5 17v1.5Z"/>
-            </svg>
-          </a>
+
+      <!-- Mobile: slide-down panel (filter + links) -->
+      <div id="nav-mobile-panel" class="nav-mobile-panel md:hidden border-t border-border-dark bg-background-dark/95" aria-hidden="true">
+        <div class="px-4 py-4 space-y-4">
+          <p class="text-xs font-bold uppercase tracking-widest text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-sm">tune</span> Filter</p>
+          <div class="filter-bar flex flex-wrap gap-2">
+            <button type="button" class="filter-btn active-filter px-3 py-2 text-xs font-bold uppercase tracking-wider transition-colors rounded-sm border border-border-dark" data-filter="all">All</button>
+            <button type="button" class="filter-btn px-3 py-2 text-xs font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm border border-border-dark" data-filter="hpc">HPC</button>
+            <button type="button" class="filter-btn px-3 py-2 text-xs font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm border border-border-dark" data-filter="ai">AI</button>
+            <button type="button" class="filter-btn px-3 py-2 text-xs font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm border border-border-dark" data-filter="cloud">Cloud</button>
+            <button type="button" class="filter-btn px-3 py-2 text-xs font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm border border-border-dark" data-filter="hardware">Hardware</button>
+            <button type="button" class="filter-btn px-3 py-2 text-xs font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm border border-border-dark" data-filter="systems">Systems</button>
+            <button type="button" class="filter-btn px-3 py-2 text-xs font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm border border-border-dark" data-filter="research">Research</button>
+          </div>
+          <p class="text-xs font-bold uppercase tracking-widest text-slate-500 pt-2 flex items-center gap-2"><span class="material-symbols-outlined text-sm">link</span> Links</p>
+          <div class="flex flex-col gap-2">
+            <a class="flex items-center gap-3 py-2 text-sm font-medium hover:text-primary border-b border-border-dark rounded-sm px-2 -mx-2 border-l-2 border-l-primary" href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer"><span class="material-symbols-outlined text-primary">school</span> Google Scholar</a>
+            <a class="flex items-center gap-3 py-2 text-sm font-medium hover:text-primary border-b border-border-dark" href="mailto:yazdanpanah.aly@gmail.com"><span class="material-symbols-outlined text-primary">mail</span> Email</a>
+            <a class="flex items-center gap-3 py-2 text-sm font-medium hover:text-primary border-b border-border-dark rounded-sm px-2 -mx-2 border-l-2 border-l-primary" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer"><span class="material-symbols-outlined text-primary">code</span> GitHub</a>
+          </div>
         </div>
       </div>
     </div>
-  </header>
+  </nav>
 
-  <main class="container">
-    <div class="content-layout">
-      <aside class="sidebar" id="sidebar-navigation" aria-label="Content categories">
-        <div class="sidebar-header">
-          <h2>Filter by categories</h2>
-          <button class="sidebar-close" type="button" aria-label="Close categories"></button>
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-24 space-y-16 sm:space-y-24 lg:space-y-32" id="main-content">
+    <!-- Hero -->
+    <section class="grid lg:grid-cols-12 gap-8 sm:gap-12 items-center" id="about">
+      <div class="lg:col-span-8 space-y-6 sm:space-y-8">
+        <div class="space-y-3 sm:space-y-4">
+          <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black leading-[0.95] tracking-tighter uppercase">
+            Systems Engineer<br/><span class="text-primary">HPC &amp; Cloud</span><br/>Researcher
+          </h1>
+          <p class="text-base sm:text-xl lg:text-2xl text-slate-400 font-light max-w-2xl leading-relaxed">
+            I’m a systems engineer and researcher working at the intersection of <span class="text-white font-medium">high-performance computing</span>, <span class="text-white font-medium">cloud</span>, and applied AI. My work is measurement-first and reproducibility-driven. I’m especially interested in ML for systems, hardware-aware design, and quantum-curious workflows.
+          </p>
         </div>
-        <nav class="sidebar-categories">
-          <button type="button" data-category="hpc">HPC & Parallel</button>
-          <button type="button" data-category="ai">AI & Data Science</button>
-          <button type="button" data-category="cloud">Cloud & DevOps</button>
-          <button type="button" data-category="hardware">Hardware & Reliability</button>
-          <button type="button" data-category="systems">Systems & Architecture</button>
-          <button type="button" data-category="research">Research & Publications</button>
-        </nav>
-        <button class="sidebar-clear" type="button">Clear selection</button>
-      </aside>
-      <div class="content-body">
-        <section id="about" class="hero" aria-labelledby="about-title">
-      <h1 id="about-title">About</h1>
-      <p class="subtitle">I’m a systems engineer and researcher working at the intersection of high-performance computing, cloud, and applied AI. My work is measurement-first and reproducibility-driven: I study how computation behaves on heterogeneous processors and large clusters, then turn those insights into dependable speedups. I’m especially interested in ML for systems using learning to guide scheduling, optimization, and experimentation, and in how hardware-aware design, security, and even quantum ideas can push scientific and reliability goals forward.</p>
-      <div class="hero-actions">
-        <a class="btn" href="mailto:yazdanpanah.aly@gmail.com">Email</a>
+        <div class="flex flex-wrap gap-3 sm:gap-4">
+          <a class="flex items-center gap-2 bg-surface-dark border border-border-dark px-3 sm:px-4 py-2 rounded-sm hover:border-primary/50 transition-colors text-sm" href="mailto:yazdanpanah.aly@gmail.com">
+            <span class="material-symbols-outlined text-primary text-lg shrink-0">mail</span>
+            <span class="font-mono truncate max-w-[200px] sm:max-w-none">yazdanpanah.aly@gmail.com</span>
+          </a>
+          <a class="flex items-center gap-2 bg-surface-dark border border-border-dark px-3 sm:px-4 py-2 rounded-sm hover:border-primary/50 transition-colors text-sm" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer">
+            <span class="material-symbols-outlined text-primary text-lg shrink-0">code</span>
+            <span class="font-mono">GitHub</span>
+          </a>
+        </div>
       </div>
     </section>
 
-    <section id="research" aria-labelledby="research-title">
-      <div class="sec-head"><h2 id="research-title">Research Interests</h2></div>
-      <div class="card" data-category="research hpc ai cloud hardware systems">
-        <ul class="list">
-          <li>High‑Performance Computing (HPC), heterogeneous scheduling & resource management</li>
+    <!-- Research Interests -->
+    <section class="space-y-6 sm:space-y-8" id="research">
+      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
+        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">psychology</span>
+        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Research Interests</h2>
+        <span class="text-primary font-mono text-xs sm:text-sm tracking-widest uppercase ml-auto">Focus</span>
+      </div>
+      <div class="item-card grid md:grid-cols-1 gap-6 bg-surface-dark p-8 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="research hpc ai cloud hardware systems">
+        <ul class="text-slate-400 space-y-2 list-disc list-inside">
+          <li>High‑Performance Computing (HPC), heterogeneous scheduling &amp; resource management</li>
           <li>Distributed and Networked systems</li>
           <li>GPU kernels, accelerator programming, and performance optimization</li>
           <li>Machine learning for systems and computational workflows</li>
@@ -98,496 +177,548 @@
       </div>
     </section>
 
-    <section id="education" aria-labelledby="education-title">
-      <div class="sec-head"><h2 id="education-title">Education</h2></div>
-      <div class="grid cols-2">
-        <div class="card project-has-links" data-category="hpc research systems">
-          <h3>M.Sc., Computer Systems Architecture</h3>
-          <div class="project-links">
-            <a href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download aria-label="Download MSc thesis abstract">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M5 20h14v-2H5v2Zm7-16v8.17l2.59-2.58L16 11l-4 4-4-4 1.41-1.41L11 12.17V4h1Z" />
-              </svg>
-            </a>
+    <!-- Education -->
+    <section class="space-y-6 sm:space-y-8" id="education">
+      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
+        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">school</span>
+        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Education</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
+        <div class="item-card space-y-4 bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/40 transition-all" data-category="hpc research systems">
+          <div class="flex justify-between items-start flex-wrap gap-2">
+            <div>
+              <h3 class="text-xl font-bold">M.Sc., Computer Systems Architecture</h3>
+              <p class="text-primary font-medium text-sm">Shiraz University</p>
+            </div>
+            <span class="text-xs font-mono bg-border-dark px-2 py-1 rounded-sm">2019 – 2022</span>
           </div>
-          <div class="muted">Shiraz University · 2019–2022</div>
-          <p><strong>Thesis:</strong> PreClass: static pre-admission classification and lightweight CUDA runtime guards that steer safe multi-tenant GPU co-location via submission-time signals, LD_PRELOAD VRAM quotas, and Kubernetes-integrated admission control.</p>
+          <p class="text-sm text-slate-400 leading-relaxed"><strong class="text-slate-300">Thesis:</strong> PreClass: static pre-admission classification and lightweight CUDA runtime guards for safe multi-tenant GPU co-location via submission-time signals, LD_PRELOAD VRAM quotas, and Kubernetes-integrated admission control.</p>
+          <a class="inline-flex items-center gap-1 text-xs font-mono text-primary hover:underline" href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download><span class="material-symbols-outlined text-sm">picture_as_pdf</span> Thesis abstract (PDF)</a>
         </div>
-        <div class="card project-has-links" data-category="cloud hpc systems">
-          <h3>B.Sc., Computer Hardware Engineering</h3>
-          <div class="project-links">
-            <a href="./reports/BSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download aria-label="Download PreClass thesis abstract">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M5 20h14v-2H5v2Zm7-16v8.17l2.59-2.58L16 11l-4 4-4-4 1.41-1.41L11 12.17V4h1Z" />
-              </svg>
-            </a>
+        <div class="item-card space-y-4 bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/40 transition-all" data-category="cloud hpc systems">
+          <div class="flex justify-between items-start flex-wrap gap-2">
+            <div>
+              <h3 class="text-xl font-bold">B.Sc., Computer Hardware Engineering</h3>
+              <p class="text-primary font-medium text-sm">Shiraz University</p>
+            </div>
+            <span class="text-xs font-mono bg-border-dark px-2 py-1 rounded-sm">2014 – 2019</span>
           </div>
-          <div class="muted">Shiraz University · 2014–2019</div>
-          <p><strong>Thesis:</strong> FPGA implementation of leaky integrate-and-fire neurons in Verilog; explored hardware acceleration, reliability techniques, and digital system design practices.</p>
+          <p class="text-sm text-slate-400 leading-relaxed"><strong class="text-slate-300">Thesis:</strong> FPGA implementation of leaky integrate-and-fire neurons in Verilog; explored hardware acceleration, reliability techniques, and digital system design practices.</p>
+          <a class="inline-flex items-center gap-1 text-xs font-mono text-primary hover:underline" href="./reports/BSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download><span class="material-symbols-outlined text-sm">picture_as_pdf</span> Thesis abstract (PDF)</a>
         </div>
       </div>
     </section>
 
-    <section id="experience" aria-labelledby="exp-title">
-      <div class="sec-head"><h2 id="exp-title">Experience</h2></div>
-      <div class="experience-groups">
-        <div>
-          <h3 class="section-subtitle">Industry</h3>
-          <div class="grid cols-2">
-            <div class="card" data-category="cloud systems">
-              <h3>Senior DevOps / Infrastructure Engineer</h3>
-              <div class="muted">Vox Solutions · Aug 2022 – Present · Remote</div>
-              <p>Designed GitOps‑based CI/CD (ArgoCD, Helm), improved observability (Prometheus, Grafana), automation (Ansible), and reliability across multi‑tenant environments.</p>
-            </div>
-            <div class="card" data-category="cloud systems">
-              <h3>DevOps → Senior DevOps Engineer</h3>
-              <div class="muted">Barsaweb Co. · Jan 2020 – Aug 2022 · Remote</div>
-              <p>Shipped containerized high‑availability deployments; automated build/test/release; reduced operational risk via configuration‑as‑code and reproducible environments.</p>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h3 class="section-subtitle">Academic</h3>
-          <div class="grid">
-            <div class="card" data-category="research hpc cloud systems">
-              <h3>Research Assistant</h3>
-              <div class="muted">Parallel & Cloud Computing Lab · Sep 2019 – Sep 2023 · Shiraz University</div>
-              <div class="tags"><span class="tag grad">Grad</span></div>
-              <p>Scheduling & utilization of heterogeneous systems; benchmarking and reproducible experiments; mentored junior students; teaching assistance in CUDA, C, and Python courses.</p>
-            </div>
-            <div class="card" data-category="hpc systems">
-              <h3>Teaching Assistant · Parallel Computing (CUDA)</h3>
-              <div class="muted">Shiraz University · Shiraz, Iran · 2021</div>
-              <div class="tags"><span class="tag grad">Grad</span></div>
-              <ul class="list">
-                <li>Designed GPU programming assignments and projects with a focus on scheduling and performance analysis.</li>
-                <li>Led CUDA lab sessions covering kernels, memory hierarchy, and profiling workflows.</li>
-              </ul>
-            </div>
-            <div class="card" data-category="systems">
-              <h3>Teaching Assistant · Principles of Programming (C)</h3>
-              <div class="muted">Shiraz University · Shiraz, Iran · 2017</div>
-              <div class="tags"><span class="tag undergrad">Undergrad</span></div>
-              <ul class="list">
-                <li>Supported weekly discussion sections for 60+ undergraduates; reinforced core C programming concepts.</li>
-                <li>Assisted with grading, feedback, and troubleshooting during office hours.</li>
-              </ul>
-            </div>
-            <div class="card" data-category="ai systems">
-              <h3>Teaching Assistant · Fundamentals of Programming (Python)</h3>
-              <div class="muted">Shiraz University · Shiraz, Iran · 2018</div>
-              <div class="tags"><span class="tag undergrad">Undergrad</span></div>
-              <ul class="list">
-                <li>Developed problem sets and the term project emphasizing scripting patterns and debugging practice.</li>
-                <li>Ran recitations on Python tooling, testing, and workflow automation.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+    <!-- Experience -->
+    <section class="space-y-6 sm:space-y-8" id="experience">
+      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
+        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">work</span>
+        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Experience</h2>
       </div>
-    </section>
-
-    <section id="skills" aria-labelledby="skills-title">
-      <div class="sec-head"><h2 id="skills-title">Skills</h2></div>
-      <div class="grid cols-3">
-        <div class="card" data-category="systems"><h3>Programming</h3><div class="tags"><span class="tag">C</span><span class="tag">C++</span><span class="tag">Python</span><span class="tag">CUDA</span><span class="tag">Java</span><span class="tag">Go</span><span class="tag">x86‑64 ASM</span></div></div>
-        <div class="card" data-category="hpc"><h3>Parallel & HPC</h3><div class="tags"><span class="tag">CUDA</span><span class="tag">MPI</span><span class="tag">OpenMP</span><span class="tag">Nsight Systems</span><span class="tag">CUPTI</span><span class="tag">nvprof</span><span class="tag">NVML</span><span class="tag">Workload Scheduling</span></div></div>
-        <div class="card" data-category="cloud"><h3>Cloud & Packaging</h3><div class="tags"><span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Git/GitLab CI</span><span class="tag">Argo/Argo Workflows</span><span class="tag">GitOps</span><span class="tag">Terraform</span><span class="tag">Terragrunt</span><span class="tag">Apptainer</span><span class="tag">Singularity</span><span class="tag">CMake</span></div></div>
-        <div class="card" data-category="hardware"><h3>Hardware & RTL</h3><div class="tags"><span class="tag">Verilog/FPGA</span><span class="tag">DFT/TMR</span><span class="tag">VLSI</span><span class="tag">Embedded</span></div></div>
-        <div class="card" data-category="systems cloud"><h3>Networking & Systems</h3><div class="tags"><span class="tag">Linux</span><span class="tag">Nginx/HAProxy/Traefik</span><span class="tag">Kafka/RabbitMQ</span><span class="tag">Tracing & Metrics</span><span class="tag">perf/gprof</span></div></div>
-        <div class="card" data-category="ai"><h3>AI / ML</h3><div class="tags"><span class="tag">PyTorch</span><span class="tag">TensorFlow</span><span class="tag">Scientific ML</span><span class="tag">Workload classification</span></div></div>
-      </div>
-    </section>
-
-    <section id="publications" aria-labelledby="pub-title">
-      <div class="sec-head"><h2 id="pub-title">Publications</h2></div>
-      <div class="grid cols-2">
-        <div class="card project-has-links" data-category="research hpc cloud">
-          <h3>A Two‑tier Multi‑objective Service Placement in Container‑based Fog Computing Platforms</h3>
-          <div class="project-links">
-            <a href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download aria-label="Download service placement paper abstract">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M5 20h14v-2H5v2Zm7-16v8.17l2.59-2.58L16 11l-4 4-4-4 1.41-1.41L11 12.17V4h1Z" />
-              </svg>
-            </a>
+      <div class="space-y-6">
+        <h4 class="text-primary font-bold uppercase tracking-widest text-xs">Industry</h4>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="item-card relative pl-8 border-l-2 border-border-dark hover:border-primary transition-all py-2" data-category="cloud systems">
+            <div class="absolute -left-[9px] top-2 size-4 rounded-full bg-primary border-4 border-background-dark"></div>
+            <span class="text-primary font-mono text-xs uppercase tracking-tighter">Aug 2022 — Present</span>
+            <h3 class="text-xl font-bold mt-1">Senior DevOps / Infrastructure Engineer</h3>
+            <p class="text-slate-400 text-sm mt-1">Vox Solutions · Remote</p>
+            <p class="text-slate-400 text-sm leading-relaxed mt-2">Designed GitOps‑based CI/CD (ArgoCD, Helm), improved observability (Prometheus, Grafana), automation (Ansible), and reliability across multi‑tenant environments.</p>
           </div>
-          <p class="pub-venue muted">Cluster Computing (Springer), 27(4): 4491–4514 (2023)</p>
-          <p class="muted">Javad Dogani, Ali Yazdanpanah, Amirhossein Zare, Farshad Khunjush</p>
-          <p><a href="https://doi.org/10.1007/s10586-023-04183-8" target="_blank" rel="noreferrer">View DOI</a></p>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects" aria-labelledby="projects-title">
-      <div class="sec-head"><h2 id="projects-title">Selected Projects</h2></div>
-      <div class="project-groups">
-        <div>
-          <h3 class="section-subtitle">Parallel & GPU Computing</h3>
-          <div class="grid cols-2">
-            <div class="card project-has-links" data-category="hpc cloud research">
-              <h3>Two-tier Fog Service Placement Optimizer</h3>
-              <div class="project-links">
-                <a href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download aria-label="Download MSc thesis abstract">
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M5 20h14v-2H5v2Zm7-16v8.17l2.59-2.58L16 11l-4 4-4-4 1.41-1.41L11 12.17V4h1Z" />
-                  </svg>
-                </a>
-              </div>
-              <p>Designed a hierarchical fog–cloud orchestration layer that placed containerized services across edge nodes using NSGA-II Pareto optimization and TOPSIS ranking to balance latency, energy, and deployment cost.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">Fog Computing</span><span class="tag">Optimization</span><span class="tag">NSGA-II</span><span class="tag">Service Placement</span></div>
-            </div>
-            <div class="card project-has-links" data-category="cloud hpc systems">
-              <h3>PreClass GPU Admission Guards</h3>
-              <div class="project-links">
-                <a href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download aria-label="Download PreClass abstract">
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M5 20h14v-2H5v2Zm7-16v8.17l2.59-2.58L16 11l-4 4-4-4 1.41-1.41L11 12.17V4h1Z" />
-                  </svg>
-                </a>
-              </div>
-              <p>Static GPU job classifier with LD_PRELOAD CUDA guards that enforces VRAM quotas, issues NVML sanity checks, and boosts safe multi-tenant co-location without relying on online profiling.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">GPU</span><span class="tag">Scheduling</span><span class="tag">LD_PRELOAD</span></div>
-            </div>
-            <div class="card project-has-links" data-category="hpc ai">
-              <h3>GPU Accelerated 2D Convolution</h3>
-              <div class="project-links">
-                <a href="https://github.com/Ali-Yazdanpanah/GPU-Accelerated-2D-Convolution" target="_blank" rel="noreferrer" aria-label="CUDA CNN kernels GitHub">
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
-                  </svg>
-                </a>
-              </div>
-              <p>Optimized CNN kernels through memory coalescing, occupancy tuning, and shared-memory tiling to push throughput on heterogeneous GPU systems.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">CUDA</span><span class="tag">GPU</span><span class="tag">Optimization</span></div>
-            </div>
-            <div class="card project-has-links" data-category="hpc systems">
-              <h3>Parallel Workset Graph Analytics</h3>
-              <div class="project-links">
-                <a href="https://github.com/farzinlize/parallel_workset_graph" target="_blank" rel="noreferrer" aria-label="Parallel workset graph GitHub">
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
-                  </svg>
-                </a>
-              </div>
-              <p>Implemented an adaptive workset-based graph analytics framework in C++/CUDA that switches kernels based on workload characteristics, following Becchi’s GPU scheduling approach to accelerate traversals.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">CUDA</span><span class="tag">Graphs</span><span class="tag">Workset</span><span class="tag">Adaptive</span></div>
-            </div>
-            <div class="card project-has-links" data-category="hpc">
-              <h3>APSP on CUDA</h3>
-              <div class="project-links">
-                <a href="https://github.com/Ali-Yazdanpanah/apsp-cuda" target="_blank" rel="noreferrer" aria-label="APSP CUDA GitHub">
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
-                  </svg>
-                </a>
-              </div>
-              <p>Accelerated all-pairs shortest paths with tiled shared-memory kernels, stream overlap, and warp-level primitives to push Floyd–Warshall throughput on modern GPUs.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">CUDA</span><span class="tag">Graphs</span><span class="tag">APSP</span></div>
-            </div>
+          <div class="item-card relative pl-8 border-l-2 border-border-dark hover:border-primary transition-all py-2" data-category="cloud systems">
+            <div class="absolute -left-[9px] top-2 size-4 rounded-full bg-slate-600 border-4 border-background-dark"></div>
+            <span class="text-primary font-mono text-xs uppercase tracking-tighter">Jan 2020 — Aug 2022</span>
+            <h3 class="text-xl font-bold mt-1">DevOps → Senior DevOps Engineer</h3>
+            <p class="text-slate-400 text-sm mt-1">Barsaweb Co. · Remote</p>
+            <p class="text-slate-400 text-sm leading-relaxed mt-2">Shipped containerized high‑availability deployments; automated build/test/release; reduced operational risk via configuration‑as‑code and reproducible environments.</p>
           </div>
         </div>
-
-        <div>
-          <h3 class="section-subtitle">Computer Architecture & Systems</h3>
-          <div class="grid cols-2">
-            <div class="card" data-category="hardware systems">
-              <h3>Superscalar & MIPS Architecture Projects</h3>
-              <p>Modeled superscalar out-of-order pipelines and implemented a MIPS processor, exploring caching, hazard resolution, and microarchitectural trade-offs for performance.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Computer Architecture</span><span class="tag">Pipeline Design</span><span class="tag">MIPS</span></div>
-            </div>
-            <div class="card" data-category="systems">
-              <h3>Minimal OS Kernel (C)</h3>
-              <p>Developed instructional OS kernels with cooperative scheduling, memory management, and basic device abstractions to teach low-level systems design.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">C</span><span class="tag">Operating Systems</span></div>
-            </div>
-            <div class="card" data-category="systems">
-              <h3>Async Messaging System (Java)</h3>
-              <p>Implemented a lightweight asynchronous messaging service featuring queue-based routing, fault handling, and instrumentation for teaching distributed coordination.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Java</span><span class="tag">Messaging</span><span class="tag">Concurrency</span></div>
-            </div>
+        <h4 class="text-primary font-bold uppercase tracking-widest text-xs mt-12">Academic</h4>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="item-card relative pl-8 border-l-2 border-border-dark hover:border-primary transition-all py-2" data-category="research hpc cloud systems">
+            <div class="absolute -left-[9px] top-2 size-4 rounded-full bg-primary border-4 border-background-dark"></div>
+            <span class="text-primary font-mono text-xs uppercase tracking-tighter">Sep 2019 — Sep 2023</span>
+            <h3 class="text-xl font-bold mt-1">Research Assistant</h3>
+            <p class="text-slate-400 text-sm mt-1">Parallel &amp; Cloud Computing Lab · Shiraz University</p>
+            <p class="text-slate-400 text-sm leading-relaxed mt-2">Scheduling &amp; utilization of heterogeneous systems; benchmarking and reproducible experiments; mentored junior students; teaching assistance in CUDA, C, and Python courses.</p>
+            <span class="inline-block mt-2 px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Grad</span>
           </div>
-        </div>
-
-        <div>
-          <h3 class="section-subtitle">Hardware Acceleration, Low-Power & Reliability</h3>
-          <div class="grid cols-2">
-            <div class="card project-has-links" data-category="hardware ai">
-              <h3>Leaky Integrate-and-Fire Neurons (FPGA)</h3>
-              <div class="project-links">
-                <a href="https://github.com/Ali-Yazdanpanah/Leaky-Integrate-and-Fire-Neurons" target="_blank" rel="noreferrer" aria-label="Leaky integrate-and-fire neurons GitHub">
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
-                  </svg>
-                </a>
-              </div>
-              <p>Built parameterized leaky integrate-and-fire neuron cores in Verilog with configurable leakage, thresholding, and spike outputs, validated on Cyclone FPGA hardware.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Verilog</span><span class="tag">FPGA</span><span class="tag">Neuromorphic</span></div>
-            </div>
-            <div class="card project-has-links" data-category="hardware">
-              <h3>Triple Modular Redundancy</h3>
-              <div class="project-links">
-                <a href="https://github.com/Ali-Yazdanpanah/Triple-Modular-Redundancy" target="_blank" rel="noreferrer" aria-label="Triple Modular Redundancy GitHub">
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
-                  </svg>
-                </a>
-              </div>
-              <p>Created generative TMR wrappers for memory and logic blocks with simulation-driven fault injection, reporting voter coverage and resilience metrics for radiation-style upsets.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">TMR</span><span class="tag">Fault Injection</span><span class="tag">Reliability</span></div>
-            </div>
-            <div class="card project-has-links" data-category="hardware fpga low-power">
-              <h3>DVFS Controller (FPGA)</h3>
-              <div class="project-links">
-                <a href="https://github.com/Ali-Yazdanpanah/dvfs_controller" target="_blank" rel="noreferrer" aria-label="DVFS Controller GitHub">
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
-                  </svg>
-                </a>
-              </div>
-              <p>SystemVerilog DVFS controller for Xilinx FPGA SoC: workload monitor, three power profiles (Performance / Balanced / Power-Save), safe voltage-then-frequency transitions via MMCM DRP and I2C/PMBus.</p>
-              <div class="tags"><span class="tag">SystemVerilog</span><span class="tag">FPGA</span><span class="tag">DVFS</span><span class="tag">Low-Power</span><span class="tag">Xilinx</span></div>
-            </div>
-            <div class="card project-has-links" data-category="hardware fpga ai low-power">
-              <h3>HSA Video Tracker (FPGA)</h3>
-              <div class="project-links">
-                <a href="https://github.com/Ali-Yazdanpanah/hsa_video_tracker" target="_blank" rel="noreferrer" aria-label="HSA Video Tracker GitHub">
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
-                  </svg>
-                </a>
-              </div>
-              <p>Energy-efficient hardware accelerator for video object tracking using the Honeybee Search Algorithm (HSA): 16×16 template in 64×64 search window with scout/worker bees, clock gating, and SAD early termination.</p>
-              <div class="tags"><span class="tag">Verilog</span><span class="tag">FPGA</span><span class="tag">Video Tracking</span><span class="tag">HSA</span><span class="tag">Low-Power</span></div>
-            </div>
-            <div class="card project-has-links" data-category="hardware fpga ai low-power">
-              <h3>INT8 QNN Accelerator for CIFAR-10</h3>
-              <div class="project-links">
-                <a href="https://github.com/Ali-Yazdanpanah/qnn_cifar10" target="_blank" rel="noreferrer" aria-label="QNN CIFAR-10 GitHub">
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.1C6.73 20.7 6 18.56 6 18.56c-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.9 1.23 3.22 0 4.62-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
-                  </svg>
-                </a>
-              </div>
-              <p>Low-power INT8 quantized neural network accelerator for CIFAR-10: DSP48-friendly MAC pipeline, clock gating, operand isolation, and banked BRAM for weights.</p>
-              <div class="tags"><span class="tag">Verilog</span><span class="tag">FPGA</span><span class="tag">QNN</span><span class="tag">CIFAR-10</span><span class="tag">Low-Power</span></div>
-            </div>
-            <div class="card" data-category="hardware">
-              <h3>Design-for-Test Automation</h3>
-              <p>Inserted DFT structures and scan chains into digital circuits, enabling coverage-driven validation and faster diagnostics across complex RTL blocks.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">DFT</span><span class="tag">Scan Chains</span><span class="tag">Testing</span></div>
-            </div>
+          <div class="item-card relative pl-8 border-l-2 border-border-dark hover:border-primary transition-all py-2" data-category="hpc systems">
+            <div class="absolute -left-[9px] top-2 size-4 rounded-full bg-slate-600 border-4 border-background-dark"></div>
+            <span class="text-primary font-mono text-xs uppercase tracking-tighter">2021</span>
+            <h3 class="text-xl font-bold mt-1">Teaching Assistant · Parallel Computing (CUDA)</h3>
+            <p class="text-slate-400 text-sm mt-1">Shiraz University · Shiraz, Iran</p>
+            <ul class="text-slate-400 text-sm mt-2 space-y-1 list-disc list-inside">
+              <li>Designed GPU programming assignments and projects with a focus on scheduling and performance analysis.</li>
+              <li>Led CUDA lab sessions covering kernels, memory hierarchy, and profiling workflows.</li>
+            </ul>
+            <span class="inline-block mt-2 px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Grad</span>
           </div>
-        </div>
-
-        <div>
-          <h3 class="section-subtitle">Distributed & Cloud Systems</h3>
-          <div class="grid cols-2">
-            <div class="card project-has-links" data-category="cloud systems">
-              <h3>Surnet Blockchain Network</h3>
-              <div class="project-links">
-                <a href="https://surnet.org/" target="_blank" rel="noreferrer" aria-label="Visit Surnet">
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3ZM5 5h9v2H5v12h12v-9h2v11H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h9v2H5v0Z"/>
-                  </svg>
-                </a>
-              </div>
-              <p>Delivered an Ethereum-based blockchain environment with Kubernetes orchestration, GitOps automation, and Grafana-backed observability for scalable experimentation.</p>
-              <div class="tags"><span class="tag">Kubernetes</span><span class="tag">Ethereum</span><span class="tag">Grafana</span><span class="tag">GitOps</span></div>
-            </div>
-            <div class="card project-has-links" data-category="cloud systems">
-              <h3>Arsonex Online Exchange</h3>
-              <div class="project-links">
-                <a href="https://arsonex.com/" target="_blank" rel="noreferrer" aria-label="Visit Arsonex">
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3ZM5 5h9v2H5v12h12v-9h2v11H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h9v2H5v0Z"/>
-                  </svg>
-                </a>
-              </div>
-              <p>Engineered CI/CD pipelines and containerized infrastructure for a high-availability cryptocurrency exchange emphasizing security, reliability, and rapid iteration.</p>
-              <div class="tags"><span class="tag">Docker</span><span class="tag">GitLab CI</span><span class="tag">HA</span><span class="tag">DevOps</span></div>
-            </div>
+          <div class="item-card relative pl-8 border-l-2 border-border-dark hover:border-primary transition-all py-2" data-category="systems">
+            <div class="absolute -left-[9px] top-2 size-4 rounded-full bg-slate-600 border-4 border-background-dark"></div>
+            <span class="text-primary font-mono text-xs uppercase tracking-tighter">2017</span>
+            <h3 class="text-xl font-bold mt-1">Teaching Assistant · Principles of Programming (C)</h3>
+            <p class="text-slate-400 text-sm mt-1">Shiraz University · Shiraz, Iran</p>
+            <ul class="text-slate-400 text-sm mt-2 space-y-1 list-disc list-inside">
+              <li>Supported weekly discussion sections for 60+ undergraduates; reinforced core C programming concepts.</li>
+              <li>Assisted with grading, feedback, and troubleshooting during office hours.</li>
+            </ul>
+            <span class="inline-block mt-2 px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Undergrad</span>
           </div>
-        </div>
-
-        <div>
-          <h3 class="section-subtitle">AI & Natural Language Processing</h3>
-          <div class="grid cols-2">
-            <div class="card" data-category="ai">
-              <h3>Semantic Analytics Platform</h3>
-              <p>Built text analytics pipelines focused on topic modeling and statistical NLP to surface domain insights from curated corpora.</p>
-              <div class="tags"><span class="tag">NLP</span><span class="tag">Topic Modeling</span><span class="tag">Python</span></div>
-            </div>
-            <div class="card" data-category="ai">
-              <h3>Tweet Polarity Classifier</h3>
-              <p>Developed an ML-driven sentiment classifier for social media streams, combining feature engineering with supervised learning for polarity detection.</p>
-              <div class="tags"><span class="tag">Sentiment Analysis</span><span class="tag">Machine Learning</span><span class="tag">Python</span></div>
-            </div>
+          <div class="item-card relative pl-8 border-l-2 border-border-dark hover:border-primary transition-all py-2" data-category="ai systems">
+            <div class="absolute -left-[9px] top-2 size-4 rounded-full bg-slate-600 border-4 border-background-dark"></div>
+            <span class="text-primary font-mono text-xs uppercase tracking-tighter">2018</span>
+            <h3 class="text-xl font-bold mt-1">Teaching Assistant · Fundamentals of Programming (Python)</h3>
+            <p class="text-slate-400 text-sm mt-1">Shiraz University · Shiraz, Iran</p>
+            <ul class="text-slate-400 text-sm mt-2 space-y-1 list-disc list-inside">
+              <li>Developed problem sets and the term project emphasizing scripting patterns and debugging practice.</li>
+              <li>Ran recitations on Python tooling, testing, and workflow automation.</li>
+            </ul>
+            <span class="inline-block mt-2 px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Undergrad</span>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="coursework" aria-labelledby="coursework-title">
-      <div class="sec-head"><h2 id="coursework-title">Selected Coursework</h2></div>
-      <div class="course-grid">
-        <div class="course-category-group">
-          <h3>Parallel & HPC</h3>
-          <div class="grid cols-2">
-            <div class="card" data-category="hpc systems">
-              <h4>Parallel Algorithms</h4>
-              <p>Multi-core and GPU algorithm design, synchronization patterns, and scalability benchmarking.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">Parallel</span><span class="tag">Algorithms</span></div>
+    <!-- Skills -->
+    <section class="space-y-6 sm:space-y-8" id="skills">
+      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
+        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">build</span>
+        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Skills</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <div class="item-card bg-surface-dark p-4 border border-border-dark rounded-sm hover:border-primary transition-colors" data-category="systems">
+          <p class="text-xs font-mono text-slate-500 mb-1">Programming</p>
+          <p class="text-sm font-bold">C, C++, Python, CUDA, Java, Go, x86‑64 ASM</p>
+        </div>
+        <div class="item-card bg-surface-dark p-4 border border-border-dark rounded-sm hover:border-primary transition-colors" data-category="hpc">
+          <p class="text-xs font-mono text-slate-500 mb-1">Parallel &amp; HPC</p>
+          <p class="text-sm font-bold">CUDA, MPI, OpenMP, Nsight, CUPTI, nvprof, NVML, Workload Scheduling</p>
+        </div>
+        <div class="item-card bg-surface-dark p-4 border border-border-dark rounded-sm hover:border-primary transition-colors" data-category="cloud">
+          <p class="text-xs font-mono text-slate-500 mb-1">Cloud &amp; Packaging</p>
+          <p class="text-sm font-bold">Docker, Kubernetes, Git/GitLab CI, Argo, GitOps, Terraform, Terragrunt, Apptainer, Singularity, CMake</p>
+        </div>
+        <div class="item-card bg-surface-dark p-4 border border-border-dark rounded-sm hover:border-primary transition-colors" data-category="hardware">
+          <p class="text-xs font-mono text-slate-500 mb-1">Hardware &amp; RTL</p>
+          <p class="text-sm font-bold">Verilog/FPGA, DFT/TMR, VLSI, Embedded</p>
+        </div>
+        <div class="item-card bg-surface-dark p-4 border border-border-dark rounded-sm hover:border-primary transition-colors" data-category="systems cloud">
+          <p class="text-xs font-mono text-slate-500 mb-1">Networking &amp; Systems</p>
+          <p class="text-sm font-bold">Linux, Nginx/HAProxy/Traefik, Kafka/RabbitMQ, Tracing &amp; Metrics, perf/gprof</p>
+        </div>
+        <div class="item-card bg-surface-dark p-4 border border-border-dark rounded-sm hover:border-primary transition-colors" data-category="ai">
+          <p class="text-xs font-mono text-slate-500 mb-1">AI / ML</p>
+          <p class="text-sm font-bold">PyTorch, TensorFlow, Scientific ML, Workload classification</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Publications -->
+    <section class="space-y-6 sm:space-y-8 bg-surface-dark p-6 sm:p-8 md:p-12 border border-border-dark rounded-sm" id="publications">
+      <div class="flex items-center gap-3 flex-wrap border-b border-border-dark pb-4">
+        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">article</span>
+        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Publications</h2>
+        <a class="text-primary text-xs font-bold hover:underline flex items-center gap-1 ml-auto" href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer"><span class="material-symbols-outlined text-sm">school</span> Google Scholar</a>
+      </div>
+      <div class="item-card space-y-2 bg-background-dark/50 p-6 rounded-sm border border-border-dark hover:border-primary/40 transition-all" data-category="research hpc cloud">
+        <h4 class="text-lg font-bold">A Two‑tier Multi‑objective Service Placement in Container‑based Fog Computing Platforms</h4>
+        <p class="text-slate-500 text-sm">Javad Dogani, Ali Yazdanpanah, Amirhossein Zare, Farshad Khunjush</p>
+        <p class="text-slate-500 text-sm italic">Cluster Computing (Springer), 27(4): 4491–4514 (2023)</p>
+        <div class="flex flex-wrap gap-4 mt-2">
+          <a class="inline-flex items-center gap-1 text-xs font-mono text-primary hover:underline" href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download><span class="material-symbols-outlined text-sm">picture_as_pdf</span> Abstract (PDF)</a>
+          <a class="inline-flex items-center gap-1 text-xs font-mono text-slate-400 hover:text-white" href="https://doi.org/10.1007/s10586-023-04183-8" target="_blank" rel="noreferrer">DOI</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="space-y-6 sm:space-y-8" id="projects">
+      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
+        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">folder_special</span>
+        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Selected Projects</h2>
+      </div>
+
+      <h4 class="text-primary font-bold uppercase tracking-widest text-xs mt-8 sm:mt-12 flex items-center gap-2"><span class="material-symbols-outlined text-sm">speed</span> Parallel &amp; GPU Computing</h4>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc cloud research">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">Two-tier Fog Service Placement Optimizer</h3>
+              <a href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">download</span></a>
             </div>
-            <div class="card" data-category="hpc">
-              <h4>GPU Programming</h4>
-              <p>CUDA kernel optimization, memory hierarchy tuning, and accelerator-driven pipelines.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">CUDA</span><span class="tag">GPU</span><span class="tag">Optimization</span></div>
+            <p class="text-slate-400 text-sm">Hierarchical fog–cloud orchestration with NSGA-II and TOPSIS for latency, energy, and deployment cost.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Fog</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">NSGA-II</span></div>
+          </div>
+        </div>
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="cloud hpc systems">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">PreClass GPU Admission Guards</h3>
+              <a href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">download</span></a>
             </div>
-            <div class="card" data-category="hpc">
-              <h4>Numerical Methods</h4>
-              <p>Iterative solvers, error control, and floating-point stability for scientific workloads.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Numerical</span><span class="tag">Scientific</span></div>
+            <p class="text-slate-400 text-sm">Static GPU job classifier with LD_PRELOAD CUDA guards, VRAM quotas, NVML for safe multi-tenant co-location.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">GPU</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Scheduling</span></div>
+          </div>
+        </div>
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc ai">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">GPU Accelerated 2D Convolution</h3>
+              <a href="https://github.com/Ali-Yazdanpanah/GPU-Accelerated-2D-Convolution" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
             </div>
-            <div class="card" data-category="ai">
-              <h4>Text Mining</h4>
-              <p>Statistical NLP, feature engineering, and semantic modeling across large-scale document corpora.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">NLP</span><span class="tag">Analytics</span></div>
+            <p class="text-slate-400 text-sm">Optimized CNN kernels with memory coalescing, occupancy tuning, shared-memory tiling.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">CUDA</span></div>
+          </div>
+        </div>
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc systems">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">Parallel Workset Graph Analytics</h3>
+              <a href="https://github.com/farzinlize/parallel_workset_graph" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            </div>
+            <p class="text-slate-400 text-sm">Adaptive workset-based graph analytics in C++/CUDA with workload-driven kernel switching.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Graphs</span></div>
+          </div>
+        </div>
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">APSP on CUDA</h3>
+              <a href="https://github.com/Ali-Yazdanpanah/apsp-cuda" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            </div>
+            <p class="text-slate-400 text-sm">All-pairs shortest paths with tiled shared-memory kernels and warp-level primitives.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">APSP</span></div>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="text-primary font-bold uppercase tracking-widest text-xs mt-8 sm:mt-12 flex items-center gap-2"><span class="material-symbols-outlined text-sm">computer</span> Computer Architecture &amp; Systems</h4>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware systems">
+          <h3 class="text-lg font-bold mb-2">Superscalar &amp; MIPS Architecture Projects</h3>
+          <p class="text-slate-400 text-sm">Superscalar out-of-order pipelines and MIPS processor; caching, hazard resolution, microarchitecture.</p>
+          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">MIPS</span></div>
+        </div>
+        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="systems">
+          <h3 class="text-lg font-bold mb-2">Minimal OS Kernel (C)</h3>
+          <p class="text-slate-400 text-sm">Instructional OS kernels with cooperative scheduling, memory management, device abstractions.</p>
+          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">C</span></div>
+        </div>
+        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="systems">
+          <h3 class="text-lg font-bold mb-2">Async Messaging System (Java)</h3>
+          <p class="text-slate-400 text-sm">Lightweight async messaging with queue-based routing, fault handling, instrumentation.</p>
+          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Java</span></div>
+        </div>
+      </div>
+
+      <h4 class="text-primary font-bold uppercase tracking-widest text-xs mt-8 sm:mt-12 flex items-center gap-2"><span class="material-symbols-outlined text-sm">memory</span> Hardware Acceleration, Low-Power &amp; Reliability</h4>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware ai">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">Leaky Integrate-and-Fire Neurons (FPGA)</h3>
+              <a href="https://github.com/Ali-Yazdanpanah/Leaky-Integrate-and-Fire-Neurons" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            </div>
+            <p class="text-slate-400 text-sm">Parameterized LIF neuron cores in Verilog; configurable leakage, thresholding, spike outputs.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">FPGA</span></div>
+          </div>
+        </div>
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">Triple Modular Redundancy</h3>
+              <a href="https://github.com/Ali-Yazdanpanah/Triple-Modular-Redundancy" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            </div>
+            <p class="text-slate-400 text-sm">Generative TMR wrappers with fault injection, voter coverage and resilience metrics.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">TMR</span></div>
+          </div>
+        </div>
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware fpga low-power">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">DVFS Controller (FPGA)</h3>
+              <a href="https://github.com/Ali-Yazdanpanah/dvfs_controller" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            </div>
+            <p class="text-slate-400 text-sm">SystemVerilog DVFS for Xilinx SoC: workload monitor, three power profiles, MMCM DRP and I2C/PMBus.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">SystemVerilog</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">DVFS</span></div>
+          </div>
+        </div>
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware fpga ai low-power">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">HSA Video Tracker (FPGA)</h3>
+              <a href="https://github.com/Ali-Yazdanpanah/hsa_video_tracker" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            </div>
+            <p class="text-slate-400 text-sm">Energy-efficient HSA-based video object tracking; scout/worker bees, clock gating, SAD early termination.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">HSA</span></div>
+          </div>
+        </div>
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware fpga ai low-power">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">INT8 QNN Accelerator for CIFAR-10</h3>
+              <a href="https://github.com/Ali-Yazdanpanah/qnn_cifar10" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            </div>
+            <p class="text-slate-400 text-sm">Low-power INT8 QNN: DSP48-friendly MAC, clock gating, operand isolation, banked BRAM.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">QNN</span></div>
+          </div>
+        </div>
+        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware">
+          <h3 class="text-lg font-bold mb-2">Design-for-Test Automation</h3>
+          <p class="text-slate-400 text-sm">DFT structures and scan chains for coverage-driven validation and diagnostics.</p>
+          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">DFT</span></div>
+        </div>
+      </div>
+
+      <h4 class="text-primary font-bold uppercase tracking-widest text-xs mt-8 sm:mt-12 flex items-center gap-2"><span class="material-symbols-outlined text-sm">cloud</span> Distributed &amp; Cloud Systems</h4>
+      <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="cloud systems">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">Surnet Blockchain Network</h3>
+              <a href="https://surnet.org/" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">link</span></a>
+            </div>
+            <p class="text-slate-400 text-sm">Ethereum-based blockchain with Kubernetes, GitOps, Grafana observability.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Kubernetes</span></div>
+          </div>
+        </div>
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="cloud systems">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">Arsonex Online Exchange</h3>
+              <a href="https://arsonex.com/" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">link</span></a>
+            </div>
+            <p class="text-slate-400 text-sm">CI/CD and containerized infrastructure for high-availability cryptocurrency exchange.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Docker</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">DevOps</span></div>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="text-primary font-bold uppercase tracking-widest text-xs mt-8 sm:mt-12 flex items-center gap-2"><span class="material-symbols-outlined text-sm">psychology</span> AI &amp; Natural Language Processing</h4>
+      <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
+        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai">
+          <h3 class="text-lg font-bold mb-2">Semantic Analytics Platform</h3>
+          <p class="text-slate-400 text-sm">Text analytics, topic modeling, statistical NLP for domain insights.</p>
+          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">NLP</span></div>
+        </div>
+        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai">
+          <h3 class="text-lg font-bold mb-2">Tweet Polarity Classifier</h3>
+          <p class="text-slate-400 text-sm">ML-driven sentiment classifier for social media streams.</p>
+          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Sentiment</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Coursework -->
+    <section class="space-y-6 sm:space-y-8" id="coursework">
+      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
+        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">menu_book</span>
+        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Selected Coursework</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div class="space-y-4">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3">Parallel &amp; HPC</h4>
+          <div class="space-y-3">
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hpc systems">
+              <h5 class="font-bold text-sm">Parallel Algorithms</h5>
+              <p class="text-slate-400 text-xs">Multi-core and GPU algorithm design, synchronization patterns, scalability benchmarking.</p>
+            </div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hpc">
+              <h5 class="font-bold text-sm">GPU Programming</h5>
+              <p class="text-slate-400 text-xs">CUDA kernel optimization, memory hierarchy tuning, accelerator-driven pipelines.</p>
+            </div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hpc">
+              <h5 class="font-bold text-sm">Numerical Methods</h5>
+              <p class="text-slate-400 text-xs">Iterative solvers, error control, floating-point stability for scientific workloads.</p>
+            </div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="ai">
+              <h5 class="font-bold text-sm">Text Mining</h5>
+              <p class="text-slate-400 text-xs">Statistical NLP, feature engineering, semantic modeling across large-scale document corpora.</p>
             </div>
           </div>
         </div>
-
-        <div class="course-category-group">
-          <h3>Systems & Architecture</h3>
-          <div class="grid cols-2">
-            <div class="card" data-category="hardware systems">
-              <h4>Advanced Computer Architecture</h4>
-              <p>Superscalar pipelines, cache hierarchies, and multi-processor design trade-offs.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">Architecture</span><span class="tag">Performance</span></div>
+        <div class="space-y-4">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3">Systems &amp; Architecture</h4>
+          <div class="space-y-3">
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware systems">
+              <h5 class="font-bold text-sm">Advanced Computer Architecture</h5>
+              <p class="text-slate-400 text-xs">Superscalar pipelines, cache hierarchies, multi-processor design trade-offs.</p>
             </div>
-            <div class="card" data-category="hardware systems">
-              <h4>Computer Architecture</h4>
-              <p>CPU datapath design, ISA analysis, and quantitative performance modeling.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Architecture</span><span class="tag">Hardware</span></div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware systems">
+              <h5 class="font-bold text-sm">Computer Architecture</h5>
+              <p class="text-slate-400 text-xs">CPU datapath design, ISA analysis, quantitative performance modeling.</p>
             </div>
-            <div class="card" data-category="systems">
-              <h4>Operating Systems Design</h4>
-              <p>Kernel services, process scheduling, and concurrency primitives for heterogeneous systems.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Systems</span><span class="tag">Kernel</span><span class="tag">Concurrency</span></div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
+              <h5 class="font-bold text-sm">Operating Systems Design</h5>
+              <p class="text-slate-400 text-xs">Kernel services, process scheduling, concurrency primitives for heterogeneous systems.</p>
             </div>
-            <div class="card" data-category="hardware systems">
-              <h4>Microprocessor Systems</h4>
-              <p>Low-level programming, peripheral interfacing, and timing-aware integration.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Embedded</span><span class="tag">Microcontrollers</span></div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware systems">
+              <h5 class="font-bold text-sm">Microprocessor Systems</h5>
+              <p class="text-slate-400 text-xs">Low-level programming, peripheral interfacing, timing-aware integration.</p>
             </div>
           </div>
         </div>
-
-        <div class="course-category-group">
-          <h3>Hardware & Reliability</h3>
-          <div class="grid cols-2">
-            <div class="card" data-category="hardware">
-              <h4>Hardware Testing & Testability</h4>
-              <p>DFT structures, fault modeling, and coverage-driven validation workflows.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">DFT</span><span class="tag">Testing</span></div>
+        <div class="space-y-4">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3">Hardware &amp; Reliability</h4>
+          <div class="space-y-3">
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware">
+              <h5 class="font-bold text-sm">Hardware Testing &amp; Testability</h5>
+              <p class="text-slate-400 text-xs">DFT structures, fault modeling, coverage-driven validation workflows.</p>
             </div>
-            <div class="card" data-category="hardware">
-              <h4>Fault-Tolerant System Design</h4>
-              <p>Redundancy techniques, reliability analysis, and resilient architecture strategies.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">Reliability</span><span class="tag">Resilience</span></div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware">
+              <h5 class="font-bold text-sm">Fault-Tolerant System Design</h5>
+              <p class="text-slate-400 text-xs">Redundancy techniques, reliability analysis, resilient architecture strategies.</p>
             </div>
-            <div class="card" data-category="hardware">
-              <h4>VLSI Design</h4>
-              <p>CMOS logic implementation, layout constraints, and timing closure fundamentals.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">VLSI</span><span class="tag">Hardware</span></div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware">
+              <h5 class="font-bold text-sm">VLSI Design</h5>
+              <p class="text-slate-400 text-xs">CMOS logic implementation, layout constraints, timing closure fundamentals.</p>
             </div>
-            <div class="card" data-category="hardware">
-              <h4>Digital System Design</h4>
-              <p>HDL-driven design flow, simulation, and synthesis of complex digital logic.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Digital Design</span><span class="tag">HDL</span></div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware">
+              <h5 class="font-bold text-sm">Digital System Design</h5>
+              <p class="text-slate-400 text-xs">HDL-driven design flow, simulation, synthesis of complex digital logic.</p>
             </div>
           </div>
         </div>
-
-        <div class="course-category-group">
-          <h3>Networking & Embedded Systems</h3>
-          <div class="grid cols-2">
-            <div class="card" data-category="systems">
-              <h4>Wireless Sensor Networks</h4>
-              <p>Energy-aware routing, distributed sensing, and multi-hop protocol design.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">Networking</span><span class="tag">IoT</span></div>
+        <div class="space-y-4">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3">Networking &amp; Embedded</h4>
+          <div class="space-y-3">
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
+              <h5 class="font-bold text-sm">Wireless Sensor Networks</h5>
+              <p class="text-slate-400 text-xs">Energy-aware routing, distributed sensing, multi-hop protocol design.</p>
             </div>
-            <div class="card" data-category="hardware systems">
-              <h4>Advanced Embedded Systems</h4>
-              <p>Real-time constraints, RTOS integration, and hardware/software co-design.</p>
-              <div class="tags"><span class="tag grad">Grad</span><span class="tag">Embedded</span><span class="tag">RTOS</span></div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware systems">
+              <h5 class="font-bold text-sm">Advanced Embedded Systems</h5>
+              <p class="text-slate-400 text-xs">Real-time constraints, RTOS integration, hardware/software co-design.</p>
             </div>
-            <div class="card" data-category="systems">
-              <h4>Computer Networks</h4>
-              <p>Layered architectures, routing algorithms, and transport protocol analysis.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Networking</span><span class="tag">Protocols</span></div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
+              <h5 class="font-bold text-sm">Computer Networks</h5>
+              <p class="text-slate-400 text-xs">Layered architectures, routing algorithms, transport protocol analysis.</p>
             </div>
-            <div class="card" data-category="systems">
-              <h4>Data Communications</h4>
-              <p>Physical/link-layer signaling, error control, and throughput optimization.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Networking</span><span class="tag">Physical Layer</span></div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
+              <h5 class="font-bold text-sm">Data Communications</h5>
+              <p class="text-slate-400 text-xs">Physical/link-layer signaling, error control, throughput optimization.</p>
             </div>
           </div>
         </div>
-
-        <div class="course-category-group">
-          <h3>Software & Theory</h3>
-          <div class="grid cols-2">
-            <div class="card" data-category="systems hpc">
-              <h4>Design & Analysis of Algorithms</h4>
-              <p>Algorithmic paradigms, complexity bounds, and optimization strategies.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Algorithms</span><span class="tag">Complexity</span></div>
+        <div class="space-y-4">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3">Software &amp; Theory</h4>
+          <div class="space-y-3">
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems hpc">
+              <h5 class="font-bold text-sm">Design &amp; Analysis of Algorithms</h5>
+              <p class="text-slate-400 text-xs">Algorithmic paradigms, complexity bounds, optimization strategies.</p>
             </div>
-            <div class="card" data-category="systems">
-              <h4>Data Structures & Algorithms I</h4>
-              <p>Core data structures, asymptotic analysis, and implementation patterns.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Data Structures</span><span class="tag">Algorithms</span></div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
+              <h5 class="font-bold text-sm">Data Structures &amp; Algorithms I</h5>
+              <p class="text-slate-400 text-xs">Core data structures, asymptotic analysis, implementation patterns.</p>
             </div>
-            <div class="card" data-category="systems">
-              <h4>Theory of Computation</h4>
-              <p>Automata, formal languages, and computability foundations.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">Theory</span><span class="tag">Automata</span></div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
+              <h5 class="font-bold text-sm">Theory of Computation</h5>
+              <p class="text-slate-400 text-xs">Automata, formal languages, computability foundations.</p>
             </div>
-            <div class="card" data-category="ai">
-              <h4>Artificial Intelligence</h4>
-              <p>Heuristic search, knowledge representation, and introductory machine learning.</p>
-              <div class="tags"><span class="tag undergrad">Undergrad</span><span class="tag">AI</span><span class="tag">ML</span></div>
+            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="ai">
+              <h5 class="font-bold text-sm">Artificial Intelligence</h5>
+              <p class="text-slate-400 text-xs">Heuristic search, knowledge representation, introductory machine learning.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="contact" aria-labelledby="contact-title">
-      <div class="sec-head"><h2 id="contact-title">Contact</h2></div>
-      <div class="card row">
-        <span>Email:</span> <a href="mailto:yazdanpanah.aly@gmail.com">yazdanpanah.aly@gmail.com</a>
-        <span>·</span>
-        <span>GitHub:</span> <a href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer">Ali‑Yazdanpanah</a>
-        <span>·</span>
-        <span>LinkedIn:</span> <a href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer">Profile</a>
+    <!-- Contact -->
+    <section class="space-y-6 border-t border-border-dark pt-8 sm:pt-12" id="contact">
+      <h2 class="text-2xl font-black uppercase tracking-tight flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary text-2xl">contact_mail</span>
+        Contact
+      </h2>
+      <div class="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 text-slate-400">
+        <a class="flex items-center gap-2 text-primary hover:underline py-1" href="mailto:yazdanpanah.aly@gmail.com"><span class="material-symbols-outlined text-lg">mail</span> yazdanpanah.aly@gmail.com</a>
+        <span class="hidden sm:inline text-slate-600">·</span>
+        <a class="flex items-center gap-2 text-primary hover:underline py-1" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer"><span class="material-symbols-outlined text-lg">code</span> GitHub</a>
+        <span class="hidden sm:inline text-slate-600">·</span>
+        <a class="flex items-center gap-2 text-primary hover:underline py-1" href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer"><span class="material-symbols-outlined text-lg">share</span> LinkedIn</a>
+        <span class="hidden sm:inline text-slate-600">·</span>
+        <a class="flex items-center gap-2 text-primary hover:underline py-1" href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer"><span class="material-symbols-outlined text-lg">school</span> Google Scholar</a>
       </div>
     </section>
-      </div>
-    </div>
   </main>
 
-  <footer>
-    <div class="container row">
-      <div>© <span id="y"></span> Ali Yazdanpanah</div>
-      <div class="muted">Built as a single static file for GitHub Pages.</div>
+  <footer class="bg-surface-dark border-t border-border-dark mt-12 sm:mt-16 py-8 sm:py-12 px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8 text-center md:text-left">
+      <p class="text-slate-400 text-xs sm:text-sm order-2 md:order-1">© <span id="y"></span> Ali Yazdanpanah. Built for GitHub Pages.</p>
+      <div class="flex flex-wrap justify-center gap-4 sm:gap-6 order-1 md:order-2">
+        <a class="text-slate-500 hover:text-primary transition-colors flex items-center gap-2 text-sm" href="mailto:yazdanpanah.aly@gmail.com"><span class="material-symbols-outlined text-lg">mail</span> Email</a>
+        <a class="text-slate-500 hover:text-primary transition-colors flex items-center gap-2 text-sm" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer"><span class="material-symbols-outlined text-lg">code</span> GitHub</a>
+        <a class="text-slate-500 hover:text-primary transition-colors flex items-center gap-2 text-sm" href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer"><span class="material-symbols-outlined text-lg">share</span> LinkedIn</a>
+        <a class="text-slate-500 hover:text-primary transition-colors flex items-center gap-2 text-sm" href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer"><span class="material-symbols-outlined text-lg">school</span> Scholar</a>
+      </div>
     </div>
   </footer>
 
-  <button class="theme-toggle floating-theme-toggle" type="button" aria-pressed="false" aria-label="Toggle color theme">
-    <span class="theme-icon" aria-hidden="true">🌙</span>
-    <span class="theme-label">Switch theme</span>
-  </button>
+  <script>
+    (function () {
+      document.getElementById('y').textContent = new Date().getFullYear();
 
-  <script src="./script.js"></script>
+      var main = document.getElementById('main-content');
+      var filterBtns = document.querySelectorAll('.filter-btn');
+      var activeFilter = 'all';
+      var menuBtn = document.getElementById('nav-menu-btn');
+      var mobilePanel = document.getElementById('nav-mobile-panel');
+
+      function applyFilter(filter) {
+        activeFilter = filter;
+        filterBtns.forEach(function (btn) {
+          btn.classList.toggle('active-filter', btn.getAttribute('data-filter') === filter);
+        });
+        if (filter === 'all') {
+          document.body.classList.remove('filter-active');
+          if (main) main.querySelectorAll('.item-card').forEach(function (card) {
+            card.classList.remove('active-category');
+          });
+          return;
+        }
+        document.body.classList.add('filter-active');
+        if (main) main.querySelectorAll('.item-card').forEach(function (card) {
+          var cat = card.getAttribute('data-category') || '';
+          var categories = cat.split(/\s+/).filter(Boolean);
+          card.classList.toggle('active-category', categories.indexOf(filter) !== -1);
+        });
+      }
+
+      filterBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          applyFilter(btn.getAttribute('data-filter'));
+          if (mobilePanel && mobilePanel.classList.contains('is-open')) {
+            mobilePanel.classList.remove('is-open');
+            mobilePanel.setAttribute('aria-hidden', 'true');
+            if (menuBtn) {
+              menuBtn.setAttribute('aria-expanded', 'false');
+              menuBtn.setAttribute('aria-label', 'Open menu');
+              menuBtn.querySelector('.material-symbols-outlined').textContent = 'menu';
+            }
+          }
+        });
+      });
+
+      if (menuBtn && mobilePanel) {
+        menuBtn.addEventListener('click', function () {
+          var isOpen = mobilePanel.classList.toggle('is-open');
+          mobilePanel.setAttribute('aria-hidden', !isOpen);
+          menuBtn.setAttribute('aria-expanded', isOpen);
+          menuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+          menuBtn.querySelector('.material-symbols-outlined').textContent = isOpen ? 'close' : 'menu';
+        });
+        mobilePanel.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            mobilePanel.classList.remove('is-open');
+            mobilePanel.setAttribute('aria-hidden', 'true');
+            menuBtn.setAttribute('aria-expanded', 'false');
+            menuBtn.setAttribute('aria-label', 'Open menu');
+            menuBtn.querySelector('.material-symbols-outlined').textContent = 'menu';
+          });
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
