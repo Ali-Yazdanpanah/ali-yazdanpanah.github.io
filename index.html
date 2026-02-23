@@ -87,10 +87,9 @@
         <div class="nav-desktop hidden flex-1 items-center justify-center min-w-0 mx-2 lg:mx-4">
           <div class="flex items-center gap-1 text-xs font-bold uppercase tracking-wider">
             <a href="#about" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">About</a>
-            <a href="#hpc-projects" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">HPC</a>
             <a href="#expertise" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Expertise</a>
             <a href="#publications" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Publications</a>
-            <a href="#projects" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Projects</a>
+            <a href="#projects" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Selected Projects</a>
             <a href="#coursework" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Coursework</a>
             <a href="#contact" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Contact</a>
           </div>
@@ -119,10 +118,9 @@
           <p class="text-xs font-bold uppercase tracking-widest text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-sm">menu</span> Sections</p>
           <div class="flex flex-col gap-1">
             <a href="#about" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-primary/50 -mx-2 pl-1">About</a>
-            <a href="#hpc-projects" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">HPC Projects</a>
             <a href="#expertise" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Expertise</a>
             <a href="#publications" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Publications</a>
-            <a href="#projects" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Projects</a>
+            <a href="#projects" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Selected Projects</a>
             <a href="#coursework" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Coursework</a>
             <a href="#contact" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Contact</a>
           </div>
@@ -162,42 +160,7 @@
       </div>
     </section>
 
-    <!-- High-Performance Computing Projects -->
-    <section class="space-y-6 sm:space-y-8" id="hpc-projects">
-      <div class="flex items-center gap-3 border-b border-primary/40 pb-4">
-        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">speed</span>
-        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">High-Performance Computing Projects</h2>
-      </div>
-      <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
-        <div class="item-card flex flex-col bg-surface-dark border-2 border-primary/30 rounded-sm overflow-hidden hover:border-primary/60 transition-all group" data-category="hpc">
-          <div class="p-6 sm:p-8 space-y-4 flex-1">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-xl font-bold text-primary group-hover:text-primary">APSP-CUDA Acceleration Suite</h3>
-              <a href="https://github.com/Ali-Yazdanpanah/apsp-cuda" target="_blank" rel="noreferrer" class="text-primary shrink-0 hover:scale-110 transition-transform"><span class="material-symbols-outlined text-xl">code</span></a>
-            </div>
-            <p class="text-slate-400 text-sm leading-relaxed">A high-performance implementation of the All-Pairs Shortest Path problem featuring a Blocked 3-Phase Floyd-Warshall algorithm and a Warp-Shuffle-based Dijkstra. Leverages shared memory tiling and bank-conflict avoidance to achieve &gt;200 GB/s effective throughput on NVIDIA Ampere GPUs.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span>
-              <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">C11</span>
-              <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">APSP</span>
-            </div>
-          </div>
-        </div>
-        <div class="item-card flex flex-col bg-surface-dark border-2 border-primary/30 rounded-sm overflow-hidden hover:border-primary/60 transition-all group" data-category="hpc">
-          <div class="p-6 sm:p-8 space-y-4 flex-1">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-xl font-bold text-primary group-hover:text-primary">GPU-Accelerated 2D Convolution</h3>
-              <a href="https://github.com/Ali-Yazdanpanah/GPU-Accelerated-2D-Convolution" target="_blank" rel="noreferrer" class="text-primary shrink-0 hover:scale-110 transition-transform"><span class="material-symbols-outlined text-xl">code</span></a>
-            </div>
-            <p class="text-slate-400 text-sm leading-relaxed">Optimized CUDA kernels for large-scale 2D Gaussian convolutions. Implements advanced memory coalescing and tiling strategies to maximize DRAM bandwidth utilization and minimize global memory latency.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span>
-              <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+
 
     <!-- Research Interests -->
     <section class="space-y-6 sm:space-y-8" id="research">
