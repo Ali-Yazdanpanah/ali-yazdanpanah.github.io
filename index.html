@@ -4,22 +4,24 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ali Yazdanpanah</title>
-  <meta name="description" content="Personal site of Ali Yazdanpanah — HPC, GPU optimization, reproducibility, scientific ML, and quantum‑curious." />
+  <meta name="description" content="Ali Yazdanpanah — High-Performance Computing & Systems Researcher. CUDA optimization, hardware-software co-design, computer architecture." />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSI+PGNpcmNsZSBjeD0iMTQiIGN5PSIxNCIgcj0iOCIgZmlsbD0iI0YwRjdGRiIgc3Ryb2tlPSIjMUUzQThBIiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNMjAuNSAyMC41TDI3IDI3IiBzdHJva2U9IiMxRTNBOEEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTExIDE3bDMtNCAyLjUgMy41IDMuNS01IiBzdHJva2U9IiMwRUE1RTkiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+" />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
           colors: {
-            "primary": "#f2d00d",
-            "background-light": "#f8f8f5",
-            "background-dark": "#0a0a0a",
-            "surface-dark": "#161616",
-            "border-dark": "#2a2a2a"
+            "primary": "#06b6d4",
+            "primary-slate": "#64748b",
+            "background-light": "#0f172a",
+            "background-dark": "#020617",
+            "surface-dark": "#0f172a",
+            "border-dark": "#1e293b"
           },
           fontFamily: { "display": ["Inter", "sans-serif"] },
           borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
@@ -35,13 +37,13 @@
       pointer-events: none;
     }
     .item-card.active-category {
-      border-color: #f2d00d;
-      box-shadow: 0 0 15px rgba(242, 208, 13, 0.15);
+      border-color: #06b6d4;
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
     }
     .filter-bar button.active-filter {
-      color: #f2d00d;
-      border-color: rgba(242, 208, 13, 0.4);
-      background: rgba(242, 208, 13, 0.1);
+      color: #06b6d4;
+      border-color: rgba(6, 182, 212, 0.5);
+      background: rgba(6, 182, 212, 0.1);
     }
     .nav-mobile-panel {
       max-height: 0;
@@ -71,25 +73,26 @@
     }
   </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 selection:bg-primary selection:text-black">
+<body class="bg-background-dark text-slate-100 selection:bg-primary selection:text-slate-900">
   <!-- Top Navigation & Global Filter -->
-  <nav class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-border-dark w-full">
+  <nav class="sticky top-0 z-50 bg-background-dark/90 backdrop-blur-md border-b border-border-dark w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full">
       <div class="flex items-center justify-between gap-4 h-14 sm:h-16">
-        <div class="flex items-center shrink-0 min-w-0">
-          <span class="text-base sm:text-xl font-black tracking-tighter uppercase truncate">Ali Yazdanpanah</span>
+        <div class="flex items-center shrink-0 min-w-0 gap-2">
+          <a href="#about" class="text-base sm:text-xl font-black tracking-tighter uppercase truncate text-primary hover:text-primary/90">Ali Yazdanpanah</a>
+          <span class="hidden sm:inline text-slate-500 text-xs font-medium">| HPC & Systems</span>
         </div>
 
         <!-- Desktop: filter bar + links -->
         <div class="nav-desktop hidden flex-1 items-center justify-center min-w-0 mx-2 lg:mx-4">
-          <div class="filter-bar flex items-center gap-1 bg-surface-dark p-1 rounded-sm border border-border-dark justify-center min-w-0 max-w-4xl overflow-x-auto">
-            <button type="button" class="filter-btn active-filter px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider transition-colors rounded-sm whitespace-nowrap" data-filter="all">All</button>
-            <button type="button" class="filter-btn px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm whitespace-nowrap" data-filter="hpc">HPC</button>
-            <button type="button" class="filter-btn px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm whitespace-nowrap" data-filter="ai">AI</button>
-            <button type="button" class="filter-btn px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm whitespace-nowrap" data-filter="cloud">Cloud</button>
-            <button type="button" class="filter-btn px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm whitespace-nowrap" data-filter="hardware">Hardware</button>
-            <button type="button" class="filter-btn px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm whitespace-nowrap" data-filter="systems">Systems</button>
-            <button type="button" class="filter-btn px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm whitespace-nowrap" data-filter="research">Research</button>
+          <div class="flex items-center gap-1 text-xs font-bold uppercase tracking-wider">
+            <a href="#about" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">About</a>
+            <a href="#hpc-projects" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">HPC</a>
+            <a href="#expertise" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Expertise</a>
+            <a href="#publications" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Publications</a>
+            <a href="#projects" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Projects</a>
+            <a href="#coursework" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Coursework</a>
+            <a href="#contact" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Contact</a>
           </div>
         </div>
         <div class="nav-desktop hidden items-center gap-2 shrink-0">
@@ -110,18 +113,18 @@
         </button>
       </div>
 
-      <!-- Mobile: slide-down panel (filter + links) -->
-      <div id="nav-mobile-panel" class="nav-mobile-panel md:hidden border-t border-border-dark bg-background-dark/95" aria-hidden="true">
+      <!-- Mobile: slide-down panel (nav links + social) -->
+      <div id="nav-mobile-panel" class="nav-mobile-panel md:hidden border-t border-border-dark bg-surface-dark/98" aria-hidden="true">
         <div class="px-4 py-4 space-y-4">
-          <p class="text-xs font-bold uppercase tracking-widest text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-sm">tune</span> Filter</p>
-          <div class="filter-bar flex flex-wrap gap-2">
-            <button type="button" class="filter-btn active-filter px-3 py-2 text-xs font-bold uppercase tracking-wider transition-colors rounded-sm border border-border-dark" data-filter="all">All</button>
-            <button type="button" class="filter-btn px-3 py-2 text-xs font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm border border-border-dark" data-filter="hpc">HPC</button>
-            <button type="button" class="filter-btn px-3 py-2 text-xs font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm border border-border-dark" data-filter="ai">AI</button>
-            <button type="button" class="filter-btn px-3 py-2 text-xs font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm border border-border-dark" data-filter="cloud">Cloud</button>
-            <button type="button" class="filter-btn px-3 py-2 text-xs font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm border border-border-dark" data-filter="hardware">Hardware</button>
-            <button type="button" class="filter-btn px-3 py-2 text-xs font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm border border-border-dark" data-filter="systems">Systems</button>
-            <button type="button" class="filter-btn px-3 py-2 text-xs font-bold uppercase tracking-wider hover:text-primary transition-colors rounded-sm border border-border-dark" data-filter="research">Research</button>
+          <p class="text-xs font-bold uppercase tracking-widest text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-sm">menu</span> Sections</p>
+          <div class="flex flex-col gap-1">
+            <a href="#about" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-primary/50 -mx-2 pl-1">About</a>
+            <a href="#hpc-projects" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">HPC Projects</a>
+            <a href="#expertise" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Expertise</a>
+            <a href="#publications" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Publications</a>
+            <a href="#projects" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Projects</a>
+            <a href="#coursework" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Coursework</a>
+            <a href="#contact" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Contact</a>
           </div>
           <p class="text-xs font-bold uppercase tracking-widest text-slate-500 pt-2 flex items-center gap-2"><span class="material-symbols-outlined text-sm">link</span> Links</p>
           <div class="flex flex-row items-center justify-center gap-3 py-2">
@@ -139,11 +142,11 @@
     <section class="grid lg:grid-cols-12 gap-8 sm:gap-12 items-center" id="about">
       <div class="lg:col-span-8 space-y-6 sm:space-y-8">
         <div class="space-y-3 sm:space-y-4">
-          <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black leading-[0.95] tracking-tighter uppercase">
-            Systems Engineer<br/><span class="text-primary">HPC &amp; Cloud</span><br/>Researcher
+          <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black leading-tight tracking-tight">
+            Ali Yazdanpanah<br/><span class="text-primary">High-Performance Computing &amp; Systems Researcher</span>
           </h1>
-          <p class="text-base sm:text-xl lg:text-2xl text-slate-400 font-light max-w-2xl leading-relaxed">
-            I’m a systems engineer and researcher working at the intersection of <span class="text-white font-medium">high-performance computing</span>, <span class="text-white font-medium">cloud</span>, and applied AI. My work is measurement-first and reproducibility-driven. I’m especially interested in ML for systems, hardware-aware design, and quantum-curious workflows.
+          <p class="text-base sm:text-lg lg:text-xl text-slate-400 font-light max-w-2xl leading-relaxed">
+            Specializing in the intersection of <span class="text-slate-200 font-medium">computer architecture</span> and <span class="text-slate-200 font-medium">parallel software</span>. Expert in CUDA optimization, hardware-software co-design, and the acceleration of complex algorithms on modern hardware.
           </p>
         </div>
         <div class="flex flex-wrap gap-3 sm:gap-4">
@@ -155,6 +158,43 @@
             <span class="material-symbols-outlined text-primary text-lg shrink-0">code</span>
             <span class="font-mono">GitHub</span>
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- High-Performance Computing Projects -->
+    <section class="space-y-6 sm:space-y-8" id="hpc-projects">
+      <div class="flex items-center gap-3 border-b border-primary/40 pb-4">
+        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">speed</span>
+        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">High-Performance Computing Projects</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
+        <div class="item-card flex flex-col bg-surface-dark border-2 border-primary/30 rounded-sm overflow-hidden hover:border-primary/60 transition-all group" data-category="hpc">
+          <div class="p-6 sm:p-8 space-y-4 flex-1">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-xl font-bold text-primary group-hover:text-primary">APSP-CUDA Acceleration Suite</h3>
+              <a href="https://github.com/Ali-Yazdanpanah/apsp-cuda" target="_blank" rel="noreferrer" class="text-primary shrink-0 hover:scale-110 transition-transform"><span class="material-symbols-outlined text-xl">code</span></a>
+            </div>
+            <p class="text-slate-400 text-sm leading-relaxed">A high-performance implementation of the All-Pairs Shortest Path problem featuring a Blocked 3-Phase Floyd-Warshall algorithm and a Warp-Shuffle-based Dijkstra. Leverages shared memory tiling and bank-conflict avoidance to achieve &gt;200 GB/s effective throughput on NVIDIA Ampere GPUs.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span>
+              <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">C11</span>
+              <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">APSP</span>
+            </div>
+          </div>
+        </div>
+        <div class="item-card flex flex-col bg-surface-dark border-2 border-primary/30 rounded-sm overflow-hidden hover:border-primary/60 transition-all group" data-category="hpc">
+          <div class="p-6 sm:p-8 space-y-4 flex-1">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-xl font-bold text-primary group-hover:text-primary">GPU-Accelerated 2D Convolution</h3>
+              <a href="https://github.com/Ali-Yazdanpanah/GPU-Accelerated-2D-Convolution" target="_blank" rel="noreferrer" class="text-primary shrink-0 hover:scale-110 transition-transform"><span class="material-symbols-outlined text-xl">code</span></a>
+            </div>
+            <p class="text-slate-400 text-sm leading-relaxed">Optimized CUDA kernels for large-scale 2D Gaussian convolutions. Implements advanced memory coalescing and tiling strategies to maximize DRAM bandwidth utilization and minimize global memory latency.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span>
+              <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -280,36 +320,39 @@
       </div>
     </section>
 
-    <!-- Skills -->
-    <section class="space-y-6 sm:space-y-8" id="skills">
+    <!-- Technical Expertise Matrix -->
+    <section class="space-y-6 sm:space-y-8" id="expertise">
       <div class="flex items-center gap-3 border-b border-border-dark pb-4">
-        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">build</span>
-        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Skills</h2>
+        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">precision_manufacturing</span>
+        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Technical Expertise</h2>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-        <div class="item-card bg-surface-dark p-4 border border-border-dark rounded-sm hover:border-primary transition-colors" data-category="systems">
-          <p class="text-xs font-mono text-slate-500 mb-1">Programming</p>
-          <p class="text-sm font-bold">C, C++, Python, CUDA, Java, Go, x86‑64 ASM</p>
+      <div class="grid md:grid-cols-3 gap-6 sm:gap-8">
+        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hpc">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-sm">speed</span> Parallel Programming</h4>
+          <ul class="text-slate-400 text-sm space-y-1">
+            <li>CUDA</li>
+            <li>OpenMP</li>
+            <li>MPI</li>
+            <li>SIMD / AVX</li>
+          </ul>
         </div>
-        <div class="item-card bg-surface-dark p-4 border border-border-dark rounded-sm hover:border-primary transition-colors" data-category="hpc">
-          <p class="text-xs font-mono text-slate-500 mb-1">Parallel &amp; HPC</p>
-          <p class="text-sm font-bold">CUDA, MPI, OpenMP, Nsight, CUPTI, nvprof, NVML, Workload Scheduling</p>
+        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="systems">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-sm">computer</span> Systems Engineering</h4>
+          <ul class="text-slate-400 text-sm space-y-1">
+            <li>Computer Architecture</li>
+            <li>Memory Hierarchy</li>
+            <li>OS Internals</li>
+            <li>Performance Profiling (Nsight)</li>
+          </ul>
         </div>
-        <div class="item-card bg-surface-dark p-4 border border-border-dark rounded-sm hover:border-primary transition-colors" data-category="cloud">
-          <p class="text-xs font-mono text-slate-500 mb-1">Cloud &amp; Packaging</p>
-          <p class="text-sm font-bold">Docker, Kubernetes, Git/GitLab CI, Argo, GitOps, Terraform, Terragrunt, Apptainer, Singularity, CMake</p>
-        </div>
-        <div class="item-card bg-surface-dark p-4 border border-border-dark rounded-sm hover:border-primary transition-colors" data-category="hardware">
-          <p class="text-xs font-mono text-slate-500 mb-1">Hardware &amp; RTL</p>
-          <p class="text-sm font-bold">Verilog/FPGA, DFT/TMR, VLSI, Embedded</p>
-        </div>
-        <div class="item-card bg-surface-dark p-4 border border-border-dark rounded-sm hover:border-primary transition-colors" data-category="systems cloud">
-          <p class="text-xs font-mono text-slate-500 mb-1">Networking &amp; Systems</p>
-          <p class="text-sm font-bold">Linux, Nginx/HAProxy/Traefik, Kafka/RabbitMQ, Tracing &amp; Metrics, perf/gprof</p>
-        </div>
-        <div class="item-card bg-surface-dark p-4 border border-border-dark rounded-sm hover:border-primary transition-colors" data-category="ai">
-          <p class="text-xs font-mono text-slate-500 mb-1">AI / ML</p>
-          <p class="text-sm font-bold">PyTorch, TensorFlow, Scientific ML, Workload classification</p>
+        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-sm">memory</span> Hardware Design</h4>
+          <ul class="text-slate-400 text-sm space-y-1">
+            <li>SystemVerilog / Verilog</li>
+            <li>FPGA Development</li>
+            <li>RTL Design</li>
+            <li>TMR Reliability</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -360,7 +403,7 @@
               <a href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">download</span></a>
             </div>
             <p class="text-slate-400 text-sm">Hierarchical fog–cloud orchestration with NSGA-II and TOPSIS for latency, energy, and deployment cost.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Fog</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">NSGA-II</span></div>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Fog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">NSGA-II</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
           </div>
         </div>
         <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="cloud hpc systems">
@@ -370,7 +413,7 @@
               <a href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">download</span></a>
             </div>
             <p class="text-slate-400 text-sm">Static GPU job classifier with LD_PRELOAD CUDA guards, VRAM quotas, NVML for safe multi-tenant co-location.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">GPU</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Scheduling</span></div>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">C11</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
           </div>
         </div>
         <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc ai">
@@ -380,7 +423,7 @@
               <a href="https://github.com/Ali-Yazdanpanah/GPU-Accelerated-2D-Convolution" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
             </div>
             <p class="text-slate-400 text-sm">Optimized CNN kernels with memory coalescing, occupancy tuning, shared-memory tiling.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">CUDA</span></div>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
           </div>
         </div>
         <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc systems">
@@ -390,7 +433,7 @@
               <a href="https://github.com/farzinlize/parallel_workset_graph" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
             </div>
             <p class="text-slate-400 text-sm">Adaptive workset-based graph analytics in C++/CUDA with workload-driven kernel switching.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Graphs</span></div>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">C++</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
           </div>
         </div>
         <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc">
@@ -400,7 +443,17 @@
               <a href="https://github.com/Ali-Yazdanpanah/apsp-cuda" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
             </div>
             <p class="text-slate-400 text-sm">All-pairs shortest paths with tiled shared-memory kernels and warp-level primitives.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">APSP</span></div>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">C11</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">APSP</span></div>
+          </div>
+        </div>
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc systems">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">GPU Hash Map</h3>
+              <a href="https://github.com/Ali-Yazdanpanah/gpu_hashmap" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            </div>
+            <p class="text-slate-400 text-sm">A high-performance CUDA key-value store designed for massive-scale lookups with hierarchical parallelism and interconnect-aware data movement.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">C++</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
           </div>
         </div>
       </div>
@@ -410,17 +463,17 @@
         <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware systems">
           <h3 class="text-lg font-bold mb-2">Superscalar &amp; MIPS Architecture Projects</h3>
           <p class="text-slate-400 text-sm">Superscalar out-of-order pipelines and MIPS processor; caching, hazard resolution, microarchitecture.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">MIPS</span></div>
+          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">MIPS</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
         </div>
         <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="systems">
           <h3 class="text-lg font-bold mb-2">Minimal OS Kernel (C)</h3>
           <p class="text-slate-400 text-sm">Instructional OS kernels with cooperative scheduling, memory management, device abstractions.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">C</span></div>
+          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">C11</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
         </div>
         <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="systems">
           <h3 class="text-lg font-bold mb-2">Async Messaging System (Java)</h3>
           <p class="text-slate-400 text-sm">Lightweight async messaging with queue-based routing, fault handling, instrumentation.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Java</span></div>
+          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Java</span></div>
         </div>
       </div>
 
@@ -433,7 +486,7 @@
               <a href="https://github.com/Ali-Yazdanpanah/Leaky-Integrate-and-Fire-Neurons" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
             </div>
             <p class="text-slate-400 text-sm">Parameterized LIF neuron cores in Verilog; configurable leakage, thresholding, spike outputs.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">FPGA</span></div>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">FPGA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">RTL</span></div>
           </div>
         </div>
         <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware">
@@ -443,7 +496,7 @@
               <a href="https://github.com/Ali-Yazdanpanah/Triple-Modular-Redundancy" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
             </div>
             <p class="text-slate-400 text-sm">Generative TMR wrappers with fault injection, voter coverage and resilience metrics.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">TMR</span></div>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">TMR</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Reliability</span></div>
           </div>
         </div>
         <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware fpga low-power">
@@ -453,7 +506,7 @@
               <a href="https://github.com/Ali-Yazdanpanah/dvfs_controller" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
             </div>
             <p class="text-slate-400 text-sm">SystemVerilog DVFS for Xilinx SoC: workload monitor, three power profiles, MMCM DRP and I2C/PMBus.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">SystemVerilog</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">DVFS</span></div>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">SystemVerilog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">DVFS</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
           </div>
         </div>
         <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware fpga ai low-power">
@@ -463,7 +516,7 @@
               <a href="https://github.com/Ali-Yazdanpanah/hsa_video_tracker" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
             </div>
             <p class="text-slate-400 text-sm">Energy-efficient HSA-based video object tracking; scout/worker bees, clock gating, SAD early termination.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">HSA</span></div>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">HSA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">FPGA</span></div>
           </div>
         </div>
         <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware fpga ai low-power">
@@ -473,13 +526,13 @@
               <a href="https://github.com/Ali-Yazdanpanah/qnn_cifar10" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
             </div>
             <p class="text-slate-400 text-sm">Low-power INT8 QNN: DSP48-friendly MAC, clock gating, operand isolation, banked BRAM.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">QNN</span></div>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">QNN</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
           </div>
         </div>
         <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware">
           <h3 class="text-lg font-bold mb-2">Design-for-Test Automation</h3>
           <p class="text-slate-400 text-sm">DFT structures and scan chains for coverage-driven validation and diagnostics.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">DFT</span></div>
+          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">DFT</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">RTL</span></div>
         </div>
       </div>
 
@@ -492,7 +545,7 @@
               <a href="https://surnet.org/" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">link</span></a>
             </div>
             <p class="text-slate-400 text-sm">Ethereum-based blockchain with Kubernetes, GitOps, Grafana observability.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Kubernetes</span></div>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Kubernetes</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">DevOps</span></div>
           </div>
         </div>
         <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="cloud systems">
@@ -502,7 +555,7 @@
               <a href="https://arsonex.com/" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">link</span></a>
             </div>
             <p class="text-slate-400 text-sm">CI/CD and containerized infrastructure for high-availability cryptocurrency exchange.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Docker</span><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">DevOps</span></div>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Docker</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">DevOps</span></div>
           </div>
         </div>
       </div>
@@ -512,12 +565,12 @@
         <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai">
           <h3 class="text-lg font-bold mb-2">Semantic Analytics Platform</h3>
           <p class="text-slate-400 text-sm">Text analytics, topic modeling, statistical NLP for domain insights.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">NLP</span></div>
+          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">NLP</span></div>
         </div>
         <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai">
           <h3 class="text-lg font-bold mb-2">Tweet Polarity Classifier</h3>
           <p class="text-slate-400 text-sm">ML-driven sentiment classifier for social media streams.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Sentiment</span></div>
+          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Sentiment</span></div>
         </div>
       </div>
     </section>
@@ -667,50 +720,30 @@
     </div>
   </footer>
 
-  <script>
+      <script>
     (function () {
       document.getElementById('y').textContent = new Date().getFullYear();
 
-      var main = document.getElementById('main-content');
-      var filterBtns = document.querySelectorAll('.filter-btn');
-      var activeFilter = 'all';
       var menuBtn = document.getElementById('nav-menu-btn');
       var mobilePanel = document.getElementById('nav-mobile-panel');
 
-      function applyFilter(filter) {
-        activeFilter = filter;
-        filterBtns.forEach(function (btn) {
-          btn.classList.toggle('active-filter', btn.getAttribute('data-filter') === filter);
-        });
-        if (filter === 'all') {
-          document.body.classList.remove('filter-active');
-          if (main) main.querySelectorAll('.item-card').forEach(function (card) {
-            card.classList.remove('active-category');
-          });
-          return;
+      function closeMobilePanel() {
+        if (mobilePanel && mobilePanel.classList.contains('is-open')) {
+          mobilePanel.classList.remove('is-open');
+          mobilePanel.setAttribute('aria-hidden', 'true');
+          if (menuBtn) {
+            menuBtn.setAttribute('aria-expanded', 'false');
+            menuBtn.setAttribute('aria-label', 'Open menu');
+            menuBtn.querySelector('.material-symbols-outlined').textContent = 'menu';
+          }
         }
-        document.body.classList.add('filter-active');
-        if (main) main.querySelectorAll('.item-card').forEach(function (card) {
-          var cat = card.getAttribute('data-category') || '';
-          var categories = cat.split(/\s+/).filter(Boolean);
-          card.classList.toggle('active-category', categories.indexOf(filter) !== -1);
-        });
       }
 
-      filterBtns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          applyFilter(btn.getAttribute('data-filter'));
-          if (mobilePanel && mobilePanel.classList.contains('is-open')) {
-            mobilePanel.classList.remove('is-open');
-            mobilePanel.setAttribute('aria-hidden', 'true');
-            if (menuBtn) {
-              menuBtn.setAttribute('aria-expanded', 'false');
-              menuBtn.setAttribute('aria-label', 'Open menu');
-              menuBtn.querySelector('.material-symbols-outlined').textContent = 'menu';
-            }
-          }
+      if (mobilePanel) {
+        mobilePanel.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', closeMobilePanel);
         });
-      });
+      }
 
       if (menuBtn && mobilePanel) {
         menuBtn.addEventListener('click', function () {
@@ -719,15 +752,6 @@
           menuBtn.setAttribute('aria-expanded', isOpen);
           menuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
           menuBtn.querySelector('.material-symbols-outlined').textContent = isOpen ? 'close' : 'menu';
-        });
-        mobilePanel.querySelectorAll('a').forEach(function (link) {
-          link.addEventListener('click', function () {
-            mobilePanel.classList.remove('is-open');
-            mobilePanel.setAttribute('aria-hidden', 'true');
-            menuBtn.setAttribute('aria-expanded', 'false');
-            menuBtn.setAttribute('aria-label', 'Open menu');
-            menuBtn.querySelector('.material-symbols-outlined').textContent = 'menu';
-          });
         });
       }
     })();
