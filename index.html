@@ -71,6 +71,32 @@
     @media (max-width: 767px) {
       .nav-desktop { display: none !important; }
     }
+    .collapse-toggle {
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .collapse-toggle:hover { opacity: 0.9; }
+    .collapse-toggle .collapse-chevron {
+      transition: transform 0.25s ease;
+    }
+    .collapse-toggle[aria-expanded="true"] .collapse-chevron {
+      transform: rotate(180deg);
+    }
+    .collapse-content {
+      overflow: hidden;
+      max-height: 5000px;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .collapse-content.is-collapsed {
+      max-height: 0;
+    }
+    .collapse-subsection .collapse-content {
+      max-height: 3000px;
+    }
+    .collapse-subsection .collapse-content.is-collapsed {
+      max-height: 0;
+    }
   </style>
 </head>
 <body class="bg-background-dark text-slate-100 selection:bg-primary selection:text-slate-900">
@@ -352,23 +378,18 @@
 
     <!-- Projects -->
     <section class="space-y-6 sm:space-y-8" id="projects">
-      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
+      <button type="button" class="collapse-toggle w-full flex items-center gap-3 border-b border-border-dark pb-4 text-left" aria-expanded="false" aria-controls="projects-content" id="projects-toggle">
         <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">folder_special</span>
         <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Selected Projects</h2>
-      </div>
-
-      <h4 class="text-primary font-bold uppercase tracking-widest text-xs mt-8 sm:mt-12 flex items-center gap-2"><span class="material-symbols-outlined text-sm">speed</span> Parallel &amp; GPU Computing</h4>
+        <span class="material-symbols-outlined text-primary collapse-chevron ml-auto" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="collapse-content is-collapsed mt-4" id="projects-content" role="region" aria-labelledby="projects-toggle">
+      <div class="collapse-subsection mt-6">
+        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-parallel">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">speed</span> Parallel &amp; GPU Computing <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+        </button>
+        <div class="collapse-content is-collapsed mt-2" id="projects-parallel">
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc cloud research">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">Two-tier Fog Service Placement Optimizer</h3>
-              <a href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">download</span></a>
-            </div>
-            <p class="text-slate-400 text-sm">Hierarchical fog–cloud orchestration with NSGA-II and TOPSIS for latency, energy, and deployment cost.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Fog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">NSGA-II</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
-          </div>
-        </div>
         <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="cloud hpc systems">
           <div class="p-6 space-y-3">
             <div class="flex justify-between items-start gap-2">
@@ -420,8 +441,13 @@
           </div>
         </div>
       </div>
-
-      <h4 class="text-primary font-bold uppercase tracking-widest text-xs mt-8 sm:mt-12 flex items-center gap-2"><span class="material-symbols-outlined text-sm">computer</span> Computer Architecture &amp; Systems</h4>
+        </div>
+      </div>
+      <div class="collapse-subsection mt-8">
+        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-arch">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">computer</span> Computer Architecture &amp; Systems <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+        </button>
+        <div class="collapse-content is-collapsed mt-2" id="projects-arch">
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware systems">
           <h3 class="text-lg font-bold mb-2">Superscalar &amp; MIPS Architecture Projects</h3>
@@ -439,8 +465,13 @@
           <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Java</span></div>
         </div>
       </div>
-
-      <h4 class="text-primary font-bold uppercase tracking-widest text-xs mt-8 sm:mt-12 flex items-center gap-2"><span class="material-symbols-outlined text-sm">memory</span> Hardware Acceleration, Low-Power &amp; Reliability</h4>
+        </div>
+      </div>
+      <div class="collapse-subsection mt-8">
+        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-hardware">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">memory</span> Hardware Acceleration, Low-Power &amp; Reliability <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+        </button>
+        <div class="collapse-content is-collapsed mt-2" id="projects-hardware">
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware ai">
           <div class="p-6 space-y-3">
@@ -498,9 +529,24 @@
           <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">DFT</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">RTL</span></div>
         </div>
       </div>
-
-      <h4 class="text-primary font-bold uppercase tracking-widest text-xs mt-8 sm:mt-12 flex items-center gap-2"><span class="material-symbols-outlined text-sm">cloud</span> Distributed &amp; Cloud Systems</h4>
+        </div>
+      </div>
+      <div class="collapse-subsection mt-8">
+        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-cloud">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">cloud</span> Distributed &amp; Cloud Systems <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+        </button>
+        <div class="collapse-content is-collapsed mt-2" id="projects-cloud">
       <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
+        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="cloud systems research">
+          <div class="p-6 space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-bold">Two-tier Fog Service Placement Optimizer</h3>
+              <a href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">download</span></a>
+            </div>
+            <p class="text-slate-400 text-sm">Hierarchical fog–cloud orchestration with NSGA-II and TOPSIS for latency, energy, and deployment cost.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Fog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">NSGA-II</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Cloud</span></div>
+          </div>
+        </div>
         <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="cloud systems">
           <div class="p-6 space-y-3">
             <div class="flex justify-between items-start gap-2">
@@ -522,8 +568,13 @@
           </div>
         </div>
       </div>
-
-      <h4 class="text-primary font-bold uppercase tracking-widest text-xs mt-8 sm:mt-12 flex items-center gap-2"><span class="material-symbols-outlined text-sm">psychology</span> AI &amp; Natural Language Processing</h4>
+        </div>
+      </div>
+      <div class="collapse-subsection mt-8">
+        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-ai">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">psychology</span> AI &amp; Natural Language Processing <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+        </button>
+        <div class="collapse-content is-collapsed mt-2" id="projects-ai">
       <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
         <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai">
           <h3 class="text-lg font-bold mb-2">Semantic Analytics Platform</h3>
@@ -536,18 +587,25 @@
           <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Sentiment</span></div>
         </div>
       </div>
+        </div>
+      </div>
+      </div>
     </section>
 
     <!-- Coursework -->
     <section class="space-y-6 sm:space-y-8" id="coursework">
-      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
+      <button type="button" class="collapse-toggle w-full flex items-center gap-3 border-b border-border-dark pb-4 text-left" aria-expanded="false" aria-controls="coursework-content" id="coursework-toggle">
         <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">menu_book</span>
         <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Selected Coursework</h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        <div class="space-y-4">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3">Parallel &amp; HPC</h4>
-          <div class="space-y-3">
+        <span class="material-symbols-outlined text-primary collapse-chevron ml-auto" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="collapse-content is-collapsed mt-4" id="coursework-content" role="region" aria-labelledby="coursework-toggle">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-6">
+        <div class="space-y-4 collapse-subsection">
+          <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="coursework-parallel">
+            <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3 flex items-center gap-2">Parallel &amp; HPC <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+          </button>
+          <div class="collapse-content is-collapsed space-y-3 mt-2" id="coursework-parallel">
             <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hpc systems">
               <h5 class="font-bold text-sm">Parallel Algorithms</h5>
               <p class="text-slate-400 text-xs">Multi-core and GPU algorithm design, synchronization patterns, scalability benchmarking.</p>
@@ -566,9 +624,11 @@
             </div>
           </div>
         </div>
-        <div class="space-y-4">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3">Systems &amp; Architecture</h4>
-          <div class="space-y-3">
+        <div class="space-y-4 collapse-subsection">
+          <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="coursework-systems">
+            <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3 flex items-center gap-2">Systems &amp; Architecture <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+          </button>
+          <div class="collapse-content is-collapsed space-y-3 mt-2" id="coursework-systems">
             <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware systems">
               <h5 class="font-bold text-sm">Advanced Computer Architecture</h5>
               <p class="text-slate-400 text-xs">Superscalar pipelines, cache hierarchies, multi-processor design trade-offs.</p>
@@ -587,9 +647,11 @@
             </div>
           </div>
         </div>
-        <div class="space-y-4">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3">Hardware &amp; Reliability</h4>
-          <div class="space-y-3">
+        <div class="space-y-4 collapse-subsection">
+          <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="coursework-hardware">
+            <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3 flex items-center gap-2">Hardware &amp; Reliability <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+          </button>
+          <div class="collapse-content is-collapsed space-y-3 mt-2" id="coursework-hardware">
             <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware">
               <h5 class="font-bold text-sm">Hardware Testing &amp; Testability</h5>
               <p class="text-slate-400 text-xs">DFT structures, fault modeling, coverage-driven validation workflows.</p>
@@ -608,9 +670,11 @@
             </div>
           </div>
         </div>
-        <div class="space-y-4">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3">Networking &amp; Embedded</h4>
-          <div class="space-y-3">
+        <div class="space-y-4 collapse-subsection">
+          <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="coursework-networking">
+            <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3 flex items-center gap-2">Networking &amp; Embedded <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+          </button>
+          <div class="collapse-content is-collapsed space-y-3 mt-2" id="coursework-networking">
             <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
               <h5 class="font-bold text-sm">Wireless Sensor Networks</h5>
               <p class="text-slate-400 text-xs">Energy-aware routing, distributed sensing, multi-hop protocol design.</p>
@@ -629,9 +693,11 @@
             </div>
           </div>
         </div>
-        <div class="space-y-4">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3">Software &amp; Theory</h4>
-          <div class="space-y-3">
+        <div class="space-y-4 collapse-subsection">
+          <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="coursework-software">
+            <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3 flex items-center gap-2">Software &amp; Theory <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+          </button>
+          <div class="collapse-content is-collapsed space-y-3 mt-2" id="coursework-software">
             <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems hpc">
               <h5 class="font-bold text-sm">Design &amp; Analysis of Algorithms</h5>
               <p class="text-slate-400 text-xs">Algorithmic paradigms, complexity bounds, optimization strategies.</p>
@@ -650,6 +716,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
     </section>
 
@@ -717,6 +784,19 @@
           menuBtn.querySelector('.material-symbols-outlined').textContent = isOpen ? 'close' : 'menu';
         });
       }
+
+      function initCollapsible(trigger, content) {
+        if (!trigger || !content) return;
+        trigger.addEventListener('click', function () {
+          var expanded = trigger.getAttribute('aria-expanded') === 'true';
+          content.classList.toggle('is-collapsed', expanded);
+          trigger.setAttribute('aria-expanded', !expanded);
+        });
+      }
+      document.querySelectorAll('.collapse-toggle').forEach(function (btn) {
+        var id = btn.getAttribute('aria-controls');
+        if (id) initCollapsible(btn, document.getElementById(id));
+      });
     })();
   </script>
 </body>
