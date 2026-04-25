@@ -282,7 +282,25 @@
         <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">precision_manufacturing</span>
         <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Technical Expertise</h2>
       </div>
-      <div class="grid md:grid-cols-3 gap-6 sm:gap-8">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="networks systems">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-sm">router</span> Network Engineering</h4>
+          <ul class="text-slate-400 text-sm space-y-1">
+            <li>Computer Networks</li>
+            <li>Distributed Systems Routing</li>
+            <li>Edge/Fog Topology Design</li>
+            <li>Network Performance Analysis</li>
+          </ul>
+        </div>
+        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai systems">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-sm">neurology</span> Applied ML</h4>
+          <ul class="text-slate-400 text-sm space-y-1">
+            <li>PyTorch / PyTorch Geometric</li>
+            <li>Federated Learning (FedAvg)</li>
+            <li>Graph + Time-Series Modeling</li>
+            <li>ML Systems Benchmarking</li>
+          </ul>
+        </div>
         <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hpc">
           <h4 class="text-primary font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-sm">speed</span> Parallel Programming</h4>
           <ul class="text-slate-400 text-sm space-y-1">
@@ -548,10 +566,10 @@
         </div>
       </div>
       <div class="collapse-subsection mt-8">
-        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-ai">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">psychology</span> AI &amp; Natural Language Processing <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-applied-ml-networks">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">hub</span> Networks &amp; Applied ML <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
         </button>
-        <div class="collapse-content is-collapsed mt-2" id="projects-ai">
+        <div class="collapse-content is-collapsed mt-2" id="projects-applied-ml-networks">
       <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
         <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai systems research networks">
           <h3 class="text-lg font-bold mb-2">Federated STGNN for Backbone Traffic Prediction</h3>
@@ -565,6 +583,15 @@
           <p class="text-slate-400 text-sm">High-performance C++/Python engine for site-percolation and cascading-failure analysis in interdependent network systems. <span class="text-slate-300">Outcome:</span> enables reproducible parameter-sweep experiments to quantify robustness thresholds under node-removal scenarios.</p>
           <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Site Percolation</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Networks</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">HPC</span></div>
         </div>
+      </div>
+        </div>
+      </div>
+      <div class="collapse-subsection mt-8">
+        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-nlp">
+          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">translate</span> Natural Language Processing <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+        </button>
+        <div class="collapse-content is-collapsed mt-2" id="projects-nlp">
+      <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
         <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai">
           <h3 class="text-lg font-bold mb-2">Semantic Analytics Platform</h3>
           <p class="text-slate-400 text-sm">Text analytics, topic modeling, statistical NLP for domain insights.</p>
