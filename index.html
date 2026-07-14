@@ -1,840 +1,643 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ali Yazdanpanah</title>
-  <meta name="description" content="Ali Yazdanpanah — HPC, Systems and Networks researcher. CUDA optimization, hardware-software co-design, applied ML, and computer architecture." />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSI+PGNpcmNsZSBjeD0iMTQiIGN5PSIxNCIgcj0iOCIgZmlsbD0iI0YwRjdGRiIgc3Ryb2tlPSIjMUUzQThBIiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNMjAuNSAyMC41TDI3IDI3IiBzdHJva2U9IiMxRTNBOEEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTExIDE3bDMtNCAyLjUgMy41IDMuNS01IiBzdHJva2U9IiMwRUE1RTkiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+" />
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+  <title>Ali Yazdanpanah | Computer Architecture · GPU/HPC · Distributed Systems</title>
+  <meta name="description" content="Ali Yazdanpanah: researcher across computer architecture &amp; hardware, GPU/HPC &amp; parallel systems, and distributed &amp; cloud systems. Designs around data storage and movement, verified against reference models." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNiIgZmlsbD0iIzBhMGUxMyIvPjx0ZXh0IHg9IjYiIHk9IjIyIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjE2IiBmaWxsPSIjM2ZlMDdmIj4mZ3Q7XzwvdGV4dD48L3N2Zz4=" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "primary": "#06b6d4",
-            "primary-slate": "#64748b",
-            "background-light": "#0f172a",
-            "background-dark": "#020617",
-            "surface-dark": "#0f172a",
-            "border-dark": "#1e293b"
-          },
-          fontFamily: { "display": ["Inter", "sans-serif"] },
-          borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
-        },
-      },
-    }
-  </script>
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    .filter-active .item-card:not(.active-category) {
-      opacity: 0.25;
-      filter: grayscale(0.8);
-      pointer-events: none;
-    }
-    .item-card.active-category {
-      border-color: #06b6d4;
-      box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
-    }
-    .filter-bar button.active-filter {
-      color: #06b6d4;
-      border-color: rgba(6, 182, 212, 0.5);
-      background: rgba(6, 182, 212, 0.1);
-    }
-    .nav-mobile-panel {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .nav-mobile-panel.is-open {
-      max-height: 85vh;
-      overflow-y: auto;
-    }
-    .nav-mobile-panel > div {
-      transform: translateY(-16px);
-      opacity: 0;
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-out;
-    }
-    .nav-mobile-panel.is-open > div {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    @media (min-width: 768px) {
-      .nav-desktop { display: flex !important; }
-      .nav-mobile-toggle { display: none !important; }
-      .nav-mobile-panel { display: none !important; }
-    }
-    @media (max-width: 767px) {
-      .nav-desktop { display: none !important; }
-    }
-    .collapse-toggle {
-      cursor: pointer;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .collapse-toggle:hover { opacity: 0.9; }
-    .collapse-toggle .collapse-chevron {
-      transition: transform 0.25s ease;
-    }
-    .collapse-toggle[aria-expanded="true"] .collapse-chevron {
-      transform: rotate(180deg);
-    }
-    .collapse-content {
-      overflow: hidden;
-      max-height: 5000px;
-      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .collapse-content.is-collapsed {
-      max-height: 0;
-    }
-    .collapse-subsection .collapse-content {
-      max-height: 3000px;
-    }
-    .collapse-subsection .collapse-content.is-collapsed {
-      max-height: 0;
-    }
-  </style>
 </head>
-<body class="bg-background-dark text-slate-100 selection:bg-primary selection:text-slate-900">
-  <!-- Top Navigation & Global Filter -->
-  <nav class="sticky top-0 z-50 bg-background-dark/90 backdrop-blur-md border-b border-border-dark w-full">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full">
-      <div class="flex items-center justify-between gap-4 h-14 sm:h-16">
-        <div class="flex items-center shrink-0 min-w-0 gap-2">
-          <a href="#about" class="text-base sm:text-xl font-black tracking-tighter uppercase truncate text-primary hover:text-primary/90">Ali Yazdanpanah</a>
-          <span class="hidden sm:inline text-slate-500 text-xs font-medium">| HPC, Systems and Networks</span>
-        </div>
+<body>
 
-        <!-- Desktop: filter bar + links -->
-        <div class="nav-desktop hidden flex-1 items-center justify-center min-w-0 mx-2 lg:mx-4">
-          <div class="flex items-center gap-1 text-xs font-bold uppercase tracking-wider">
-            <a href="#about" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">About</a>
-            <a href="#expertise" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Expertise</a>
-            <a href="#publications" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Publications</a>
-            <a href="#projects" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Selected Projects</a>
-            <a href="#coursework" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Coursework</a>
-            <a href="#contact" class="px-2.5 py-1.5 rounded-sm hover:text-primary transition-colors">Contact</a>
-          </div>
+  <!-- ===== top bar ===== -->
+  <nav class="topbar" aria-label="Main navigation">
+    <div class="wrap">
+      <div class="topbar-inner">
+        <div class="traffic" aria-hidden="true"><span class="t-r"></span><span class="t-y"></span><span class="t-g"></span></div>
+        <a href="#about" class="topbar-title"><b>ali</b>@yazdanpanah:<b>~</b>/portfolio</a>
+        <div class="topnav">
+          <a href="#about">about</a>
+          <a href="#expertise">expertise</a>
+          <a href="#publications">publications</a>
+          <a href="#projects">projects</a>
+          <a href="#coursework">coursework</a>
+          <a href="#contact">contact</a>
+          <a class="ext" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer">github</a>
+          <a class="ext" href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer">scholar</a>
+          <a class="ext" href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer">linkedin</a>
         </div>
-        <div class="nav-desktop hidden items-center gap-2 shrink-0">
-          <a class="flex items-center justify-center w-10 h-10 rounded-sm border-2 border-primary text-primary hover:bg-primary/10 transition-all" href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer" aria-label="Google Scholar">
-            <span class="material-symbols-outlined text-2xl">school</span>
-          </a>
-          <a class="flex items-center justify-center w-10 h-10 rounded-sm bg-primary border border-primary text-background-dark hover:brightness-110 transition-all" href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-          </a>
-          <a class="flex items-center justify-center w-10 h-10 rounded-sm border-2 border-primary text-primary hover:bg-primary/10 transition-all" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer" aria-label="GitHub">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.341-3.369-1.341-.454-1.152-1.11-1.459-1.11-1.459-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.987 1.029-2.687-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.7 1.028 1.594 1.028 2.687 0 3.847-2.337 4.694-4.566 4.942.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/></svg>
-          </a>
-        </div>
-
-        <!-- Mobile: menu button -->
-        <button type="button" class="nav-mobile-toggle md:hidden flex items-center justify-center w-10 h-10 rounded-sm border border-border-dark hover:border-primary hover:bg-surface-dark transition-colors" aria-expanded="false" aria-controls="nav-mobile-panel" aria-label="Open menu" id="nav-menu-btn">
-          <span class="material-symbols-outlined text-2xl" aria-hidden="true">menu</span>
-        </button>
+        <button type="button" class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="mobile-panel">menu</button>
       </div>
-
-      <!-- Mobile: slide-down panel (nav links + social) -->
-      <div id="nav-mobile-panel" class="nav-mobile-panel md:hidden border-t border-border-dark bg-surface-dark/98" aria-hidden="true">
-        <div class="px-4 py-4 space-y-4">
-          <p class="text-xs font-bold uppercase tracking-widest text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-sm">menu</span> Sections</p>
-          <div class="flex flex-col gap-1">
-            <a href="#about" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-primary/50 -mx-2 pl-1">About</a>
-            <a href="#expertise" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Expertise</a>
-            <a href="#publications" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Publications</a>
-            <a href="#projects" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Selected Projects</a>
-            <a href="#coursework" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Coursework</a>
-            <a href="#contact" class="nav-mobile-link py-2 px-3 text-sm font-medium hover:text-primary rounded-sm border-l-2 border-transparent -mx-2 pl-1">Contact</a>
-          </div>
-          <p class="text-xs font-bold uppercase tracking-widest text-slate-500 pt-2 flex items-center gap-2"><span class="material-symbols-outlined text-sm">link</span> Links</p>
-          <div class="flex flex-row items-center justify-center gap-3 py-2">
-            <a class="flex items-center justify-center w-10 h-10 rounded-sm border-2 border-primary text-primary hover:bg-primary/10 transition-all" href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer" aria-label="Google Scholar"><span class="material-symbols-outlined text-2xl">school</span></a>
-            <a class="flex items-center justify-center w-10 h-10 rounded-sm border-2 border-primary text-primary hover:bg-primary/10 transition-all" href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer" aria-label="LinkedIn"><svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
-            <a class="flex items-center justify-center w-10 h-10 rounded-sm border-2 border-primary text-primary hover:bg-primary/10 transition-all" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer" aria-label="GitHub"><svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.341-3.369-1.341-.454-1.152-1.11-1.459-1.11-1.459-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.987 1.029-2.687-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.7 1.028 1.594 1.028 2.687 0 3.847-2.337 4.694-4.566 4.942.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/></svg></a>
-          </div>
-        </div>
-      </div>
+    </div>
+    <div class="mobile-panel" id="mobile-panel">
+      <a href="#about">about</a>
+      <a href="#expertise">expertise</a>
+      <a href="#publications">publications</a>
+      <a href="#projects">projects</a>
+      <a href="#coursework">coursework</a>
+      <a href="#contact">contact</a>
+      <a href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer">github ↗</a>
+      <a href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer">google scholar ↗</a>
+      <a href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer">linkedin ↗</a>
     </div>
   </nav>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-24 space-y-16 sm:space-y-24 lg:space-y-32" id="main-content">
-    <!-- Hero -->
-    <section class="grid lg:grid-cols-12 gap-8 sm:gap-12 items-center" id="about">
-      <div class="lg:col-span-8 space-y-6 sm:space-y-8">
-        <div class="space-y-3 sm:space-y-4">
-          <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black leading-tight tracking-tight">
-            Ali Yazdanpanah<br/><span class="text-primary">HPC, Systems and Networks Researcher</span>
-          </h1>
-          <p class="text-base sm:text-lg lg:text-xl text-slate-400 font-light max-w-2xl leading-relaxed">
-            I build practical systems where <span class="text-slate-200 font-medium">computer architecture</span>, <span class="text-slate-200 font-medium">HPC</span>, and <span class="text-slate-200 font-medium">applied machine learning</span> meet. Most of my recent work focuses on federated learning, networked systems, and efficient deployment on modern accelerators.
-          </p>
+  <main class="wrap" id="main-content">
+
+    <!-- ===== hero ===== -->
+    <section class="hero" id="about">
+      <div class="term-window">
+        <div class="term-head">
+          <div class="traffic" aria-hidden="true"><span class="t-r"></span><span class="t-y"></span><span class="t-g"></span></div>
+          <span>zsh · ali@hpc-node-01 · 80×24</span>
         </div>
-        <div class="flex flex-wrap gap-3 sm:gap-4">
-          <a class="flex items-center gap-2 bg-surface-dark border border-border-dark px-3 sm:px-4 py-2 rounded-sm hover:border-primary/50 transition-colors text-sm" href="mailto:yazdanpanah.aly@gmail.com">
-            <span class="material-symbols-outlined text-primary text-lg shrink-0">mail</span>
-            <span class="font-mono truncate max-w-[200px] sm:max-w-none">yazdanpanah.aly@gmail.com</span>
-          </a>
-          <a class="flex items-center gap-2 bg-surface-dark border border-border-dark px-3 sm:px-4 py-2 rounded-sm hover:border-primary/50 transition-colors text-sm" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer">
-            <span class="material-symbols-outlined text-primary text-lg shrink-0">code</span>
-            <span class="font-mono">GitHub</span>
-          </a>
+        <div class="term-body">
+          <p class="prompt-line"><span class="ps1">ali@hpc:~$</span> <span class="cmd">whoami</span></p>
+          <h1 class="hero-name">Ali Yazdanpanah</h1>
+          <p class="hero-role"><span id="typed-role" data-text="Computer Architecture · GPU &amp; HPC · Distributed Systems">Computer Architecture · GPU &amp; HPC · Distributed Systems</span><span class="cursor" aria-hidden="true"></span></p>
+          <p class="prompt-line"><span class="ps1">ali@hpc:~$</span> <span class="cmd">cat mission.txt</span></p>
+          <p class="hero-intro">I work across three connected layers of the computing stack: <em>computer architecture &amp; hardware</em> (RTL, FPGA accelerators, low-power and fault-tolerant design), <em>GPU/HPC &amp; parallel systems</em> (CUDA kernels, performance optimization), and <em>distributed &amp; cloud systems</em> (multi-tenant platforms, federated learning).</p>
+          <p class="hero-intro">Current mission: become an independent researcher. Next step: <em>a PhD</em>.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="mailto:yazdanpanah.aly@gmail.com">mail yazdanpanah.aly@gmail.com</a>
+            <a class="btn" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer">git clone github.com/Ali-Yazdanpanah</a>
+          </div>
         </div>
       </div>
     </section>
 
-
-
-    <!-- Research Interests -->
-    <section class="space-y-6 sm:space-y-8" id="research">
-      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
-        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">psychology</span>
-        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Research Interests</h2>
-        <span class="text-primary font-mono text-xs sm:text-sm tracking-widest uppercase ml-auto">Focus</span>
+    <!-- ===== research interests ===== -->
+    <section class="sec reveal" id="research">
+      <div class="sec-head">
+        <span class="ps1">$</span>
+        <h2>cat <span class="arg">research-interests.md</span></h2>
+        <span class="note">three strands, one constraint</span>
       </div>
-      <div class="item-card grid md:grid-cols-1 gap-6 bg-surface-dark p-8 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="research hpc ai cloud hardware systems">
-        <ul class="text-slate-400 space-y-2 list-disc list-inside">
-          <li>HPC, Systems and Networks: heterogeneous scheduling, orchestration, and resource management</li>
-          <li>Applied ML and Federated Learning for networked and edge environments</li>
-          <li>GPU kernels, accelerator programming, and performance optimization (CUDA / MPS)</li>
-          <li>Systems-driven ML: communication-compute tradeoffs and bottleneck analysis</li>
-          <li>Distributed and networked infrastructure for reliable, privacy-aware deployments</li>
-        </ul>
+      <div class="grid-3">
+        <div class="out">
+          <p class="log-label" style="margin-top:0">hardware &amp; architecture</p>
+          <ul class="ls-list">
+            <li>Accelerator–memory co-design: datapaths, banking, and on-chip buffering shaped by data movement</li>
+            <li>RTL/FPGA design verified against golden reference models</li>
+            <li>Low-power and fault-tolerant digital design</li>
+          </ul>
+        </div>
+        <div class="out">
+          <p class="log-label" style="margin-top:0">gpu &amp; parallel systems</p>
+          <ul class="ls-list">
+            <li>GPU kernels, accelerator programming, and performance optimization (CUDA / MPS)</li>
+            <li>Heterogeneous scheduling and resource management for parallel workloads</li>
+            <li>Communication–compute tradeoffs and bottleneck analysis</li>
+          </ul>
+        </div>
+        <div class="out">
+          <p class="log-label" style="margin-top:0">distributed &amp; cloud systems</p>
+          <ul class="ls-list">
+            <li>Orchestration, multi-tenant resource management, and admission control</li>
+            <li>Applied ML and federated learning for networked and edge environments</li>
+            <li>Reliable, privacy-aware distributed infrastructure</li>
+          </ul>
+        </div>
       </div>
     </section>
 
-    <!-- Education -->
-    <section class="space-y-6 sm:space-y-8" id="education">
-      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
-        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">school</span>
-        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Education</h2>
+    <!-- ===== education ===== -->
+    <section class="sec reveal" id="education">
+      <div class="sec-head">
+        <span class="ps1">$</span>
+        <h2>ls <span class="arg">education/</span></h2>
       </div>
-      <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
-        <div class="item-card space-y-4 bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/40 transition-all" data-category="hpc research systems">
-          <div class="flex justify-between items-start flex-wrap gap-2">
+      <div class="grid-2">
+        <div class="card">
+          <div class="entry-head">
             <div>
-              <h3 class="text-xl font-bold">M.Sc., Computer Systems Architecture</h3>
-              <p class="text-primary font-medium text-sm">Shiraz University</p>
+              <h3 class="entry-title">M.Sc., Computer Systems Architecture</h3>
+              <p class="entry-sub">Shiraz University</p>
             </div>
-            <span class="text-xs font-mono bg-border-dark px-2 py-1 rounded-sm">2019 – 2022</span>
+            <span class="entry-date">2019 – 2023</span>
           </div>
-          <p class="text-sm text-slate-400 leading-relaxed"><strong class="text-slate-300">Thesis:</strong> PreClass: static pre-admission classification and lightweight CUDA runtime guards for safe multi-tenant GPU co-location via submission-time signals, LD_PRELOAD VRAM quotas, and Kubernetes-integrated admission control.</p>
-          <a class="inline-flex items-center gap-1 text-xs font-mono text-primary hover:underline" href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download><span class="material-symbols-outlined text-sm">picture_as_pdf</span> Thesis abstract (PDF)</a>
+          <p class="entry-body"><strong>Thesis:</strong> PreClass: static pre-admission classification and lightweight CUDA runtime guards for safe multi-tenant GPU co-location via submission-time signals, LD_PRELOAD VRAM quotas, and Kubernetes-integrated admission control.</p>
+          <a class="pdf-link" href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download>MSc_thesis_abstract.pdf</a>
         </div>
-        <div class="item-card space-y-4 bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/40 transition-all" data-category="cloud hpc systems">
-          <div class="flex justify-between items-start flex-wrap gap-2">
+        <div class="card">
+          <div class="entry-head">
             <div>
-              <h3 class="text-xl font-bold">B.Sc., Computer Hardware Engineering</h3>
-              <p class="text-primary font-medium text-sm">Shiraz University</p>
+              <h3 class="entry-title">B.Sc., Computer Hardware Engineering</h3>
+              <p class="entry-sub">Shiraz University</p>
             </div>
-            <span class="text-xs font-mono bg-border-dark px-2 py-1 rounded-sm">2014 – 2019</span>
+            <span class="entry-date">2014 – 2019</span>
           </div>
-          <p class="text-sm text-slate-400 leading-relaxed"><strong class="text-slate-300">Thesis:</strong> FPGA implementation of leaky integrate-and-fire neurons in Verilog; explored hardware acceleration, reliability techniques, and digital system design practices.</p>
-          <a class="inline-flex items-center gap-1 text-xs font-mono text-primary hover:underline" href="./reports/BSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download><span class="material-symbols-outlined text-sm">picture_as_pdf</span> Thesis abstract (PDF)</a>
+          <p class="entry-body"><strong>Thesis:</strong> Fixed-point (Q4.12) leaky integrate-and-fire spiking neural network with on-chip STDP learning, verified cycle-by-cycle against a double-precision reference model.</p>
+          <a class="pdf-link" href="./reports/BSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download>BSc_thesis_abstract.pdf</a>
         </div>
       </div>
     </section>
 
-    <!-- Experience -->
-    <section class="space-y-6 sm:space-y-8" id="experience">
-      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
-        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">work</span>
-        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Experience</h2>
+    <!-- ===== experience ===== -->
+    <section class="sec reveal" id="experience">
+      <div class="sec-head">
+        <span class="ps1">$</span>
+        <h2>journalctl --unit=<span class="arg">career</span> --reverse</h2>
       </div>
-      <div class="space-y-6">
-        <h4 class="text-primary font-bold uppercase tracking-widest text-xs">Industry</h4>
-        <div class="grid md:grid-cols-2 gap-8">
-          <div class="item-card relative pl-8 border-l-2 border-border-dark hover:border-primary transition-all py-2" data-category="cloud systems">
-            <div class="absolute -left-[9px] top-2 size-4 rounded-full bg-primary border-4 border-background-dark"></div>
-            <span class="text-primary font-mono text-xs uppercase tracking-tighter">Aug 2022 — Present</span>
-            <h3 class="text-xl font-bold mt-1">Senior DevOps / Infrastructure Engineer</h3>
-            <p class="text-slate-400 text-sm mt-1"><a href="https://www.voxsolutions.co/" target="_blank" rel="noreferrer" class="text-primary hover:underline">Vox Solutions</a> · Remote</p>
-            <p class="text-slate-400 text-sm leading-relaxed mt-2">Designed GitOps‑based CI/CD (ArgoCD, Helm), improved observability (Prometheus, Grafana), automation (Ansible), and reliability across multi‑tenant environments.</p>
+      <p class="log-label">industry</p>
+      <div class="log-entry">
+        <div class="entry-head">
+          <div>
+            <h3 class="entry-title">Senior Platform Engineer</h3>
+            <p class="entry-sub"><a href="https://www.voxsolutions.co/" target="_blank" rel="noreferrer">Vox Solutions</a> · Remote</p>
           </div>
-          <div class="item-card relative pl-8 border-l-2 border-border-dark hover:border-primary transition-all py-2" data-category="cloud systems">
-            <div class="absolute -left-[9px] top-2 size-4 rounded-full bg-slate-600 border-4 border-background-dark"></div>
-            <span class="text-primary font-mono text-xs uppercase tracking-tighter">Jan 2020 — Aug 2022</span>
-            <h3 class="text-xl font-bold mt-1">DevOps → Senior DevOps Engineer</h3>
-            <p class="text-slate-400 text-sm mt-1">Barsaweb Co. · Remote</p>
-            <p class="text-slate-400 text-sm leading-relaxed mt-2">Shipped containerized high‑availability deployments; automated build/test/release; reduced operational risk via configuration‑as‑code and reproducible environments.</p>
-          </div>
+          <span class="entry-date">Aug 2022 – present</span>
         </div>
-        <h4 class="text-primary font-bold uppercase tracking-widest text-xs mt-12">Academic</h4>
-        <div class="grid md:grid-cols-2 gap-8">
-          <div class="item-card relative pl-8 border-l-2 border-border-dark hover:border-primary transition-all py-2" data-category="research hpc cloud systems">
-            <div class="absolute -left-[9px] top-2 size-4 rounded-full bg-primary border-4 border-background-dark"></div>
-            <span class="text-primary font-mono text-xs uppercase tracking-tighter">Sep 2019 — Sep 2023</span>
-            <h3 class="text-xl font-bold mt-1">Research Assistant</h3>
-            <p class="text-slate-400 text-sm mt-1">Parallel &amp; Cloud Computing Lab · Shiraz University</p>
-            <p class="text-slate-400 text-sm leading-relaxed mt-2">Scheduling &amp; utilization of heterogeneous systems; benchmarking and reproducible experiments; mentored junior students; teaching assistance in CUDA, C, and Python courses.</p>
-            <span class="inline-block mt-2 px-2 py-0.5 text-[10px] font-bold border border-border-dark rounded-sm uppercase bg-surface-dark">Grad</span>
+        <p class="entry-body">Designed GitOps-based CI/CD (ArgoCD, Helm), improved observability (Prometheus, Grafana), automation (Ansible), and reliability across multi-tenant environments.</p>
+      </div>
+      <div class="log-entry dim">
+        <div class="entry-head">
+          <div>
+            <h3 class="entry-title">DevOps → Senior DevOps Engineer</h3>
+            <p class="entry-sub">Barsaweb Co. · Remote</p>
           </div>
+          <span class="entry-date">Jun 2019 – Aug 2022</span>
         </div>
+        <p class="entry-body">Shipped containerized high-availability deployments; automated build/test/release; reduced operational risk via configuration-as-code and reproducible environments.</p>
+      </div>
+      <p class="log-label">academic</p>
+      <div class="log-entry dim">
+        <div class="entry-head">
+          <div>
+            <h3 class="entry-title">Research Assistant</h3>
+            <p class="entry-sub">Parallel &amp; Cloud Computing Lab · Shiraz University</p>
+          </div>
+          <span class="entry-date">Sep 2019 – Sep 2023</span>
+        </div>
+        <p class="entry-body">Scheduling &amp; utilization of heterogeneous systems; benchmarking and reproducible experiments; mentored junior students; teaching assistance in CUDA, C, and Python courses.</p>
       </div>
     </section>
 
-    <!-- Technical Expertise Matrix -->
-    <section class="space-y-6 sm:space-y-8" id="expertise">
-      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
-        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">precision_manufacturing</span>
-        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Technical Expertise</h2>
+    <!-- ===== expertise ===== -->
+    <section class="sec reveal" id="expertise">
+      <div class="sec-head">
+        <span class="ps1">$</span>
+        <h2>lscpu --extended --caps <span class="arg">ali</span></h2>
+        <span class="note">technical expertise</span>
       </div>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="networks systems">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-sm">router</span> Network Engineering</h4>
-          <ul class="text-slate-400 text-sm space-y-1">
-            <li>Computer Networks</li>
-            <li>Distributed Systems Routing</li>
-            <li>Edge/Fog Topology Design</li>
-            <li>Network Performance Analysis</li>
-          </ul>
-        </div>
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai systems">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-sm">neurology</span> Applied ML</h4>
-          <ul class="text-slate-400 text-sm space-y-1">
-            <li>PyTorch / PyTorch Geometric</li>
-            <li>Federated Learning (FedAvg)</li>
-            <li>Graph + Time-Series Modeling</li>
-            <li>ML Systems Benchmarking</li>
-          </ul>
-        </div>
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hpc">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-sm">speed</span> Parallel Programming</h4>
-          <ul class="text-slate-400 text-sm space-y-1">
-            <li>CUDA</li>
-            <li>OpenMP</li>
-            <li>MPI</li>
-            <li>SIMD / AVX</li>
-          </ul>
-        </div>
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="systems">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-sm">computer</span> Systems Engineering</h4>
-          <ul class="text-slate-400 text-sm space-y-1">
-            <li>Computer Architecture</li>
-            <li>Memory Hierarchy</li>
-            <li>OS Internals</li>
-            <li>Performance Profiling (Nsight)</li>
-          </ul>
-        </div>
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-sm">memory</span> Hardware Design</h4>
-          <ul class="text-slate-400 text-sm space-y-1">
+      <div class="grid-3">
+        <div class="card skill-card">
+          <h4>Hardware Design</h4>
+          <ul>
             <li>SystemVerilog / Verilog</li>
             <li>FPGA Development</li>
             <li>RTL Design</li>
             <li>TMR Reliability</li>
           </ul>
         </div>
+        <div class="card skill-card">
+          <h4>Systems Engineering</h4>
+          <ul>
+            <li>Computer Architecture</li>
+            <li>Memory Hierarchy</li>
+            <li>OS Internals</li>
+            <li>Performance Profiling (Nsight)</li>
+          </ul>
+        </div>
+        <div class="card skill-card">
+          <h4>Parallel Programming</h4>
+          <ul>
+            <li>CUDA</li>
+            <li>OpenMP</li>
+            <li>MPI</li>
+            <li>SIMD / AVX</li>
+          </ul>
+        </div>
+        <div class="card skill-card">
+          <h4>Applied ML</h4>
+          <ul>
+            <li>PyTorch / PyTorch Geometric</li>
+            <li>Federated Learning (FedAvg)</li>
+            <li>Graph + Time-Series Modeling</li>
+            <li>ML Systems Benchmarking</li>
+          </ul>
+        </div>
+        <div class="card skill-card">
+          <h4>Infrastructure</h4>
+          <ul>
+            <li>Linux / Docker / Kubernetes</li>
+            <li>GitOps (ArgoCD, Helm)</li>
+            <li>Prometheus / Grafana</li>
+            <li>Ansible</li>
+          </ul>
+        </div>
+        <div class="card skill-card">
+          <h4>Network Engineering</h4>
+          <ul>
+            <li>Computer Networks</li>
+            <li>Distributed Systems Routing</li>
+            <li>Edge/Fog Topology Design</li>
+            <li>Network Performance Analysis</li>
+          </ul>
+        </div>
       </div>
     </section>
 
-    <!-- Publications -->
-    <section class="space-y-6 sm:space-y-8 bg-surface-dark p-6 sm:p-8 md:p-12 border border-border-dark rounded-sm" id="publications">
-      <div class="flex items-center gap-3 flex-wrap border-b border-border-dark pb-4">
-        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">article</span>
-        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Publications</h2>
-        <a class="text-primary text-xs font-bold hover:underline flex items-center gap-1 ml-auto" href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer"><span class="material-symbols-outlined text-sm">school</span> Google Scholar</a>
+    <!-- ===== publications ===== -->
+    <section class="sec reveal" id="publications">
+      <div class="sec-head">
+        <span class="ps1">$</span>
+        <h2>ls <span class="arg">publications/</span></h2>
+        <span class="note"><a href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer">google scholar ↗</a></span>
       </div>
-      <div class="item-card space-y-2 bg-background-dark/50 p-6 rounded-sm border border-border-dark hover:border-primary/40 transition-all" data-category="research hpc cloud">
-        <h4 class="text-lg font-bold">A Two‑tier Multi‑objective Service Placement in Container‑based Fog Computing Platforms</h4>
-        <p class="text-slate-500 text-sm">Javad Dogani, Ali Yazdanpanah, Amirhossein Zare, Farshad Khunjush</p>
-        <p class="text-slate-500 text-sm italic">Cluster Computing (Springer), 27(4): 4491–4514 (2023)</p>
-        <div class="flex flex-wrap gap-4 mt-2">
-          <a class="inline-flex items-center gap-1 text-xs font-mono text-primary hover:underline" href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download><span class="material-symbols-outlined text-sm">picture_as_pdf</span> Abstract (PDF)</a>
-          <a class="inline-flex items-center gap-1 text-xs font-mono text-slate-400 hover:text-white" href="https://doi.org/10.1007/s10586-023-04183-8" target="_blank" rel="noreferrer">DOI</a>
+      <div class="card pub">
+        <h4>A Two-tier Multi-objective Service Placement in Container-based Fog Computing Platforms</h4>
+        <p class="authors">Javad Dogani, Ali Yazdanpanah, Amirhossein Zare, Farshad Khunjush</p>
+        <p class="venue">Cluster Computing (Springer), 27(4): 4491–4514 (2023)</p>
+        <div class="pub-links">
+          <a href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download>abstract.pdf</a>
+          <a href="https://doi.org/10.1007/s10586-023-04183-8" target="_blank" rel="noreferrer">doi:10.1007/s10586-023-04183-8</a>
         </div>
       </div>
-      <div class="item-card space-y-2 bg-background-dark/50 p-6 rounded-sm border border-border-dark hover:border-primary/40 transition-all" data-category="research hpc cloud systems">
-        <h4 class="text-lg font-bold">PreClass GPU Admission Guards</h4>
-        <p class="text-slate-500 text-sm">Ali Yazdanpanah</p>
-        <p class="text-slate-500 text-sm italic">M.Sc. Computer Systems Architecture, Shiraz University (2019–2022)</p>
-        <p class="text-slate-400 text-sm">Static GPU job classifier with LD_PRELOAD CUDA guards that enforce VRAM quotas, issue NVML sanity checks, and enable safe multi-tenant co-location.</p>
-        <div class="flex flex-wrap gap-4 mt-2">
-          <a class="inline-flex items-center gap-1 text-xs font-mono text-primary hover:underline" href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download><span class="material-symbols-outlined text-sm">picture_as_pdf</span> Thesis abstract (PDF)</a>
-        </div>
-        <div class="flex flex-wrap items-center gap-2 pt-2">
-          <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Master's thesis</span>
+      <div class="card pub" style="margin-top:1rem">
+        <h4>PreClass GPU Admission Guards <span class="tag">master's thesis</span></h4>
+        <p class="authors">Ali Yazdanpanah</p>
+        <p class="venue">M.Sc. Computer Systems Architecture, Shiraz University (2019–2023)</p>
+        <p class="desc">Static GPU job classifier with LD_PRELOAD CUDA guards that enforce VRAM quotas, issue NVML sanity checks, and enable safe multi-tenant co-location.</p>
+        <div class="pub-links">
+          <a href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download>thesis_abstract.pdf</a>
         </div>
       </div>
     </section>
 
-    <!-- Projects -->
-    <section class="space-y-6 sm:space-y-8" id="projects">
-      <button type="button" class="collapse-toggle w-full flex items-center gap-3 border-b border-border-dark pb-4 text-left" aria-expanded="false" aria-controls="projects-content" id="projects-toggle">
-        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">folder_special</span>
-        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Selected Projects</h2>
-        <span class="material-symbols-outlined text-primary collapse-chevron ml-auto" aria-hidden="true">expand_more</span>
-      </button>
-      <div class="collapse-content is-collapsed mt-4" id="projects-content" role="region" aria-labelledby="projects-toggle">
-      <div class="collapse-subsection mt-6">
-        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-parallel">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">speed</span> Parallel &amp; GPU Computing <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+    <!-- ===== projects ===== -->
+    <section class="sec reveal" id="projects">
+      <div class="sec-head">
+        <span class="ps1">$</span>
+        <h2>tree <span class="arg">projects/</span> --dirsfirst</h2>
+        <span class="note">selected work</span>
+      </div>
+
+      <!-- hardware -->
+      <div class="proj-group">
+        <button type="button" class="fold-btn" aria-expanded="true" aria-controls="proj-hw">
+          <span class="fold-marker" aria-hidden="true"></span>
+          <span class="fold-title">hardware acceleration, low-power &amp; reliability</span>
+          <span class="fold-count">6 items</span>
         </button>
-        <div class="collapse-content is-collapsed mt-2" id="projects-parallel">
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="cloud hpc systems">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">PreClass GPU Admission Guards</h3>
-              <a href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">download</span></a>
+        <div class="fold-content" id="proj-hw">
+          <div class="grid-3">
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>INT8 QNN Accelerator</h3>
+                <a class="proj-link" href="https://github.com/Ali-Yazdanpanah/qnn_cifar10" target="_blank" rel="noreferrer">[src]</a>
+              </div>
+              <p class="proj-desc">Low-power INT8 FC-layer accelerator on Artix-7: DSP48-mapped MAC, banked weight memory, clock gating and operand isolation. <strong>Outcome:</strong> Verified bit-exact against a Python golden model; synthesised in two modes (DSP48-mapped vs. LUT-fabric), ~30% fewer logic LUTs with total power essentially unchanged.</p>
+              <div class="tags"><span class="tag">verilog</span><span class="tag">qnn</span><span class="tag">architecture</span></div>
             </div>
-            <p class="text-slate-400 text-sm">Static GPU job classifier with LD_PRELOAD CUDA guards, VRAM quotas, NVML for safe multi-tenant co-location. <span class="text-slate-300">Outcome:</span> admission policy is decided before runtime and enforces per-job VRAM limits for multi-tenant GPU safety.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">C11</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
-          </div>
-        </div>
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc ai">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">GPU Accelerated 2D Convolution</h3>
-              <a href="https://github.com/Ali-Yazdanpanah/GPU-Accelerated-2D-Convolution" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>Leaky Integrate-and-Fire Neurons (FPGA)</h3>
+                <a class="proj-link" href="https://github.com/Ali-Yazdanpanah/Leaky-Integrate-and-Fire-Neurons" target="_blank" rel="noreferrer">[src]</a>
+              </div>
+              <p class="proj-desc">Fixed-point (Q4.12) spiking-neuron cores with on-chip STDP learning, configurable synapses, and Vivado automation, verified cycle-by-cycle against a double-precision reference model.</p>
+              <div class="tags"><span class="tag">verilog</span><span class="tag">fpga</span><span class="tag">rtl</span></div>
             </div>
-            <p class="text-slate-400 text-sm">Optimized CNN kernels with memory coalescing, occupancy tuning, shared-memory tiling.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
-          </div>
-        </div>
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc systems">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">Parallel Workset Graph Analytics</h3>
-              <a href="https://github.com/farzinlize/parallel_workset_graph" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>Triple Modular Redundancy</h3>
+                <a class="proj-link" href="https://github.com/Ali-Yazdanpanah/Triple-Modular-Redundancy" target="_blank" rel="noreferrer">[src]</a>
+              </div>
+              <p class="proj-desc">Fault-tolerant registers and on-chip RAM with majority voting and idle-cycle scrubbing; self-checking fault-injection testbench (single- and double-bit upsets) with a golden-model scoreboard.</p>
+              <div class="tags"><span class="tag">tmr</span><span class="tag">verilog</span><span class="tag">reliability</span></div>
             </div>
-            <p class="text-slate-400 text-sm">Adaptive workset-based graph analytics in C++/CUDA with workload-driven kernel switching.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">C++</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
-          </div>
-        </div>
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">APSP on CUDA</h3>
-              <a href="https://github.com/Ali-Yazdanpanah/apsp-cuda" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>DVFS Controller (FPGA)</h3>
+                <a class="proj-link" href="https://github.com/Ali-Yazdanpanah/dvfs_controller" target="_blank" rel="noreferrer">[src]</a>
+              </div>
+              <p class="proj-desc">Workload-driven power management in SystemVerilog: safe voltage/frequency transition sequencing over modelled MMCM DRP and I2C/PMBus, with a self-checking testbench verifying transition ordering across all three power profiles.</p>
+              <div class="tags"><span class="tag">systemverilog</span><span class="tag">dvfs</span><span class="tag">architecture</span></div>
             </div>
-            <p class="text-slate-400 text-sm">All-pairs shortest paths with tiled shared-memory kernels and warp-level primitives.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">C11</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">APSP</span></div>
-          </div>
-        </div>
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="hpc systems">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">GPU Hash Map</h3>
-              <a href="https://github.com/Ali-Yazdanpanah/gpu_hashmap" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>HSA Video Tracker (FPGA)</h3>
+                <a class="proj-link" href="https://github.com/Ali-Yazdanpanah/hsa_video_tracker" target="_blank" rel="noreferrer">[src]</a>
+              </div>
+              <p class="proj-desc">Energy-efficient HSA-based video object tracking; scout/worker bees, clock gating, SAD early termination.</p>
+              <div class="tags"><span class="tag">verilog</span><span class="tag">hsa</span><span class="tag">fpga</span></div>
             </div>
-            <p class="text-slate-400 text-sm">A high-performance CUDA key-value store designed for massive-scale lookups with hierarchical parallelism and interconnect-aware data movement. <span class="text-slate-300">Outcome:</span> optimized for high-throughput batched lookups under GPU memory and contention constraints.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">CUDA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">C++</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>Design-for-Test Automation</h3>
+              </div>
+              <p class="proj-desc">DFT structures and scan chains for coverage-driven validation and diagnostics.</p>
+              <div class="tags"><span class="tag">dft</span><span class="tag">rtl</span></div>
+            </div>
           </div>
         </div>
       </div>
-        </div>
-      </div>
-      <div class="collapse-subsection mt-8">
-        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-arch">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">computer</span> Computer Architecture &amp; Systems <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+
+      <!-- parallel & gpu -->
+      <div class="proj-group">
+        <button type="button" class="fold-btn" aria-expanded="true" aria-controls="proj-gpu">
+          <span class="fold-marker" aria-hidden="true"></span>
+          <span class="fold-title">parallel &amp; gpu computing</span>
+          <span class="fold-count">5 items</span>
         </button>
-        <div class="collapse-content is-collapsed mt-2" id="projects-arch">
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware systems">
-          <h3 class="text-lg font-bold mb-2">Superscalar &amp; MIPS Architecture Projects</h3>
-          <p class="text-slate-400 text-sm">Superscalar out-of-order pipelines and MIPS processor; caching, hazard resolution, microarchitecture.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">MIPS</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
-        </div>
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="systems">
-          <h3 class="text-lg font-bold mb-2">Minimal OS Kernel (C)</h3>
-          <p class="text-slate-400 text-sm">Instructional OS kernels with cooperative scheduling, memory management, device abstractions.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">C11</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
-        </div>
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="systems">
-          <h3 class="text-lg font-bold mb-2">Async Messaging System (Java)</h3>
-          <p class="text-slate-400 text-sm">Lightweight async messaging with queue-based routing, fault handling, instrumentation.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Java</span></div>
+        <div class="fold-content" id="proj-gpu">
+          <div class="grid-3">
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>PreClass GPU Admission Guards</h3>
+                <a class="proj-link" href="./reports/MSc_thesis_abstract.pdf" target="_blank" rel="noreferrer" download>[pdf]</a>
+              </div>
+              <p class="proj-desc">Static GPU job classifier with LD_PRELOAD CUDA guards, VRAM quotas, NVML for safe multi-tenant co-location. <strong>Outcome:</strong> admission policy decided before runtime, enforcing per-job VRAM limits for multi-tenant GPU safety.</p>
+              <div class="tags"><span class="tag">cuda</span><span class="tag">c11</span><span class="tag">architecture</span></div>
+            </div>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>GPU Hash Map</h3>
+                <a class="proj-link" href="https://github.com/Ali-Yazdanpanah/gpu_hashmap" target="_blank" rel="noreferrer">[src]</a>
+              </div>
+              <p class="proj-desc">Lock-free CUDA key-value store using slab-hashing and warp-aggregation, with an interconnect-aware data-movement heuristic. <strong>Outcome:</strong> global atomics cut ~32× (N → N/32); benchmarked against a CPU baseline.</p>
+              <div class="tags"><span class="tag">cuda</span><span class="tag">c++</span><span class="tag">architecture</span></div>
+            </div>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>GPU Accelerated 2D Convolution</h3>
+                <a class="proj-link" href="https://github.com/Ali-Yazdanpanah/GPU-Accelerated-2D-Convolution" target="_blank" rel="noreferrer">[src]</a>
+              </div>
+              <p class="proj-desc">Optimized CNN kernels with memory coalescing, occupancy tuning, and shared-memory tiling.</p>
+              <div class="tags"><span class="tag">cuda</span><span class="tag">architecture</span></div>
+            </div>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>APSP on CUDA</h3>
+                <a class="proj-link" href="https://github.com/Ali-Yazdanpanah/apsp-cuda" target="_blank" rel="noreferrer">[src]</a>
+              </div>
+              <p class="proj-desc">All-pairs shortest paths with tiled shared-memory kernels and warp-level primitives.</p>
+              <div class="tags"><span class="tag">cuda</span><span class="tag">c11</span><span class="tag">apsp</span></div>
+            </div>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>Parallel Workset Graph Analytics</h3>
+                <a class="proj-link" href="https://github.com/farzinlize/parallel_workset_graph" target="_blank" rel="noreferrer">[src]</a>
+              </div>
+              <p class="proj-desc">Adaptive workset-based graph analytics in C++/CUDA with workload-driven kernel switching.</p>
+              <div class="tags"><span class="tag">cuda</span><span class="tag">c++</span><span class="tag">architecture</span></div>
+            </div>
+          </div>
         </div>
       </div>
-        </div>
-      </div>
-      <div class="collapse-subsection mt-8">
-        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-hardware">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">memory</span> Hardware Acceleration, Low-Power &amp; Reliability <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+
+      <!-- distributed & cloud -->
+      <div class="proj-group">
+        <button type="button" class="fold-btn" aria-expanded="true" aria-controls="proj-cloud">
+          <span class="fold-marker" aria-hidden="true"></span>
+          <span class="fold-title">distributed &amp; cloud systems</span>
+          <span class="fold-count">6 items</span>
         </button>
-        <div class="collapse-content is-collapsed mt-2" id="projects-hardware">
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware ai">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">Leaky Integrate-and-Fire Neurons (FPGA)</h3>
-              <a href="https://github.com/Ali-Yazdanpanah/Leaky-Integrate-and-Fire-Neurons" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+        <div class="fold-content" id="proj-cloud">
+          <div class="grid-2">
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>Two-tier Fog Service Placement Optimizer</h3>
+                <a class="proj-link" href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download>[pdf]</a>
+              </div>
+              <p class="proj-desc">Hierarchical fog–cloud orchestration with NSGA-II and TOPSIS for latency, energy, and deployment cost.</p>
+              <div class="tags"><span class="tag">fog</span><span class="tag">nsga-ii</span><span class="tag">cloud</span></div>
             </div>
-            <p class="text-slate-400 text-sm">Parameterized LIF neuron cores in Verilog; configurable leakage, thresholding, spike outputs.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">FPGA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">RTL</span></div>
-          </div>
-        </div>
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">Triple Modular Redundancy</h3>
-              <a href="https://github.com/Ali-Yazdanpanah/Triple-Modular-Redundancy" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>Federated STGNN for Backbone Traffic Prediction</h3>
+                <a class="proj-link" href="https://github.com/Ali-Yazdanpanah/Decentralized-Traffic-Prediction" target="_blank" rel="noreferrer">[src]</a>
+              </div>
+              <p class="proj-desc">Applied ML pipeline for telecom traffic prediction with fluid partitioning, synchronization ablations, and systems profiling on Apple Silicon. <strong>Outcome:</strong> up to 90% telemetry reduction while preserving strong predictive stability on the 22-node backbone.</p>
+              <div class="tags"><span class="tag">federated learning</span><span class="tag">applied ml</span><span class="tag">networks</span></div>
             </div>
-            <p class="text-slate-400 text-sm">Generative TMR wrappers with fault injection, voter coverage and resilience metrics.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">TMR</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Reliability</span></div>
-          </div>
-        </div>
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware fpga low-power">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">DVFS Controller (FPGA)</h3>
-              <a href="https://github.com/Ali-Yazdanpanah/dvfs_controller" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>Interdependent Network Percolation Engine</h3>
+                <a class="proj-link" href="https://github.com/Ali-Yazdanpanah/Interdependent-Network-Percolation" target="_blank" rel="noreferrer">[src]</a>
+              </div>
+              <p class="proj-desc">High-performance C++/Python engine for site-percolation and cascading-failure analysis in interdependent network systems. <strong>Outcome:</strong> reproducible parameter-sweep experiments quantifying robustness thresholds under node-removal scenarios.</p>
+              <div class="tags"><span class="tag">site percolation</span><span class="tag">networks</span><span class="tag">hpc</span></div>
             </div>
-            <p class="text-slate-400 text-sm">SystemVerilog DVFS for Xilinx SoC: workload monitor, three power profiles, MMCM DRP and I2C/PMBus.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">SystemVerilog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">DVFS</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
-          </div>
-        </div>
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware fpga ai low-power">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">HSA Video Tracker (FPGA)</h3>
-              <a href="https://github.com/Ali-Yazdanpanah/hsa_video_tracker" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>Vox Solutions Infrastructure Reliability</h3>
+                <a class="proj-link" href="https://www.voxsolutions.co/" target="_blank" rel="noreferrer">[link]</a>
+              </div>
+              <p class="proj-desc">Production-focused DevOps and platform engineering: GitOps delivery, observability, and multi-tenant reliability improvements. <strong>Outcome:</strong> standardized deployment/monitoring workflows across multi-tenant production services.</p>
+              <div class="tags"><span class="tag">gitops</span><span class="tag">kubernetes</span><span class="tag">observability</span></div>
             </div>
-            <p class="text-slate-400 text-sm">Energy-efficient HSA-based video object tracking; scout/worker bees, clock gating, SAD early termination.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">HSA</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">FPGA</span></div>
-          </div>
-        </div>
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware fpga ai low-power">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">INT8 QNN Accelerator for CIFAR-10</h3>
-              <a href="https://github.com/Ali-Yazdanpanah/qnn_cifar10" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>Surnet Blockchain Network</h3>
+                <a class="proj-link" href="https://surnet.org/" target="_blank" rel="noreferrer">[link]</a>
+              </div>
+              <p class="proj-desc">Ethereum-based blockchain with Kubernetes, GitOps, Grafana observability.</p>
+              <div class="tags"><span class="tag">kubernetes</span><span class="tag">devops</span></div>
             </div>
-            <p class="text-slate-400 text-sm">Low-power INT8 QNN: DSP48-friendly MAC, clock gating, operand isolation, banked BRAM.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Verilog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">QNN</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Architecture</span></div>
+            <div class="card proj-card">
+              <div class="proj-head">
+                <h3>Arsonex Online Exchange</h3>
+                <a class="proj-link" href="https://arsonex.com/" target="_blank" rel="noreferrer">[link]</a>
+              </div>
+              <p class="proj-desc">CI/CD and containerized infrastructure for high-availability cryptocurrency exchange.</p>
+              <div class="tags"><span class="tag">docker</span><span class="tag">devops</span></div>
+            </div>
           </div>
-        </div>
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="hardware">
-          <h3 class="text-lg font-bold mb-2">Design-for-Test Automation</h3>
-          <p class="text-slate-400 text-sm">DFT structures and scan chains for coverage-driven validation and diagnostics.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">DFT</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">RTL</span></div>
         </div>
       </div>
-        </div>
-      </div>
-      <div class="collapse-subsection mt-8">
-        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-cloud">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">cloud</span> Distributed &amp; Cloud Systems <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+
+      <!-- architecture & systems (secondary) -->
+      <div class="proj-group">
+        <button type="button" class="fold-btn" aria-expanded="false" aria-controls="proj-arch">
+          <span class="fold-marker" aria-hidden="true"></span>
+          <span class="fold-title">computer architecture &amp; systems coursework projects</span>
+          <span class="fold-count">3 items</span>
         </button>
-        <div class="collapse-content is-collapsed mt-2" id="projects-cloud">
-      <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="cloud systems networks">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">Vox Solutions Infrastructure Reliability</h3>
-              <a href="https://www.voxsolutions.co/" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">link</span></a>
+        <div class="fold-content is-collapsed" id="proj-arch">
+          <div class="grid-3">
+            <div class="card proj-card">
+              <div class="proj-head"><h3>Superscalar &amp; MIPS Architecture Projects</h3></div>
+              <p class="proj-desc">Superscalar out-of-order pipelines and MIPS processor; caching, hazard resolution, microarchitecture.</p>
+              <div class="tags"><span class="tag">mips</span><span class="tag">architecture</span></div>
             </div>
-            <p class="text-slate-400 text-sm">Production-focused DevOps and platform engineering: GitOps delivery, observability, and multi-tenant reliability improvements. <span class="text-slate-300">Outcome:</span> standardized deployment/monitoring workflows across multi-tenant production services.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">GitOps</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Kubernetes</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Observability</span></div>
-          </div>
-        </div>
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm overflow-hidden hover:border-primary/50 transition-all" data-category="cloud systems research">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">Two-tier Fog Service Placement Optimizer</h3>
-              <a href="./reports/A_two_tier_multi_objective_service_placement_in_container_based_fogcloud_computing_platforms_abstract.pdf" target="_blank" rel="noreferrer" download class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">download</span></a>
+            <div class="card proj-card">
+              <div class="proj-head"><h3>Minimal OS Kernel (C)</h3></div>
+              <p class="proj-desc">Instructional OS kernels with cooperative scheduling, memory management, device abstractions.</p>
+              <div class="tags"><span class="tag">c11</span><span class="tag">architecture</span></div>
             </div>
-            <p class="text-slate-400 text-sm">Hierarchical fog–cloud orchestration with NSGA-II and TOPSIS for latency, energy, and deployment cost.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Fog</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">NSGA-II</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Cloud</span></div>
-          </div>
-        </div>
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="cloud systems">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">Surnet Blockchain Network</h3>
-              <a href="https://surnet.org/" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">link</span></a>
+            <div class="card proj-card">
+              <div class="proj-head"><h3>Async Messaging System (Java)</h3></div>
+              <p class="proj-desc">Lightweight async messaging with queue-based routing, fault handling, instrumentation.</p>
+              <div class="tags"><span class="tag">java</span></div>
             </div>
-            <p class="text-slate-400 text-sm">Ethereum-based blockchain with Kubernetes, GitOps, Grafana observability.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Kubernetes</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">DevOps</span></div>
-          </div>
-        </div>
-        <div class="item-card flex flex-col bg-surface-dark border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="cloud systems">
-          <div class="p-6 space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="text-lg font-bold">Arsonex Online Exchange</h3>
-              <a href="https://arsonex.com/" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">link</span></a>
-            </div>
-            <p class="text-slate-400 text-sm">CI/CD and containerized infrastructure for high-availability cryptocurrency exchange.</p>
-            <div class="flex flex-wrap gap-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Docker</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">DevOps</span></div>
           </div>
         </div>
       </div>
-        </div>
-      </div>
-      <div class="collapse-subsection mt-8">
-        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-applied-ml-networks">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">hub</span> Networks &amp; Applied ML <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
+
+      <!-- nlp (secondary) -->
+      <div class="proj-group">
+        <button type="button" class="fold-btn" aria-expanded="false" aria-controls="proj-nlp">
+          <span class="fold-marker" aria-hidden="true"></span>
+          <span class="fold-title">natural language processing</span>
+          <span class="fold-count">2 items</span>
         </button>
-        <div class="collapse-content is-collapsed mt-2" id="projects-applied-ml-networks">
-      <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai systems research networks">
-          <div class="flex justify-between items-start gap-2 mb-2">
-            <h3 class="text-lg font-bold">Federated STGNN for Backbone Traffic Prediction</h3>
-            <a href="https://github.com/Ali-Yazdanpanah/Decentralized-Traffic-Prediction" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
+        <div class="fold-content is-collapsed" id="proj-nlp">
+          <div class="grid-2">
+            <div class="card proj-card">
+              <div class="proj-head"><h3>Semantic Analytics Platform</h3></div>
+              <p class="proj-desc">Text analytics, topic modeling, statistical NLP for domain insights.</p>
+              <div class="tags"><span class="tag">nlp</span></div>
+            </div>
+            <div class="card proj-card">
+              <div class="proj-head"><h3>Tweet Polarity Classifier</h3></div>
+              <p class="proj-desc">ML-driven sentiment classifier for social media streams.</p>
+              <div class="tags"><span class="tag">sentiment</span></div>
+            </div>
           </div>
-          <p class="text-slate-400 text-sm">Applied ML pipeline for telecom traffic prediction with fluid partitioning, synchronization ablations, and systems profiling on Apple Silicon. <span class="text-slate-300">Outcome:</span> reached up to 90% telemetry reduction while preserving strong predictive stability on the 22-node backbone.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Federated Learning</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Applied ML</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Networks</span></div>
         </div>
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai systems networks hpc">
-          <div class="flex justify-between items-start gap-2 mb-2">
-            <h3 class="text-lg font-bold">Interdependent Network Percolation Engine</h3>
-            <a href="https://github.com/Ali-Yazdanpanah/Interdependent-Network-Percolation" target="_blank" rel="noreferrer" class="text-primary shrink-0"><span class="material-symbols-outlined text-lg">code</span></a>
-          </div>
-          <p class="text-slate-400 text-sm">High-performance C++/Python engine for site-percolation and cascading-failure analysis in interdependent network systems. <span class="text-slate-300">Outcome:</span> enables reproducible parameter-sweep experiments to quantify robustness thresholds under node-removal scenarios.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Site Percolation</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Networks</span><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">HPC</span></div>
-        </div>
-      </div>
-        </div>
-      </div>
-      <div class="collapse-subsection mt-8">
-        <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="projects-nlp">
-          <h4 class="text-primary font-bold uppercase tracking-widest text-xs flex items-center gap-2"><span class="material-symbols-outlined text-sm">translate</span> Natural Language Processing <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
-        </button>
-        <div class="collapse-content is-collapsed mt-2" id="projects-nlp">
-      <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai">
-          <h3 class="text-lg font-bold mb-2">Semantic Analytics Platform</h3>
-          <p class="text-slate-400 text-sm">Text analytics, topic modeling, statistical NLP for domain insights.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">NLP</span></div>
-        </div>
-        <div class="item-card bg-surface-dark p-6 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="ai">
-          <h3 class="text-lg font-bold mb-2">Tweet Polarity Classifier</h3>
-          <p class="text-slate-400 text-sm">ML-driven sentiment classifier for social media streams.</p>
-          <div class="flex flex-wrap gap-2 mt-2"><span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm bg-primary/20 text-primary border border-primary/40">Sentiment</span></div>
-        </div>
-      </div>
-        </div>
-      </div>
       </div>
     </section>
 
-    <!-- Current Research Questions -->
-    <section class="space-y-6 sm:space-y-8" id="research-questions">
-      <div class="flex items-center gap-3 border-b border-border-dark pb-4">
-        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">help</span>
-        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Current Research Questions</h2>
+    <!-- ===== research questions ===== -->
+    <section class="sec reveal" id="research-questions">
+      <div class="sec-head">
+        <span class="ps1">$</span>
+        <h2>grep -rn <span class="arg">"open questions"</span> ./research</h2>
       </div>
-      <div class="item-card grid md:grid-cols-1 gap-6 bg-surface-dark p-8 border border-border-dark rounded-sm hover:border-primary/50 transition-all" data-category="research hpc systems networks ai">
-        <ul class="text-slate-400 space-y-2 list-disc list-inside">
-          <li>How can federated training remain stable under network and hardware heterogeneity without sacrificing convergence quality?</li>
-          <li>Which communication-scheduling policies best trade off wall-clock latency, bandwidth usage, and model quality for edge deployments?</li>
-          <li>How can graph- and systems-aware partitioning reduce stragglers in distributed training over real telecom topologies?</li>
-          <li>What co-design patterns between accelerators and orchestration layers improve performance-per-watt for ML in networked systems?</li>
+      <div class="out">
+        <p class="log-label" style="margin-top:0">hardware &amp; architecture</p>
+        <ul class="ls-list">
+          <li>Which accelerator–memory co-design choices (banking, on-chip buffering, quantized datapaths) most reduce data movement per unit of useful work?</li>
+          <li>When does near-memory or in-memory computation genuinely remove data movement, rather than just relocating it?</li>
+        </ul>
+        <p class="log-label">gpu &amp; parallel systems</p>
+        <ul class="ls-list">
+          <li>How much GPU contention can be predicted from static, pre-execution signals, versus what genuinely requires runtime profiling?</li>
+          <li>Which memory-access and scheduling patterns dominate throughput for irregular, atomic-heavy GPU workloads?</li>
+        </ul>
+        <p class="log-label">distributed &amp; cloud systems</p>
+        <ul class="ls-list">
+          <li>How far can admission-time classification and lightweight runtime guards go toward safe multi-tenant accelerator sharing, without static hardware partitioning?</li>
+          <li>How should resource-arbitration decisions be split between a central orchestrator and node-local enforcement under strict SLAs?</li>
         </ul>
       </div>
     </section>
 
-    <!-- Coursework -->
-    <section class="space-y-6 sm:space-y-8" id="coursework">
-      <button type="button" class="collapse-toggle w-full flex items-center gap-3 border-b border-border-dark pb-4 text-left" aria-expanded="false" aria-controls="coursework-content" id="coursework-toggle">
-        <span class="material-symbols-outlined text-primary text-2xl sm:text-3xl">menu_book</span>
-        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Selected Coursework</h2>
-        <span class="material-symbols-outlined text-primary collapse-chevron ml-auto" aria-hidden="true">expand_more</span>
-      </button>
-      <div class="collapse-content is-collapsed mt-4" id="coursework-content" role="region" aria-labelledby="coursework-toggle">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-6">
-        <div class="space-y-4 collapse-subsection">
-          <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="coursework-parallel">
-            <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3 flex items-center gap-2">HPC, Systems and Networks <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
-          </button>
-          <div class="collapse-content is-collapsed space-y-3 mt-2" id="coursework-parallel">
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hpc systems">
-              <h5 class="font-bold text-sm">Parallel Algorithms</h5>
-              <p class="text-slate-400 text-xs">Multi-core and GPU algorithm design, synchronization patterns, scalability benchmarking.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hpc">
-              <h5 class="font-bold text-sm">GPU Programming</h5>
-              <p class="text-slate-400 text-xs">CUDA kernel optimization, memory hierarchy tuning, accelerator-driven pipelines.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hpc">
-              <h5 class="font-bold text-sm">Numerical Methods</h5>
-              <p class="text-slate-400 text-xs">Iterative solvers, error control, floating-point stability for scientific workloads.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="ai">
-              <h5 class="font-bold text-sm">Text Mining</h5>
-              <p class="text-slate-400 text-xs">Statistical NLP, feature engineering, semantic modeling across large-scale document corpora.</p>
-            </div>
-          </div>
-        </div>
-        <div class="space-y-4 collapse-subsection">
-          <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="coursework-systems">
-            <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3 flex items-center gap-2">Systems &amp; Architecture <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
-          </button>
-          <div class="collapse-content is-collapsed space-y-3 mt-2" id="coursework-systems">
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware systems">
-              <h5 class="font-bold text-sm">Advanced Computer Architecture</h5>
-              <p class="text-slate-400 text-xs">Superscalar pipelines, cache hierarchies, multi-processor design trade-offs.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware systems">
-              <h5 class="font-bold text-sm">Computer Architecture</h5>
-              <p class="text-slate-400 text-xs">CPU datapath design, ISA analysis, quantitative performance modeling.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
-              <h5 class="font-bold text-sm">Operating Systems Design</h5>
-              <p class="text-slate-400 text-xs">Kernel services, process scheduling, concurrency primitives for heterogeneous systems.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware systems">
-              <h5 class="font-bold text-sm">Microprocessor Systems</h5>
-              <p class="text-slate-400 text-xs">Low-level programming, peripheral interfacing, timing-aware integration.</p>
-            </div>
-          </div>
-        </div>
-        <div class="space-y-4 collapse-subsection">
-          <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="coursework-hardware">
-            <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3 flex items-center gap-2">Hardware &amp; Reliability <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
-          </button>
-          <div class="collapse-content is-collapsed space-y-3 mt-2" id="coursework-hardware">
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware">
-              <h5 class="font-bold text-sm">Hardware Testing &amp; Testability</h5>
-              <p class="text-slate-400 text-xs">DFT structures, fault modeling, coverage-driven validation workflows.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware">
-              <h5 class="font-bold text-sm">Fault-Tolerant System Design</h5>
-              <p class="text-slate-400 text-xs">Redundancy techniques, reliability analysis, resilient architecture strategies.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware">
-              <h5 class="font-bold text-sm">VLSI Design</h5>
-              <p class="text-slate-400 text-xs">CMOS logic implementation, layout constraints, timing closure fundamentals.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware">
-              <h5 class="font-bold text-sm">Digital System Design</h5>
-              <p class="text-slate-400 text-xs">HDL-driven design flow, simulation, synthesis of complex digital logic.</p>
-            </div>
-          </div>
-        </div>
-        <div class="space-y-4 collapse-subsection">
-          <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="coursework-networking">
-            <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3 flex items-center gap-2">Networking &amp; Embedded <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
-          </button>
-          <div class="collapse-content is-collapsed space-y-3 mt-2" id="coursework-networking">
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
-              <h5 class="font-bold text-sm">Wireless Sensor Networks</h5>
-              <p class="text-slate-400 text-xs">Energy-aware routing, distributed sensing, multi-hop protocol design.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="hardware systems">
-              <h5 class="font-bold text-sm">Advanced Embedded Systems</h5>
-              <p class="text-slate-400 text-xs">Real-time constraints, RTOS integration, hardware/software co-design.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
-              <h5 class="font-bold text-sm">Computer Networks</h5>
-              <p class="text-slate-400 text-xs">Layered architectures, routing algorithms, transport protocol analysis.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
-              <h5 class="font-bold text-sm">Data Communications</h5>
-              <p class="text-slate-400 text-xs">Physical/link-layer signaling, error control, throughput optimization.</p>
-            </div>
-          </div>
-        </div>
-        <div class="space-y-4 collapse-subsection">
-          <button type="button" class="collapse-toggle w-full text-left" aria-expanded="false" aria-controls="coursework-software">
-            <h4 class="text-primary font-bold uppercase tracking-widest text-xs border-l-2 border-primary pl-3 flex items-center gap-2">Software &amp; Theory <span class="material-symbols-outlined text-sm collapse-chevron">expand_more</span></h4>
-          </button>
-          <div class="collapse-content is-collapsed space-y-3 mt-2" id="coursework-software">
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems hpc">
-              <h5 class="font-bold text-sm">Design &amp; Analysis of Algorithms</h5>
-              <p class="text-slate-400 text-xs">Algorithmic paradigms, complexity bounds, optimization strategies.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
-              <h5 class="font-bold text-sm">Data Structures &amp; Algorithms I</h5>
-              <p class="text-slate-400 text-xs">Core data structures, asymptotic analysis, implementation patterns.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="systems">
-              <h5 class="font-bold text-sm">Theory of Computation</h5>
-              <p class="text-slate-400 text-xs">Automata, formal languages, computability foundations.</p>
-            </div>
-            <div class="item-card p-4 border border-border-dark rounded-sm hover:border-primary/40 transition-all min-h-[6.5rem] flex flex-col" data-category="ai">
-              <h5 class="font-bold text-sm">Artificial Intelligence</h5>
-              <p class="text-slate-400 text-xs">Heuristic search, knowledge representation, introductory machine learning.</p>
-            </div>
-          </div>
-        </div>
+    <!-- ===== coursework ===== -->
+    <section class="sec reveal" id="coursework">
+      <div class="sec-head">
+        <span class="ps1">$</span>
+        <h2>find <span class="arg">coursework/</span> -type d</h2>
       </div>
+      <button type="button" class="fold-btn" aria-expanded="true" aria-controls="coursework-content">
+        <span class="fold-marker" aria-hidden="true"></span>
+        <span class="fold-title">selected coursework</span>
+        <span class="fold-count">6 dirs / 25 courses</span>
+      </button>
+      <div class="fold-content" id="coursework-content">
+        <div class="course-tree grid-2">
+          <div class="course-group">
+            <h5>hpc-systems-networks/</h5>
+            <ul class="course-list">
+              <li><b>Parallel Algorithms</b>: multi-core and GPU algorithm design, synchronization patterns, scalability benchmarking</li>
+              <li><b>GPU Programming</b>: CUDA kernel optimization, memory hierarchy tuning, accelerator-driven pipelines</li>
+              <li><b>Numerical Methods</b>: iterative solvers, error control, floating-point stability for scientific workloads</li>
+              <li><b>Text Mining</b>: statistical NLP, feature engineering, semantic modeling across large corpora</li>
+            </ul>
+          </div>
+          <div class="course-group">
+            <h5>systems-architecture/</h5>
+            <ul class="course-list">
+              <li><b>Advanced Computer Architecture</b>: superscalar pipelines, cache hierarchies, multi-processor design trade-offs</li>
+              <li><b>Computer Architecture</b>: CPU datapath design, ISA analysis, quantitative performance modeling</li>
+              <li><b>Operating Systems Design</b>: kernel services, process scheduling, concurrency primitives</li>
+              <li><b>Microprocessor Systems</b>: low-level programming, peripheral interfacing, timing-aware integration</li>
+            </ul>
+          </div>
+          <div class="course-group">
+            <h5>hardware-reliability/</h5>
+            <ul class="course-list">
+              <li><b>Hardware Testing &amp; Testability</b>: DFT structures, fault modeling, coverage-driven validation</li>
+              <li><b>Fault-Tolerant System Design</b>: redundancy techniques, reliability analysis, resilient architectures</li>
+              <li><b>VLSI Design</b>: CMOS logic implementation, layout constraints, timing closure fundamentals</li>
+              <li><b>Digital System Design</b>: HDL-driven design flow, simulation, synthesis of complex digital logic</li>
+            </ul>
+          </div>
+          <div class="course-group">
+            <h5>circuits-signals/</h5>
+            <ul class="course-list">
+              <li><b>Electronic Circuits (+ Lab)</b>: transistor-level circuit analysis and design with hands-on laboratory work</li>
+              <li><b>Electrical Circuits (+ Lab)</b>: circuit analysis fundamentals: network theorems, transient and steady-state response</li>
+              <li><b>Signals and Systems</b>: continuous- and discrete-time signals, LTI systems, transform-domain analysis</li>
+            </ul>
+          </div>
+          <div class="course-group">
+            <h5>networking-embedded/</h5>
+            <ul class="course-list">
+              <li><b>Wireless Sensor Networks</b>: energy-aware routing, distributed sensing, multi-hop protocol design</li>
+              <li><b>Advanced Embedded Systems</b>: real-time constraints, RTOS integration, hardware/software co-design</li>
+              <li><b>Computer Networks</b>: layered architectures, routing algorithms, transport protocol analysis</li>
+              <li><b>Data Communications</b>: physical/link-layer signaling, error control, throughput optimization</li>
+            </ul>
+          </div>
+          <div class="course-group">
+            <h5>software-theory/</h5>
+            <ul class="course-list">
+              <li><b>Design &amp; Analysis of Algorithms</b>: algorithmic paradigms, complexity bounds, optimization strategies</li>
+              <li><b>Data Structures &amp; Algorithms I</b>: core data structures, asymptotic analysis, implementation patterns</li>
+              <li><b>Theory of Computation</b>: automata, formal languages, computability foundations</li>
+              <li><b>Artificial Intelligence</b>: heuristic search, knowledge representation, introductory machine learning</li>
+              <li><b>Discrete Structure</b>: combinatorics, graph theory, and logic foundations</li>
+              <li><b>Engineering Mathematics</b>: differential equations and transform methods for engineering analysis</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Contact -->
-    <section class="space-y-6 border-t border-border-dark pt-8 sm:pt-12" id="contact">
-      <h2 class="text-2xl font-black uppercase tracking-tight flex items-center gap-3">
-        <span class="material-symbols-outlined text-primary text-2xl">contact_mail</span>
-        Contact
-      </h2>
-      <p class="text-slate-300 text-sm">Open to PhD opportunities in distributed Systems, Computer Networks, HPC, Applied ML and ML for systems.</p>
-      <div class="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 text-slate-400">
-        <a class="flex items-center gap-2 text-primary hover:underline py-1" href="mailto:yazdanpanah.aly@gmail.com"><span class="material-symbols-outlined text-lg">mail</span> yazdanpanah.aly@gmail.com</a>
-        <span class="hidden sm:inline text-slate-600">·</span>
-        <a class="flex items-center gap-2 text-primary hover:underline py-1" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer"><svg class="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.341-3.369-1.341-.454-1.152-1.11-1.459-1.11-1.459-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.987 1.029-2.687-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.7 1.028 1.594 1.028 2.687 0 3.847-2.337 4.694-4.566 4.942.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/></svg> GitHub</a>
-        <span class="hidden sm:inline text-slate-600">·</span>
-        <a class="flex items-center gap-2 text-primary hover:underline py-1" href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer"><svg class="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg> LinkedIn</a>
-        <span class="hidden sm:inline text-slate-600">·</span>
-        <a class="flex items-center gap-2 text-primary hover:underline py-1" href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer"><span class="material-symbols-outlined text-lg">school</span> Google Scholar</a>
+    <!-- ===== contact ===== -->
+    <section class="sec reveal" id="contact">
+      <div class="sec-head">
+        <span class="ps1">$</span>
+        <h2>ping <span class="arg">ali</span></h2>
+        <span class="note">64 bytes: icmp_seq=1 ttl=64 · reachable</span>
+      </div>
+      <div class="card contact-box">
+        <p class="contact-note">Open to <b>PhD opportunities</b> in computer architecture and hardware/software co-design; GPU/HPC and parallel systems; and distributed and cloud systems.</p>
+        <ul class="contact-lines">
+          <li><span class="key">email</span> <a href="mailto:yazdanpanah.aly@gmail.com">yazdanpanah.aly@gmail.com</a></li>
+          <li><span class="key">github</span> <a href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer">github.com/Ali-Yazdanpanah</a></li>
+          <li><span class="key">linkedin</span> <a href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer">linkedin.com/in/ali-yazdanpanah-5a7b10146</a></li>
+          <li><span class="key">scholar</span> <a href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer">scholar.google.com → Ali Yazdanpanah</a></li>
+        </ul>
       </div>
     </section>
+
   </main>
 
-  <footer class="bg-surface-dark border-t border-border-dark mt-12 sm:mt-16 py-8 sm:py-12 px-4 sm:px-6">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8 text-center md:text-left">
-      <p class="text-slate-400 text-xs sm:text-sm order-2 md:order-1">© <span id="y"></span> Ali Yazdanpanah. Built for GitHub Pages.</p>
-      <div class="flex flex-wrap justify-center gap-4 sm:gap-6 order-1 md:order-2">
-        <a class="text-slate-500 hover:text-primary transition-colors flex items-center gap-2 text-sm" href="mailto:yazdanpanah.aly@gmail.com"><span class="material-symbols-outlined text-lg">mail</span> Email</a>
-        <a class="text-slate-500 hover:text-primary transition-colors flex items-center gap-2 text-sm" href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer"><svg class="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.341-3.369-1.341-.454-1.152-1.11-1.459-1.11-1.459-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.987 1.029-2.687-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.7 1.028 1.594 1.028 2.687 0 3.847-2.337 4.694-4.566 4.942.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/></svg> GitHub</a>
-        <a class="text-slate-500 hover:text-primary transition-colors flex items-center gap-2 text-sm" href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer"><svg class="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg> LinkedIn</a>
-        <a class="text-slate-500 hover:text-primary transition-colors flex items-center gap-2 text-sm" href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer"><span class="material-symbols-outlined text-lg">school</span> Scholar</a>
+  <!-- ===== status bar footer ===== -->
+  <footer class="statusbar">
+    <div class="wrap">
+      <div class="statusbar-inner">
+        <span class="seg seg-green">[0] portfolio*</span>
+        <span class="seg">© <span id="y"></span> Ali Yazdanpanah</span>
+        <span class="seg">built for GitHub Pages</span>
+        <span class="right">
+          <a href="mailto:yazdanpanah.aly@gmail.com">email</a>
+          <a href="https://github.com/Ali-Yazdanpanah" target="_blank" rel="noreferrer">github</a>
+          <a href="https://linkedin.com/in/ali-yazdanpanah-5a7b10146" target="_blank" rel="noreferrer">linkedin</a>
+          <a href="https://scholar.google.com/citations?user=_4As3n4AAAAJ&hl=en&oi=ao" target="_blank" rel="noreferrer">scholar</a>
+          <span class="seg seg-amber">ali@hpc ▸ ~/portfolio</span>
+        </span>
       </div>
     </div>
   </footer>
 
-      <script>
-    (function () {
-      document.getElementById('y').textContent = new Date().getFullYear();
-
-      var menuBtn = document.getElementById('nav-menu-btn');
-      var mobilePanel = document.getElementById('nav-mobile-panel');
-
-      function closeMobilePanel() {
-        if (mobilePanel && mobilePanel.classList.contains('is-open')) {
-          mobilePanel.classList.remove('is-open');
-          mobilePanel.setAttribute('aria-hidden', 'true');
-          if (menuBtn) {
-            menuBtn.setAttribute('aria-expanded', 'false');
-            menuBtn.setAttribute('aria-label', 'Open menu');
-            menuBtn.querySelector('.material-symbols-outlined').textContent = 'menu';
-          }
-        }
-      }
-
-      if (mobilePanel) {
-        mobilePanel.querySelectorAll('a').forEach(function (link) {
-          link.addEventListener('click', closeMobilePanel);
-        });
-      }
-
-      if (menuBtn && mobilePanel) {
-        menuBtn.addEventListener('click', function () {
-          var isOpen = mobilePanel.classList.toggle('is-open');
-          mobilePanel.setAttribute('aria-hidden', !isOpen);
-          menuBtn.setAttribute('aria-expanded', isOpen);
-          menuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-          menuBtn.querySelector('.material-symbols-outlined').textContent = isOpen ? 'close' : 'menu';
-        });
-      }
-
-      function initCollapsible(trigger, content) {
-        if (!trigger || !content) return;
-        trigger.addEventListener('click', function () {
-          var expanded = trigger.getAttribute('aria-expanded') === 'true';
-          content.classList.toggle('is-collapsed', expanded);
-          trigger.setAttribute('aria-expanded', !expanded);
-        });
-      }
-      document.querySelectorAll('.collapse-toggle').forEach(function (btn) {
-        var id = btn.getAttribute('aria-controls');
-        if (id) initCollapsible(btn, document.getElementById(id));
-      });
-    })();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
